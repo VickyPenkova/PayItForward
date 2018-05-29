@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PayItForward.Common
+﻿namespace PayItForward.Common
 {
+    using Microsoft.Extensions.Configuration;
+
     public class ConnectionStringResolver
     {
         public string GetConnectionString()

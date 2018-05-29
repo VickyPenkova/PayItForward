@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace PayItForward.Common
+﻿namespace PayItForward.Common
 {
+    using System;
+
     public class GlobalConstants
     {
         public const string AdminRole = "Admin";
