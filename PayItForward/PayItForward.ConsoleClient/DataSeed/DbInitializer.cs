@@ -30,9 +30,9 @@
 
             this.SeedUsers();
 
-            var categories = this.SeedCategories();
+            this.SeedCategories();
 
-            this.SeedStories(categories);
+            this.SeedStories();
 
             this.SeedDonations();
         }
@@ -68,12 +68,13 @@
                 Email = "aleks@gmail.com",
                 FirstName = "Aleksandra",
                 LastName = "Stoicheva",
-                SecurityStamp = "blabvla"
+                SecurityStamp = Guid.NewGuid().ToString()
             };
 
             var result = userManager.CreateAsync(adminUser, "qwerty123@").Result;
             userManager.AddToRoleAsync(adminUser, GlobalConstants.AdminRole).Wait();
 
+            // The security stamp is used to invalidate a users login cookie and force them to re-login.
             var users = new List<Dbmodel.User>()
             {
                 new Dbmodel.User
@@ -82,15 +83,15 @@
                     Email = "peter@gmail.com",
                     FirstName = "Peter",
                     LastName = "Petkov",
-                    SecurityStamp = "sfkjhsfd"
+                    SecurityStamp = Guid.NewGuid().ToString()
                 },
                 new Dbmodel.User
                 {
-                        UserName = "single",
-                    Email = "single@gmail.com",
-                    FirstName = "Single",
+                    UserName = "george",
+                    Email = "george@gmail.com",
+                    FirstName = "George",
                     LastName = "Mingle",
-                    SecurityStamp = "saujhfsaofuh"
+                    SecurityStamp = Guid.NewGuid().ToString()
                 }
             };
 
@@ -101,45 +102,53 @@
             }
         }
 
-        private List<Category> SeedCategories()
+        private void SeedCategories()
         {
             // if there are categories in the database do not seed more
             if (this.context.Categories.Any())
             {
-                return this.context.Categories.ToList();
+                return;
             }
 
             List<Dbmodel.Category> categories = new List<Dbmodel.Category>()
             {
                 new Dbmodel.Category
                 {
-                    Name = "Education",
+                    Name = GlobalConstants.CategoryEducation,
                     IsRemoved = false
                 },
                 new Dbmodel.Category
                 {
-                    Name = "Health",
+                    Name = GlobalConstants.CategoryHealth,
                     IsRemoved = false
                 },
                 new Dbmodel.Category
                 {
-                    Name = "Sponsorship",
+                    Name = GlobalConstants.CategoryCharity,
                     IsRemoved = false
                 }
             };
 
             this.context.Categories.AddRange(categories);
             this.context.SaveChanges();
-
-            return this.context.Categories.ToList();
         }
 
-        private void SeedStories(List<Dbmodel.Category> categories)
+        private void SeedStories()
         {
             if (this.context.Stories.Any())
             {
                 return;
             }
+
+            List<Dbmodel.Category> categories = this.context.Categories
+                .Where(c =>
+                        c.Name == GlobalConstants.CategoryHealth || c.Name == GlobalConstants.CategoryCharity || c.Name == GlobalConstants.CategoryEducation)
+                .ToList();
+
+            List<Dbmodel.User> users = this.context.Users
+                .Where(u =>
+                        u.FirstName == "Aleksandra" || u.FirstName == "Peter" || u.FirstName == "George")
+                        .ToList();
 
             List<Dbmodel.Story> stories = new List<Dbmodel.Story>()
             {
@@ -147,8 +156,8 @@
                 {
                     Title = "Help me!",
                     IsClosed = false,
-                    UserId = this.context.Users.FirstOrDefault(u => u.FirstName == "Aleksandra").Id,
-                    CategoryId = this.context.Categories.FirstOrDefault(c => c.Name == "Health").CategoryId,
+                    User = users.FirstOrDefault(u => u.FirstName == "Aleksandra"),
+                    Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryHealth),
                     IsRemoved = false,
                     GoalAmount = 1500,
                     IsAccepted = true,
@@ -159,8 +168,8 @@
                 {
                     Title = "Education support",
                     IsClosed = false,
-                    UserId = this.context.Users.FirstOrDefault(u => u.FirstName == "Peter").Id,
-                    CategoryId = this.context.Categories.FirstOrDefault(c => c.Name == "Education").CategoryId,
+                    User = users.FirstOrDefault(u => u.FirstName == "Peter"),
+                    Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryEducation),
                     IsRemoved = false,
                     GoalAmount = 900,
                     IsAccepted = true,
@@ -172,8 +181,8 @@
                 {
                     Title = "Sponsor me!",
                     IsClosed = false,
-                    UserId = this.context.Users.FirstOrDefault(u => u.FirstName == "Single").Id,
-                    CategoryId = this.context.Categories.FirstOrDefault(c => c.Name == "Sponsorship").CategoryId,
+                    User = users.FirstOrDefault(u => u.FirstName == "George"),
+                    Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryCharity),
                     IsRemoved = false,
                     GoalAmount = 700,
                     IsAccepted = true,
@@ -195,24 +204,29 @@
                 return;
             }
 
+            List<Dbmodel.User> users = this.context.Users
+                .Where(u =>
+                        u.FirstName == "Aleksandra" || u.FirstName == "Peter" || u.FirstName == "George")
+                        .ToList();
+
             List<Dbmodel.Donation> donations = new List<Dbmodel.Donation>()
             {
                 new Dbmodel.Donation
                 {
                     Amount = 300,
-                    UserId = this.context.Users.FirstOrDefault<Dbmodel.User>(u => u.FirstName == "Aleksandra").Id,
+                    User = users.FirstOrDefault(u => u.FirstName == "Aleksandra"),
                     StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Help me!").StoryId
                 },
                 new Dbmodel.Donation
                 {
                     Amount = 800,
-                    UserId = this.context.Users.FirstOrDefault<Dbmodel.User>(u => u.FirstName == "Aleksandra").Id,
+                    User = users.FirstOrDefault(u => u.FirstName == "Peter"),
                     StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Education support").StoryId
                 },
                 new Dbmodel.Donation
                 {
                     Amount = 3006,
-                    UserId = this.context.Users.FirstOrDefault<Dbmodel.User>(u => u.FirstName == "Single").Id,
+                    User = users.FirstOrDefault(u => u.FirstName == "George"),
                     StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Sponsor me!").StoryId
                 }
             };
