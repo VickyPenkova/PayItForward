@@ -1,6 +1,6 @@
-﻿
-namespace PayItForward.ConsoleClient.UnitTests.DetailedLoggerInfo
+﻿namespace PayItForward.ConsoleClient.UnitTests.DetailedLoggerInfo
 {
+    using System;
     using Moq;
     using Xunit;
 
@@ -19,7 +19,7 @@ namespace PayItForward.ConsoleClient.UnitTests.DetailedLoggerInfo
         public void PrintBasicInfo()
         {
             // Arrange
-            ILoggable user = new ConsoleClient.User("Viki", "Penkova", 21);
+            ILoggable user = new ConsoleClient.User("Viki", "Penkova", "123");
 
             // Act
             this.detailedLoggerInfo.PrintInfo(user);

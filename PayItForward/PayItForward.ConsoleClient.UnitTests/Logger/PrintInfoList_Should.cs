@@ -8,12 +8,10 @@
     public class PrintInfoList_Should
     {
         private readonly ConsoleClient.Logger basicLoggerInfo;
-        private List<ILoggable> loggables;
         private Mock<IConsoleWrapper> consoleWrapperMock;
 
         public PrintInfoList_Should()
         {
-            this.loggables = new List<ILoggable>();
             this.consoleWrapperMock = new Mock<IConsoleWrapper>();
             this.basicLoggerInfo = new BasicLoggerInfo("BasicLoggerInfo", this.consoleWrapperMock.Object);
         }
@@ -22,8 +20,8 @@
         public void PrintConcreteString()
         {
             // Arrange
-            ConsoleClient.ILoggable firstUser = new ConsoleClient.User("Viki", "Penkova", 21);
-            ConsoleClient.ILoggable secondUser = new ConsoleClient.User("Aleks", "Stoycheva", 25);
+            ConsoleClient.ILoggable firstUser = new ConsoleClient.User("Viki", "Penkova", "123");
+            ConsoleClient.ILoggable secondUser = new ConsoleClient.User("Aleks", "Stoycheva", "123");
             List<PayItForward.ConsoleClient.ILoggable> users = new List<PayItForward.ConsoleClient.ILoggable>
             {
                 firstUser,

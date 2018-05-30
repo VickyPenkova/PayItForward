@@ -1,18 +1,18 @@
 ﻿namespace PayItForward.ConsoleClient
 {
+    using System;
     using EnsureThat;
 
     public class User : ILoggable
     {
-        public User(string firstName, string lastName, int age)
+        public User(string firstName, string lastName, string id)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.Age = age;
+            this.Id = id;
 
             Ensure.That(firstName).IsNotNullOrEmpty();
             Ensure.That(lastName).IsNotNullOrEmpty();
-            Ensure.That(age).IsInRange(0, 110);
         }
 
         public string LogBasicText
@@ -27,11 +27,11 @@
         {
             get
             {
-                return this.LogBasicText + $"Age:{this.Age}\nAmounts:{this.AvilableMoneyAmount}\n";
+                return this.LogBasicText + $"Id:{this.Id}\nAmounts:{this.AvilableMoneyAmount}\n";
             }
         }
 
-        protected int Age { get; }
+        protected string Id { get; }
 
         protected double AvilableMoneyAmount { get; private set; }
 

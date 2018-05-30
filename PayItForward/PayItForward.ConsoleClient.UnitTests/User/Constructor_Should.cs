@@ -1,8 +1,8 @@
-﻿using System;
-using Xunit;
-
-namespace PayItForward.ConsoleClient.UnitTests.User
+﻿namespace PayItForward.ConsoleClient.UnitTests.User
 {
+    using System;
+    using Xunit;
+
     public class Constructor_Should
     {
         private IConsoleWrapper consoleWrapper;
@@ -15,7 +15,7 @@ namespace PayItForward.ConsoleClient.UnitTests.User
         [Fact]
         public void NotAcceptEmptyNameInConstructor()
         {
-            Assert.Throws<ArgumentNullException>(() => new PayItForward.ConsoleClient.User(null, null, 0));
+            Assert.Throws<ArgumentNullException>(() => new PayItForward.ConsoleClient.User(null, null, null));
         }
     }
 }

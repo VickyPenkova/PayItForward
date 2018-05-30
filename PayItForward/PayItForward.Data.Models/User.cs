@@ -11,7 +11,7 @@ namespace PayItForward.Data.Models
     using Microsoft.AspNetCore.Identity;
 
     [Table("Users")]
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser
     {
         private readonly ICollection<Story> stories;
         private readonly ICollection<Donation> donations;
@@ -23,7 +23,7 @@ namespace PayItForward.Data.Models
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public override Guid Id { get; set; }
+        public override string Id { get; set; }
 
         [Required]
         [StringLength(15)]

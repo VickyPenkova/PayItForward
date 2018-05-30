@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace PayItForward.ConsoleClient
+﻿namespace PayItForward.ConsoleClient
 {
+    using System;
+
     public interface IConsoleWrapper
     {
         void Print(string text);

@@ -1,5 +1,6 @@
 ﻿namespace PayItForward.ConsoleClient
 {
+    using System;
     using Xunit;
 
     public class LogBasicText_Should
@@ -8,7 +9,7 @@
 
         public LogBasicText_Should()
         {
-            this.loggable = new User("Viki", "Penkova", 21);
+            this.loggable = new User("Viki", "Penkova", "123");
         }
 
         [Fact]

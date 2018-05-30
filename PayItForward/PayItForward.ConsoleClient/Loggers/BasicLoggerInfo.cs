@@ -1,8 +1,6 @@
 ﻿namespace PayItForward.ConsoleClient
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     public class BasicLoggerInfo : Logger
     {
@@ -13,7 +11,14 @@
 
         public override void PrintInfo(ILoggable loggable)
         {
-            this.ConsoleWrapper.Print(loggable.LogBasicText);
+            try
+            {
+                this.ConsoleWrapper.Print(loggable.LogBasicText);
+            }
+            catch (Exception ex)
+            {
+                this.ConsoleWrapper.Print(ex.Message);
+            }
         }
     }
 }

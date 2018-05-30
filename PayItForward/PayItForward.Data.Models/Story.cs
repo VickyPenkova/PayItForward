@@ -22,7 +22,7 @@ namespace PayItForward.Data.Models
         public Guid StoryId { get; set; }
 
         [Required]
-        [StringLength(15, MinimumLength = 3)]
+        [StringLength(500, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Column(TypeName = "varchar(200)")]
@@ -52,7 +52,7 @@ namespace PayItForward.Data.Models
 
         public User User { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [Column(TypeName = "varchar(200)")]
         public string DocumentUrl { get; set; }

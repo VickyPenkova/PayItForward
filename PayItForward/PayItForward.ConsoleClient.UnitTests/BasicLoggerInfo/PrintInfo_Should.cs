@@ -1,5 +1,6 @@
 ﻿namespace PayItForward.ConsoleClient
 {
+    using System;
     using Moq;
     using Xunit;
 
@@ -18,7 +19,7 @@
         public void PrintBasicInfo()
         {
             // Arrange
-            ILoggable user = new User("Viki", "Penkova", 21);
+            ILoggable user = new User("Viki", "Penkova", "123");
 
             // Act
             this.basicLoggerInfo.PrintInfo(user);

@@ -4,9 +4,10 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using PayItForward.Data.Models;
 
-    public class PayItForwardDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+    public class PayItForwardDbContext : IdentityDbContext<User, IdentityRole, string>
     {
         public PayItForwardDbContext(DbContextOptions<PayItForwardDbContext> options)
 

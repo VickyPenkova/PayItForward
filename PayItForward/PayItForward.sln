@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.ConsoleClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.ConsoleClient.UnitTests", "PayItForward.ConsoleClient.UnitTests\PayItForward.ConsoleClient.UnitTests.csproj", "{7104A55A-F79A-413E-95E0-4FCC1A80A9D8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.Common", "PayItForward.Common\PayItForward.Common.csproj", "{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{092528D2-ADB7-470B-8112-F4F57363F01F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{7104A55A-F79A-413E-95E0-4FCC1A80A9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7104A55A-F79A-413E-95E0-4FCC1A80A9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7104A55A-F79A-413E-95E0-4FCC1A80A9D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

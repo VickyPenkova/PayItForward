@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.ConsoleClient
 {
     using System;
-    using System.Collections.Generic;
 
     public class ColorfulLoggerInfo : DetailedLoggerInfo
     {
