@@ -8,7 +8,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Common;
     using PayItForward.Data;
-    using PayItForward.Data.Models;
     using Dbmodel = PayItForward.Data.Models;
 
     public class DbInitializer
