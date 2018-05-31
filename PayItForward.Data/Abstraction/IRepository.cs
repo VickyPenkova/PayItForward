@@ -1,21 +1,27 @@
 ﻿namespace PayItForward.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public interface IRepository<T> : IDisposable
         where T : class
     {
-        IQueryable<T> GetAll();
-
-        T GetById(object id);
-
         void Add(T entity);
 
-        void Update(T entity);
+        IQueryable<T> GetAll();
 
-        void Delete(object id);
+        Task<IEnumerable<T>> GetAllAsync();
 
-        int SaveChanges();
+        Task<T> GetByIdAsync(object id);
+
+        Task UpdateAsync(T entity);
+
+        Task DeleteAsync(object id);
+
+        void SaveChanges();
+
+        Task SaveAsync();
     }
 }

@@ -1,7 +1,9 @@
 ﻿namespace PayItForward.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
 
     // Later to be used in Controllers to use the data from PayItForward database
@@ -23,48 +25,36 @@
 
         protected PayItForwardDbContext Context { get; set; }
 
-        public virtual T GetById(object id)
-        {
-            return this.DbSet.Find(id);
-        }
-
-        public virtual void Add(T entity)
+        public async Task<T> GetByIdAsync(object id)
         {
             // to be tested
-            var entry = this.Context.Entry(entity);
-            if (entry.State != EntityState.Detached)
-            {
-                entry.State = EntityState.Added;
-            }
-            else
-            {
-                this.DbSet.Add(entity);
-            }
+            return await this.DbSet.FindAsync(id);
         }
 
-        public virtual void Update(T entity)
+        public void Add(T entity)
         {
-            this.Context.Set<entity>().Update(entity);
-            await _dbContext.SaveChangesAsync();
+            this.ChangeEntityState(entity, EntityState.Added);
         }
 
-        public virtual void Delete(T entity)
+        public void Update(T entity)
         {
             var entry = this.Context.Entry(entity);
-            if (entry.State != EntityState.Deleted)
-            {
-                entry.State = EntityState.Deleted;
-            }
-            else
+            if (entry.State == EntityState.Detached)
             {
                 this.DbSet.Attach(entity);
-                this.DbSet.Remove(entity);
             }
+
+            entry.State = EntityState.Modified;
         }
 
-        public virtual void Delete(object id)
+        public void Delete(T entity)
         {
-            var entity = this.GetById(id);
+            this.ChangeEntityState(entity, EntityState.Deleted);
+        }
+
+        public void Delete(object id)
+        {
+            var entity = this.GetByIdAsync(id);
 
             if (entity != null)
             {
@@ -72,9 +62,39 @@
             }
         }
 
-        public int SaveChanges()
+        public IQueryable<T> GetAll()
         {
-            return this.Context.SaveChanges();
+            return this.DbSet;
+        }
+
+        public Task<IEnumerable<T>> GetAllAsync()
+        {
+            return Task.FromResult(this.DbSet.AsEnumerable());
+        }
+
+        // to be tested
+        public async Task UpdateAsync(T entity)
+        {
+            this.Context.Set<T>().Update(entity);
+            await this.Context.SaveChangesAsync();
+        }
+
+        // to be tested
+        public async Task DeleteAsync(object id)
+        {
+            var entity = await this.GetByIdAsync(id);
+            this.Context.Set<T>().Remove(entity);
+            await this.Context.SaveChangesAsync();
+        }
+
+        public Task SaveAsync()
+        {
+            return this.Context.SaveChangesAsync();
+        }
+
+        public void SaveChanges()
+        {
+            this.Context.SaveChanges();
         }
 
         public void Dispose()
@@ -82,9 +102,9 @@
             this.Context.Dispose();
         }
 
-        public IQueryable<T> GetAll()
+        private void ChangeEntityState(T entity, EntityState entityState)
         {
-            return this.DbSet;
+            this.Context.Entry(entity).State = entityState;
         }
     }
 }
