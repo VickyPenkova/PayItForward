@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{8B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.ConsoleClient", "PayItForward.ConsoleClient\PayItForward.ConsoleClient.csproj", "{1C5D0582-EB03-4C7B-84F2-B04F4D659924}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.ConsoleClient.UnitTests", "PayItForward.ConsoleClient.UnitTests\PayItForward.ConsoleClient.UnitTests.csproj", "{7104A55A-F79A-413E-95E0-4FCC1A80A9D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.UnitTests", "PayItForward.ConsoleClient.UnitTests\PayItForward.UnitTests.csproj", "{7104A55A-F79A-413E-95E0-4FCC1A80A9D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.Common", "PayItForward.Common\PayItForward.Common.csproj", "{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}"
 EndProject

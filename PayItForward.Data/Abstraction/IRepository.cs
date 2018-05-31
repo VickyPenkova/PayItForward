@@ -18,10 +18,10 @@
 
         Task UpdateAsync(T entity);
 
-        Task DeleteAsync(object id);
-
-        void SaveChanges();
+        Task HardDeleteAsync(object id);
 
         Task SaveAsync();
+
+        void ChangeStateToDeleted(T entity);
     }
 }

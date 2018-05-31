@@ -1,6 +1,7 @@
 ﻿namespace PayItForward.Services.Data.Abstraction
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using Dbmodel = PayItForward.Data.Models;
 
     public interface IUsersService
@@ -8,13 +9,13 @@
         // to be changed based on Controller needs
         IQueryable<Dbmodel.User> GetAll();
 
-        Dbmodel.User GetById(string id);
+        Task<Dbmodel.User> GetById(string id);
 
         Dbmodel.User GetByUserName(string userName);
 
-        void Update();
+        Task SaveAsync();
 
-        void Delete(string id);
+        void HardDelete(string id);
 
         int Count();
     }

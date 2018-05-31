@@ -47,21 +47,6 @@
             entry.State = EntityState.Modified;
         }
 
-        public void Delete(T entity)
-        {
-            this.ChangeEntityState(entity, EntityState.Deleted);
-        }
-
-        public void Delete(object id)
-        {
-            var entity = this.GetByIdAsync(id);
-
-            if (entity != null)
-            {
-                this.Delete(entity);
-            }
-        }
-
         public IQueryable<T> GetAll()
         {
             return this.DbSet;
@@ -80,21 +65,30 @@
         }
 
         // to be tested
-        public async Task DeleteAsync(object id)
+        public async Task HardDeleteAsync(object id)
         {
             var entity = await this.GetByIdAsync(id);
             this.Context.Set<T>().Remove(entity);
             await this.Context.SaveChangesAsync();
         }
 
+        public void ChangeStateToDeleted(T entity)
+        {
+            this.ChangeEntityState(entity, EntityState.Deleted);
+        }
+
+        // public void Delete(object id)
+        // {
+        //    var entity = this.GetByIdAsync(id);
+
+        // if (entity != null)
+        //    {
+        //        this.Delete(entity);
+        //    }
+        // }
         public Task SaveAsync()
         {
             return this.Context.SaveChangesAsync();
-        }
-
-        public void SaveChanges()
-        {
-            this.Context.SaveChanges();
         }
 
         public void Dispose()

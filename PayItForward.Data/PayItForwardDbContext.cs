@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using PayItForward.Data.Abstraction;
     using PayItForward.Data.Models;
 
     public class PayItForwardDbContext : IdentityDbContext<User>, IPayItForwardDbContext

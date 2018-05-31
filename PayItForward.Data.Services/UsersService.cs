@@ -1,6 +1,7 @@
 ﻿namespace PayItForward.Services.Data
 {
     using System.Linq;
+    using System.Threading.Tasks;
     using PayItForward.Data;
     using PayItForward.Services.Data.Abstraction;
     using Dbmodel = PayItForward.Data.Models;
@@ -24,15 +25,15 @@
             return this.usersRepo.GetAll().Count();
         }
 
-        public void Delete(string id)
+        public void HardDelete(string id)
         {
-            this.usersRepo.Delete(id);
-            this.usersRepo.SaveChanges();
+            this.usersRepo.HardDeleteAsync(id);
+            this.usersRepo.SaveAsync();
         }
 
-        public Dbmodel.User GetById(string id)
+        public async Task<Dbmodel.User> GetById(string id)
         {
-            return this.usersRepo.GetById(id);
+            return await this.usersRepo.GetByIdAsync(id);
         }
 
         public Dbmodel.User GetByUserName(string userName)
@@ -40,9 +41,9 @@
             return this.usersRepo.GetAll().FirstOrDefault(u => u.UserName == userName);
         }
 
-        public void Update()
+        public Task SaveAsync()
         {
-            this.usersRepo.SaveChanges();
+            return this.usersRepo.SaveAsync();
         }
     }
 }
