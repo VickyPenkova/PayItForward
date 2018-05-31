@@ -23,11 +23,6 @@
 
         protected PayItForwardDbContext Context { get; set; }
 
-        public virtual IQueryable<T> All()
-        {
-            return this.DbSet.AsQueryable();
-        }
-
         public virtual T GetById(object id)
         {
             return this.DbSet.Find(id);
@@ -35,6 +30,7 @@
 
         public virtual void Add(T entity)
         {
+            // to be tested
             var entry = this.Context.Entry(entity);
             if (entry.State != EntityState.Detached)
             {
@@ -48,13 +44,8 @@
 
         public virtual void Update(T entity)
         {
-            var entry = this.Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
-
-            entry.State = EntityState.Modified;
+            this.Context.Set<entity>().Update(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public virtual void Delete(T entity)
@@ -81,18 +72,6 @@
             }
         }
 
-        public virtual T Attach(T entity)
-        {
-            // to be tested
-            return this.Context.Set<T>().Attach(entity).Entity;
-        }
-
-        public virtual void Detach(T entity)
-        {
-            var entry = this.Context.Entry(entity);
-            entry.State = EntityState.Detached;
-        }
-
         public int SaveChanges()
         {
             return this.Context.SaveChanges();
@@ -101,6 +80,11 @@
         public void Dispose()
         {
             this.Context.Dispose();
+        }
+
+        public IQueryable<T> GetAll()
+        {
+            return this.DbSet;
         }
     }
 }

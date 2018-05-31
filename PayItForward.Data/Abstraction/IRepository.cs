@@ -6,7 +6,7 @@
     public interface IRepository<T> : IDisposable
         where T : class
     {
-        IQueryable<T> All();
+        IQueryable<T> GetAll();
 
         T GetById(object id);
 
@@ -15,10 +15,6 @@
         void Update(T entity);
 
         void Delete(object id);
-
-        T Attach(T entity);
-
-        void Detach(T entity);
 
         int SaveChanges();
     }

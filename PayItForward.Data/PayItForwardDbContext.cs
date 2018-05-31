@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data.Models;
 
-    public class PayItForwardDbContext : IdentityDbContext<User, IdentityRole, string>
+    public class PayItForwardDbContext : IdentityDbContext<User>, IPayItForwardDbContext
     {
         public PayItForwardDbContext(DbContextOptions<PayItForwardDbContext> options)
 
