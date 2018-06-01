@@ -8,11 +8,11 @@
 
     public class UsersService : IUsersService
     {
-        private readonly IRepository<Dbmodel.User> usersRepo;
+        private readonly UsersRepository<Dbmodel.User> usersRepo;
 
         public UsersService()
         {
-            this.usersRepo = new EfGenericRepository<Dbmodel.User>(new PayItForwardDbContext());
+            this.usersRepo = new UsersRepository<Dbmodel.User>(new PayItForwardDbContext());
         }
 
         public IQueryable<Dbmodel.User> GetAll()
@@ -25,10 +25,10 @@
             return this.usersRepo.GetAll().Count();
         }
 
-        public void HardDelete(string id)
+        public async Task HardDelete(string id)
         {
-            this.usersRepo.HardDeleteAsync(id);
-            this.usersRepo.SaveAsync();
+            await this.usersRepo.HardDeleteAsync(id);
+            await this.usersRepo.SaveAsync();
         }
 
         public async Task<Dbmodel.User> GetById(string id)

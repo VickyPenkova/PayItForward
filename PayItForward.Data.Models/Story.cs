@@ -9,7 +9,7 @@ namespace PayItForward.Data.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Story
+    public class Story : BaseModel
     {
         private readonly ICollection<Donation> donations;
 

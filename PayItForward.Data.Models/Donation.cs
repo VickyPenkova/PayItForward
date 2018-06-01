@@ -8,7 +8,7 @@ namespace PayItForward.Data.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Donation
+    public class Donation : BaseModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DonationId { get; set; }

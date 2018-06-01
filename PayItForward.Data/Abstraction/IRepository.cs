@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using PayItForward.Data.Abstraction;
 
     public interface IRepository<T> : IDisposable
         where T : class
@@ -20,8 +21,8 @@
 
         Task HardDeleteAsync(object id);
 
-        Task SaveAsync();
+        void SoftDelete(T entity);
 
-        void ChangeStateToDeleted(T entity);
+        Task SaveAsync();
     }
 }

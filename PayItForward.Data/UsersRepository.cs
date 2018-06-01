@@ -5,14 +5,12 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using PayItForward.Data.Abstraction;
     using PayItForward.Data.Models;
 
-    // Later to be used in Controllers to use the data from PayItForward database
-    public class EfGenericRepository<T> : IRepository<T>
-        where T : BaseModel
+    public class UsersRepository<T> : BaseModel, IRepository<T>
+        where T : class
     {
-        public EfGenericRepository(PayItForwardDbContext context)
+        public UsersRepository(PayItForwardDbContext context)
         {
             if (context == null)
             {
@@ -76,8 +74,8 @@
 
         public void SoftDelete(T entity)
         {
-            entity.IsDeleted = true;
-            entity.DeletedOn = DateTime.Now;
+            this.IsDeleted = true;
+            this.DeletedOn = DateTime.Now;
             this.Update(entity);
         }
 
@@ -100,6 +98,11 @@
             this.Context.Dispose();
         }
 
+        public void Add(BaseModel entity)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ChangeEntityState(T entity, EntityState entityState)
         {
             // this.Context.Entry(entity).State = entityState;
@@ -112,5 +115,6 @@
 
             entry.State = entityState;
         }
+
     }
 }

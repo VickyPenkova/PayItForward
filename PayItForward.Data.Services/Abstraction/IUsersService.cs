@@ -15,7 +15,7 @@
 
         Task SaveAsync();
 
-        void HardDelete(string id);
+        Task HardDelete(string id);
 
         int Count();
     }
