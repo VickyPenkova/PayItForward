@@ -27,10 +27,15 @@
 
         protected PayItForwardDbContext Context { get; set; }
 
-        public async Task<T> GetByIdAsync(object id)
+        public async Task<T> GetByIdAsync(string id)
         {
             // to be tested
             return await this.DbSet.FindAsync(id);
+        }
+
+        public virtual T GetById(string id)
+        {
+            return this.DbSet.Find(id);
         }
 
         public void Add(T entity)
@@ -67,29 +72,18 @@
         }
 
         // to be tested
-        public async Task HardDeleteAsync(object id)
+        public void HardDelete(T userTodelete)
         {
-            var entity = await this.GetByIdAsync(id);
-            this.Context.Set<T>().Remove(entity);
-            await this.Context.SaveChangesAsync();
+            this.Context.Set<T>().Remove(userTodelete);
         }
 
-        public void SoftDelete(T entity)
+        public void SoftDelete(T userTodelete)
         {
-            entity.IsDeleted = true;
-            entity.DeletedOn = DateTime.Now;
-            this.Update(entity);
+            userTodelete.IsDeleted = true;
+            userTodelete.DeletedOn = DateTime.Now;
+            this.Update(userTodelete);
         }
 
-        // public void Delete(object id)
-        // {
-        //    var entity = this.GetByIdAsync(id);
-
-        // if (entity != null)
-        //    {
-        //        this.Delete(entity);
-        //    }
-        // }
         public Task SaveAsync()
         {
             return this.Context.SaveChangesAsync();
@@ -98,6 +92,11 @@
         public void Dispose()
         {
             this.Context.Dispose();
+        }
+
+        public Task<int> HardDeleteAsync(T entity)
+        {
+            throw new NotImplementedException();
         }
 
         private void ChangeEntityState(T entity, EntityState entityState)

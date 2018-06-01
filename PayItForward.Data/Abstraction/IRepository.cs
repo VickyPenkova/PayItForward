@@ -15,13 +15,15 @@
 
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T> GetByIdAsync(object id);
+        Task<T> GetByIdAsync(string id);
+
+        T GetById(string id);
 
         Task UpdateAsync(T entity);
 
-        Task HardDeleteAsync(object id);
+        Task<int> HardDeleteAsync(T userTodelete);
 
-        void SoftDelete(T entity);
+        void SoftDelete(T userTodelete);
 
         Task SaveAsync();
     }

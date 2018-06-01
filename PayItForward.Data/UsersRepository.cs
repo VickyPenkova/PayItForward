@@ -25,17 +25,25 @@
 
         protected PayItForwardDbContext Context { get; set; }
 
-        public async Task<T> GetByIdAsync(object id)
+        // TESTED IN StartUp
+        public async Task<T> GetByIdAsync(string id)
         {
-            // to be tested
             return await this.DbSet.FindAsync(id);
         }
 
+        // TESTED IN StartUp
+        public virtual T GetById(string id)
+        {
+            return this.DbSet.Find(id);
+        }
+
+        // TESTED IN StartUp
         public void Add(T entity)
         {
             this.ChangeEntityState(entity, EntityState.Added);
         }
 
+        // TESTED IN StartUp
         public void Update(T entity)
         {
             var entry = this.Context.Entry(entity);
@@ -47,47 +55,40 @@
             entry.State = EntityState.Modified;
         }
 
+        // TESTED IN StartUp
         public IQueryable<T> GetAll()
         {
             return this.DbSet;
         }
 
+        // TESTED IN StartUp
         public Task<IEnumerable<T>> GetAllAsync()
         {
             return Task.FromResult(this.DbSet.AsEnumerable());
         }
 
-        // to be tested
+        // TESTED IN StartUp
         public async Task UpdateAsync(T entity)
         {
             this.Context.Set<T>().Update(entity);
             await this.Context.SaveChangesAsync();
         }
 
-        // to be tested
-        public async Task HardDeleteAsync(object id)
+        // TESTED IN StartUp, Users can not be hard deleted! Cascade delete is needed
+        public async Task<int> HardDeleteAsync(T userTodelete)
         {
-            var entity = await this.GetByIdAsync(id);
-            this.Context.Set<T>().Remove(entity);
-            await this.Context.SaveChangesAsync();
+            this.Context.Set<T>().Remove(userTodelete);
+            return await this.Context.SaveChangesAsync();
         }
 
-        public void SoftDelete(T entity)
+        // TESTED IN StartUp
+        public void SoftDelete(T userTodelete)
         {
             this.IsDeleted = true;
             this.DeletedOn = DateTime.Now;
-            this.Update(entity);
+            this.Update(userTodelete);
         }
 
-        // public void Delete(object id)
-        // {
-        //    var entity = this.GetByIdAsync(id);
-
-        // if (entity != null)
-        //    {
-        //        this.Delete(entity);
-        //    }
-        // }
         public Task SaveAsync()
         {
             return this.Context.SaveChangesAsync();
@@ -115,6 +116,5 @@
 
             entry.State = entityState;
         }
-
     }
 }

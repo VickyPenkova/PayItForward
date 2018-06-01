@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PayItForward.Data.Abstraction
+﻿namespace PayItForward.Data.Abstraction
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
+
     public interface IPayItForwardDbContext
     {
         DbSet<TEntity> Set<TEntity>()

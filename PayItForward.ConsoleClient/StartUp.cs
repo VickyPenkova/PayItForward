@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@
             var factory = new PayItForwardContextFactory();
 
             var context = factory.CreateDbContext();
-            var userRepo = new EfGenericRepository<Dbmodel.User>(context);
+            var userRepo = new UsersRepository<Dbmodel.User>(context);
 
             var user = new Dbmodel.User()
             {
@@ -28,8 +29,9 @@
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
-            userRepo.Add(user);
-
+            // Task<IEnumerable<Dbmodel.User>> res = userRepo.GetAllAsync();
+            // Task res = userRepo.UpdateAsync(user);
+            userRepo.HardDeleteAsync(context.Users.FirstOrDefault(u => u.LastName == "Mingle")).Wait();
             var services = new ServiceCollection();
 
             var connectionStringResolver = new ConnectionStringResolver();

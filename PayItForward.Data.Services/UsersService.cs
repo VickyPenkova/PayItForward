@@ -1,5 +1,6 @@
 ﻿namespace PayItForward.Services.Data
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using PayItForward.Data;
@@ -25,15 +26,14 @@
             return this.usersRepo.GetAll().Count();
         }
 
-        public async Task HardDelete(string id)
-        {
-            await this.usersRepo.HardDeleteAsync(id);
-            await this.usersRepo.SaveAsync();
-        }
-
-        public async Task<Dbmodel.User> GetById(string id)
+        public async Task<Dbmodel.User> GetByIdAsync(string id)
         {
             return await this.usersRepo.GetByIdAsync(id);
+        }
+
+        public Dbmodel.User GetById(string id)
+        {
+            return this.usersRepo.GetById(id);
         }
 
         public Dbmodel.User GetByUserName(string userName)
@@ -44,6 +44,16 @@
         public Task SaveAsync()
         {
             return this.usersRepo.SaveAsync();
+        }
+
+        public Task<int> HardDeleteAsync(Dbmodel.User userTodelete)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SoftDelete(Dbmodel.User userTodelete)
+        {
+            this.usersRepo.SoftDelete(userTodelete);
         }
     }
 }
