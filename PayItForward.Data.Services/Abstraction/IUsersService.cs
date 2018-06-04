@@ -9,7 +9,6 @@
         // to be changed based on Controller needs
         IQueryable<Dbmodel.User> GetAll();
 
-        // Task<Dbmodel.User> GetById(string id);
         Dbmodel.User GetById(string id);
 
         Task<Dbmodel.User> GetByIdAsync(string id);

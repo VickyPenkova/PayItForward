@@ -7,6 +7,9 @@
     using PayItForward.Services.Data.Abstraction;
     using Dbmodel = PayItForward.Data.Models;
 
+    // TO DO :
+    // Bisness logic implementation later when Constructors are created
+
     public class UsersService : IUsersService
     {
         private readonly UsersRepository<Dbmodel.User, string> usersRepo;
