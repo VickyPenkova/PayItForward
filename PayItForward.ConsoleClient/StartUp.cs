@@ -18,7 +18,7 @@
             var factory = new PayItForwardContextFactory();
 
             var context = factory.CreateDbContext();
-            var userRepo = new UsersRepository<Dbmodel.User>(context);
+            var userRepo = new UsersRepository<Dbmodel.User, string>(context);
 
             var user = new Dbmodel.User()
             {

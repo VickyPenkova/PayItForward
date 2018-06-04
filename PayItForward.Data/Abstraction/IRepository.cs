@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
     using PayItForward.Data.Abstraction;
 
-    public interface IRepository<T> : IDisposable
+    public interface IRepository<T, TKey> : IDisposable
         where T : class
     {
         void Add(T entity);
@@ -15,9 +15,9 @@
 
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T> GetByIdAsync(string id);
+        Task<T> GetByIdAsync(TKey id);
 
-        T GetById(string id);
+        T GetById(TKey id);
 
         Task UpdateAsync(T entity);
 

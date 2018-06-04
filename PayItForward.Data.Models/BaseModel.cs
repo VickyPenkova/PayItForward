@@ -2,12 +2,13 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using PayItForward.Data.Models.Abstraction;
 
-    public abstract class BaseModel : IAuditInfo, IDeletableEntry
+    public abstract class BaseModel<T> : IAuditInfo, IDeletableEntry
     {
-        [Key]
-        public virtual string Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public virtual T Id { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

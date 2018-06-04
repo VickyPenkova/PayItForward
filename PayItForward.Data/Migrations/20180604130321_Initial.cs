@@ -56,13 +56,17 @@ namespace PayItForward.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<Guid>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     IsRemoved = table.Column<bool>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,10 +179,12 @@ namespace PayItForward.Data.Migrations
                 name: "Stories",
                 columns: table => new
                 {
-                    StoryId = table.Column<Guid>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     CategoryId = table.Column<Guid>(nullable: false),
                     CollectedAmount = table.Column<decimal>(type: "money", nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
                     DateCreated = table.Column<DateTime>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(maxLength: 50, nullable: true),
                     DocumentUrl = table.Column<string>(type: "varchar(200)", nullable: true),
                     ExpirationDate = table.Column<DateTime>(nullable: false),
@@ -186,51 +192,57 @@ namespace PayItForward.Data.Migrations
                     ImageUrl = table.Column<string>(type: "varchar(200)", nullable: true),
                     IsAccepted = table.Column<bool>(nullable: false),
                     IsClosed = table.Column<bool>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     IsRemoved = table.Column<bool>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 500, nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stories", x => x.StoryId);
+                    table.PrimaryKey("PK_Stories", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Stories_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "CategoryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Stories_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Donations",
                 columns: table => new
                 {
-                    DonationId = table.Column<Guid>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Amount = table.Column<decimal>(type: "money", nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
                     StoryId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Donations", x => x.DonationId);
+                    table.PrimaryKey("PK_Donations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Donations_Stories_StoryId",
                         column: x => x.StoryId,
                         principalTable: "Stories",
-                        principalColumn: "StoryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Donations_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(

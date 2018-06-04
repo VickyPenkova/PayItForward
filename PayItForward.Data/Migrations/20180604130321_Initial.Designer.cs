@@ -11,7 +11,7 @@ using System;
 namespace PayItForward.Data.Migrations
 {
     [DbContext(typeof(PayItForwardDbContext))]
-    [Migration("20180528115315_Initial")]
+    [Migration("20180604130321_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,33 +131,50 @@ namespace PayItForward.Data.Migrations
 
             modelBuilder.Entity("PayItForward.Data.Models.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<bool>("IsRemoved");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PayItForward.Data.Models.Donation", b =>
                 {
-                    b.Property<Guid>("DonationId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("money");
 
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
                     b.Property<Guid>("StoryId");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
-                    b.HasKey("DonationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("StoryId");
 
@@ -168,7 +185,7 @@ namespace PayItForward.Data.Migrations
 
             modelBuilder.Entity("PayItForward.Data.Models.Story", b =>
                 {
-                    b.Property<Guid>("StoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("CategoryId");
@@ -176,8 +193,12 @@ namespace PayItForward.Data.Migrations
                     b.Property<decimal>("CollectedAmount")
                         .HasColumnType("money");
 
+                    b.Property<DateTime>("CreatedOn");
+
                     b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Description")
                         .HasMaxLength(50);
@@ -197,15 +218,20 @@ namespace PayItForward.Data.Migrations
 
                     b.Property<bool>("IsClosed");
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<bool>("IsRemoved");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500);
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
-                    b.HasKey("StoryId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
@@ -332,7 +358,8 @@ namespace PayItForward.Data.Migrations
 
                     b.HasOne("PayItForward.Data.Models.User", "User")
                         .WithMany("Donations")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PayItForward.Data.Models.Story", b =>
@@ -344,7 +371,8 @@ namespace PayItForward.Data.Migrations
 
                     b.HasOne("PayItForward.Data.Models.User", "User")
                         .WithMany("Stories")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

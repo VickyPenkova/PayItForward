@@ -9,11 +9,11 @@
 
     public class UsersService : IUsersService
     {
-        private readonly UsersRepository<Dbmodel.User> usersRepo;
+        private readonly UsersRepository<Dbmodel.User, string> usersRepo;
 
         public UsersService()
         {
-            this.usersRepo = new UsersRepository<Dbmodel.User>(new PayItForwardDbContext());
+            this.usersRepo = new UsersRepository<Dbmodel.User, string>(new PayItForwardDbContext());
         }
 
         public IQueryable<Dbmodel.User> GetAll()

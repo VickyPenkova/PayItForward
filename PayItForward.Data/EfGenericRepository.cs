@@ -7,10 +7,11 @@
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data.Abstraction;
     using PayItForward.Data.Models;
+    using PayItForward.Data.Models.Abstraction;
 
     // Later to be used in Controllers to use the data from PayItForward database
-    public class EfGenericRepository<T> : IRepository<T>
-        where T : BaseModel
+    public class EfGenericRepository<T, TKey> : IRepository<T, TKey>
+        where T : BaseModel<TKey>
     {
         public EfGenericRepository(PayItForwardDbContext context)
         {
@@ -27,13 +28,13 @@
 
         protected PayItForwardDbContext Context { get; set; }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(TKey id)
         {
             // to be tested
             return await this.DbSet.FindAsync(id);
         }
 
-        public virtual T GetById(string id)
+        public virtual T GetById(TKey id)
         {
             return this.DbSet.Find(id);
         }
@@ -86,6 +87,8 @@
 
         public Task SaveAsync()
         {
+            this.ApplyAuditInfoRules();
+            this.ApplyDeletableEntityRules();
             return this.Context.SaveChangesAsync();
         }
 
@@ -110,6 +113,40 @@
             }
 
             entry.State = entityState;
+        }
+
+        private void ApplyAuditInfoRules()
+        {
+            foreach (var entry in this.Context.ChangeTracker.Entries()
+                    .Where(
+                        e =>
+                        e.Entity is IAuditInfo && ((e.State == EntityState.Added) || (e.State == EntityState.Modified))))
+            {
+                var entity = (IAuditInfo)entry.Entity;
+                if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))
+                {
+                    entity.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now;
+                }
+            }
+        }
+
+        private void ApplyDeletableEntityRules()
+        {
+            foreach (
+                var entry in
+                    this.Context.ChangeTracker.Entries()
+                        .Where(e => e.Entity is IDeletableEntry && (e.State == EntityState.Deleted)))
+            {
+                var entity = (IDeletableEntry)entry.Entity;
+
+                entity.DeletedOn = DateTime.Now;
+                entity.IsDeleted = true;
+                entry.State = EntityState.Modified;
+            }
         }
     }
 }
