@@ -21,9 +21,9 @@
 
         Task UpdateAsync(T entity);
 
-        Task<int> HardDeleteAsync(T userTodelete);
+        Task<int> HardDeleteAsync(T entity);
 
-        void SoftDelete(T userTodelete);
+        void SoftDelete(T entity);
 
         Task SaveAsync();
     }

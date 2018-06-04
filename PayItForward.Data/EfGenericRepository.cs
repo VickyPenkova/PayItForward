@@ -5,11 +5,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using PayItForward.Data.Abstraction;
     using PayItForward.Data.Models;
     using PayItForward.Data.Models.Abstraction;
 
-    // Later to be used in Controllers to use the data from PayItForward database
     public class EfGenericRepository<T, TKey> : IRepository<T, TKey>
         where T : BaseModel<TKey>
     {
@@ -30,7 +28,6 @@
 
         public async Task<T> GetByIdAsync(TKey id)
         {
-            // to be tested
             return await this.DbSet.FindAsync(id);
         }
 
@@ -72,17 +69,17 @@
             await this.Context.SaveChangesAsync();
         }
 
-        // to be tested
-        public void HardDelete(T userTodelete)
-        {
-            this.Context.Set<T>().Remove(userTodelete);
-        }
-
         public void SoftDelete(T userTodelete)
         {
             userTodelete.IsDeleted = true;
             userTodelete.DeletedOn = DateTime.Now;
             this.Update(userTodelete);
+        }
+
+        public async Task<int> HardDeleteAsync(T entity)
+        {
+            this.Context.Set<T>().Remove(entity);
+            return await this.Context.SaveChangesAsync();
         }
 
         public Task SaveAsync()
@@ -95,11 +92,6 @@
         public void Dispose()
         {
             this.Context.Dispose();
-        }
-
-        public Task<int> HardDeleteAsync(T entity)
-        {
-            throw new NotImplementedException();
         }
 
         private void ChangeEntityState(T entity, EntityState entityState)
