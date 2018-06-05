@@ -1,8 +1,5 @@
 ﻿namespace PayItForward.Data.Abstraction
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
@@ -21,5 +18,7 @@
         int SaveChanges();
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+
+        void ChangeEntityState(object entity, EntityState entityState);
     }
 }

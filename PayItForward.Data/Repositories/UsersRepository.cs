@@ -5,12 +5,14 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
+    using PayItForward.Data.Abstraction;
     using Dbmodels = PayItForward.Data.Models;
 
     public class UsersRepository<T, TKey> : IRepository<T, TKey>
         where T : Dbmodels.User
     {
-        public UsersRepository(PayItForwardDbContext context)
+        public UsersRepository(IPayItForwardDbContext context)
         {
             if (context == null)
             {
@@ -23,7 +25,7 @@
 
         protected DbSet<T> DbSet { get; set; }
 
-        protected PayItForwardDbContext Context { get; set; }
+        protected IPayItForwardDbContext Context { get; set; }
 
         // TESTED
         public async Task<T> GetByIdAsync(TKey id)
@@ -67,19 +69,19 @@
             return Task.FromResult(this.DbSet.AsEnumerable());
         }
 
-        // TESTED IN StartUp, Users can not be hard deleted! Cascade delete is needed
+        // TODO: take care of deleting Donations before deleting user entity
+        // TODO: Catch exception when trying to delete User who has Donations, because of Foreign key restriction
         public void HardDelete(T userTodelete)
         {
-            var donations = this.Context.Donations.Where(s => s.UserId == userTodelete.Id);
+            // var donations = this.Context.Donations.Where(s => s.UserId == userTodelete.Id);
 
-            if (donations != null)
-            {
-                foreach (var donation in donations.ToList())
-                {
-                    this.Context.Set<Dbmodels.Donation>().Remove(donation);
-                }
-            }
-
+            // if (donations != null)
+            // {
+            //    foreach (var donation in donations.ToList())
+            //    {
+            //        this.Context.Set<Dbmodels.Donation>().Remove(donation);
+            //    }
+            // }
             this.Context.Set<T>().Remove(userTodelete);
             this.Context.SaveChanges();
         }
@@ -107,15 +109,7 @@
 
         private void ChangeEntityState(T entity, EntityState entityState)
         {
-            // this.Context.Entry(entity).State = entityState;
-            var entry = this.Context.Entry(entity);
-
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
-
-            entry.State = entityState;
+            this.Context.ChangeEntityState(entity, entityState);
         }
     }
 }

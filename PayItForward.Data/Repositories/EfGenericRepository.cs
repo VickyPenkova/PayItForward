@@ -79,15 +79,7 @@
 
         private void ChangeEntityState(T entity, EntityState entityState)
         {
-            // this.Context.Entry(entity).State = entityState;
-            var entry = this.Context.Entry(entity);
-
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
-
-            entry.State = entityState;
+            this.Context.Entry(entity).State = entityState;
         }
     }
 }

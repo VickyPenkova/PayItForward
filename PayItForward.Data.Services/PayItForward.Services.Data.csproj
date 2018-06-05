@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PayItForward.Data.Models\PayItForward.Data.Models.csproj" />
     <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
+    <ProjectReference Include="..\PayItForward.Models\PayItForward.Models.csproj" />
   </ItemGroup>
 
 </Project>

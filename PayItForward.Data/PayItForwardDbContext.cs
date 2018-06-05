@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data.Abstraction;
@@ -41,6 +40,12 @@
             this.ApplyAuditInfoRules();
             this.ApplyDeletableEntityRules();
             return base.SaveChangesAsync(cancellationToken);
+        }
+
+        public void ChangeEntityState(object entity, EntityState entityState)
+        {
+            var entry = this.Entry(entity);
+            entry.State = entityState;
         }
 
         private void ApplyAuditInfoRules()
