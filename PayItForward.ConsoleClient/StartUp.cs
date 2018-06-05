@@ -31,7 +31,7 @@
 
             // Task<IEnumerable<Dbmodel.User>> res = userRepo.GetAllAsync();
             // Task res = userRepo.UpdateAsync(user);
-            userRepo.HardDeleteAsync(context.Users.FirstOrDefault(u => u.LastName == "Mingle")).Wait();
+            userRepo.HardDelete(context.Users.FirstOrDefault(u => u.LastName == "Mingle"));
             var services = new ServiceCollection();
 
             var connectionStringResolver = new ConnectionStringResolver();

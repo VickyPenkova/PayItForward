@@ -1,25 +1,15 @@
 ﻿namespace PayItForward.Services.Data.Abstraction
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Dbmodel = PayItForward.Data.Models;
+    using PayItForward.Data;
+    using PayItForward.Models;
+    using Dbmodels = PayItForward.Data.Models;
 
     public interface IUsersService
     {
-        // to be changed based on Controller needs
-        IQueryable<Dbmodel.User> GetAll();
-
-        Dbmodel.User GetById(string id);
-
-        Task<Dbmodel.User> GetByIdAsync(string id);
-
-        Dbmodel.User GetByUserName(string userName);
-
-        Task SaveAsync();
-
-        Task<int> HardDeleteAsync(Dbmodel.User userTodelete);
-
-        void SoftDelete(Dbmodel.User userTodelete);
+        IEnumerable<UserDTO> GetUsers(int count);
 
         int Count();
     }

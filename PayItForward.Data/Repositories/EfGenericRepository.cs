@@ -5,13 +5,13 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using PayItForward.Data.Abstraction;
     using PayItForward.Data.Models;
-    using PayItForward.Data.Models.Abstraction;
 
     public class EfGenericRepository<T, TKey> : IRepository<T, TKey>
         where T : BaseModel<TKey>
     {
-        public EfGenericRepository(PayItForwardDbContext context)
+        public EfGenericRepository(IPayItForwardDbContext context)
         {
             if (context == null)
             {
@@ -24,7 +24,7 @@
 
         protected DbSet<T> DbSet { get; set; }
 
-        protected PayItForwardDbContext Context { get; set; }
+        protected IPayItForwardDbContext Context { get; set; }
 
         public async Task<T> GetByIdAsync(TKey id)
         {
@@ -41,17 +41,6 @@
             this.ChangeEntityState(entity, EntityState.Added);
         }
 
-        public void Update(T entity)
-        {
-            var entry = this.Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
-
-            entry.State = EntityState.Modified;
-        }
-
         public IQueryable<T> GetAll()
         {
             return this.DbSet;
@@ -62,36 +51,30 @@
             return Task.FromResult(this.DbSet.AsEnumerable());
         }
 
-        // to be tested
-        public async Task UpdateAsync(T entity)
-        {
-            this.Context.Set<T>().Update(entity);
-            await this.Context.SaveChangesAsync();
-        }
-
         public void SoftDelete(T userTodelete)
         {
             userTodelete.IsDeleted = true;
             userTodelete.DeletedOn = DateTime.Now;
-            this.Update(userTodelete);
         }
 
-        public async Task<int> HardDeleteAsync(T entity)
+        public void HardDelete(T entity)
         {
             this.Context.Set<T>().Remove(entity);
-            return await this.Context.SaveChangesAsync();
         }
 
-        public Task SaveAsync()
+        public Task<int> SaveAsync()
         {
-            this.ApplyAuditInfoRules();
-            this.ApplyDeletableEntityRules();
             return this.Context.SaveChangesAsync();
         }
 
         public void Dispose()
         {
             this.Context.Dispose();
+        }
+
+        public int Save()
+        {
+            return this.Context.SaveChanges();
         }
 
         private void ChangeEntityState(T entity, EntityState entityState)
@@ -105,40 +88,6 @@
             }
 
             entry.State = entityState;
-        }
-
-        private void ApplyAuditInfoRules()
-        {
-            foreach (var entry in this.Context.ChangeTracker.Entries()
-                    .Where(
-                        e =>
-                        e.Entity is IAuditInfo && ((e.State == EntityState.Added) || (e.State == EntityState.Modified))))
-            {
-                var entity = (IAuditInfo)entry.Entity;
-                if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))
-                {
-                    entity.CreatedOn = DateTime.Now;
-                }
-                else
-                {
-                    entity.ModifiedOn = DateTime.Now;
-                }
-            }
-        }
-
-        private void ApplyDeletableEntityRules()
-        {
-            foreach (
-                var entry in
-                    this.Context.ChangeTracker.Entries()
-                        .Where(e => e.Entity is IDeletableEntry && (e.State == EntityState.Deleted)))
-            {
-                var entity = (IDeletableEntry)entry.Entity;
-
-                entity.DeletedOn = DateTime.Now;
-                entity.IsDeleted = true;
-                entry.State = EntityState.Modified;
-            }
         }
     }
 }

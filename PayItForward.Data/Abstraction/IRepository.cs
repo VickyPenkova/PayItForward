@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using PayItForward.Data.Abstraction;
 
     public interface IRepository<T, TKey> : IDisposable
         where T : class
@@ -19,12 +18,14 @@
 
         T GetById(TKey id);
 
-        Task UpdateAsync(T entity);
-
-        Task<int> HardDeleteAsync(T entity);
+        // TODO: Update chnages in one call to the database
+        // void Update(T entity);
+        void HardDelete(T entity);
 
         void SoftDelete(T entity);
 
-        Task SaveAsync();
+        Task<int> SaveAsync();
+
+        int Save();
     }
 }

@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using PayItForward.Data.Models;
     using Dbmodels = PayItForward.Data.Models;
 
     public class UsersRepository<T, TKey> : IRepository<T, TKey>
@@ -26,7 +25,7 @@
 
         protected PayItForwardDbContext Context { get; set; }
 
-        // TESTED IN StartUp
+        // TESTED
         public async Task<T> GetByIdAsync(TKey id)
         {
             return await this.DbSet.FindAsync(id);
@@ -68,15 +67,8 @@
             return Task.FromResult(this.DbSet.AsEnumerable());
         }
 
-        // TESTED IN StartUp
-        public async Task UpdateAsync(T entity)
-        {
-            this.Context.Set<T>().Update(entity);
-            await this.Context.SaveChangesAsync();
-        }
-
         // TESTED IN StartUp, Users can not be hard deleted! Cascade delete is needed
-        public async Task<int> HardDeleteAsync(T userTodelete)
+        public void HardDelete(T userTodelete)
         {
             var donations = this.Context.Donations.Where(s => s.UserId == userTodelete.Id);
 
@@ -89,7 +81,7 @@
             }
 
             this.Context.Set<T>().Remove(userTodelete);
-            return await this.Context.SaveChangesAsync();
+            this.Context.SaveChanges();
         }
 
         // TESTED IN StartUp
@@ -98,19 +90,19 @@
             this.Update(userTodelete);
         }
 
-        public Task SaveAsync()
+        public Task<int> SaveAsync()
         {
             return this.Context.SaveChangesAsync();
+        }
+
+        public int Save()
+        {
+            return this.Context.SaveChanges();
         }
 
         public void Dispose()
         {
             this.Context.Dispose();
-        }
-
-        public void Add(Dbmodels.User entity)
-        {
-            throw new NotImplementedException();
         }
 
         private void ChangeEntityState(T entity, EntityState entityState)
