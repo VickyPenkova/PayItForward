@@ -15,7 +15,7 @@
         }
 
         [Fact]
-        public void NotAcceptEmptyNameInConstructor()
+        public void NotAcceptNullArgumentInConstructor()
         {
             // Arrange, Act, Assert
             Assert.Throws<ArgumentException>(() => new UsersRepository<Dbmodels.User, string>(null));
