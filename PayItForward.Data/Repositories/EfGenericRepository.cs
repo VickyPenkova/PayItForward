@@ -46,9 +46,9 @@
             return this.DbSet;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return Task.FromResult(this.DbSet.AsEnumerable());
+            return await Task.FromResult(this.DbSet.ToList());
         }
 
         public void SoftDelete(T userTodelete)
