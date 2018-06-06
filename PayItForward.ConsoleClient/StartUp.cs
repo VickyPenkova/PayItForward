@@ -8,11 +8,28 @@
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Common;
     using PayItForward.Data;
+    using Dbmodel = PayItForward.Data.Models;
 
     public class StartUp
     {
         public static void Main(string[] args)
         {
+            // TODO: Remove this code from here, after the testing is finished
+            var factory = new PayItForwardContextFactory();
+
+            var context = factory.CreateDbContext();
+            var userRepo = new UsersRepository<Dbmodel.User, string>(context);
+
+            var user = new Dbmodel.User()
+            {
+                UserName = "Helen",
+                Email = "helen@gmail.com",
+                FirstName = "Aleksandra",
+                LastName = "Stoicheva",
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            userRepo.HardDelete(context.Users.FirstOrDefault(u => u.LastName == "Mingle"));
             var services = new ServiceCollection();
 
             var connectionStringResolver = new ConnectionStringResolver();

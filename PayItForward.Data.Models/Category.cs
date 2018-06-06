@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Category
+    public class Category : BaseModel<Guid>
     {
         private readonly ICollection<Story> stories;
 
@@ -13,9 +13,6 @@
         {
             this.stories = new HashSet<Story>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid CategoryId { get; set; }
 
         [Required]
         [StringLength(20, MinimumLength = 3)]

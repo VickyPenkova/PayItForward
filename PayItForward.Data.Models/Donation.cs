@@ -8,13 +8,11 @@ namespace PayItForward.Data.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Donation
+    public class Donation : BaseModel<Guid>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid DonationId { get; set; }
-
         public User User { get; set; }
 
+        [Required]
         public string UserId { get; set; }
 
         public Story Story { get; set; }

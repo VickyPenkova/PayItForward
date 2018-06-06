@@ -1,6 +1,5 @@
 ﻿namespace PayItForward.ConsoleClient.UnitTests.DetailedLoggerInfo
 {
-    using System;
     using Moq;
     using Xunit;
 

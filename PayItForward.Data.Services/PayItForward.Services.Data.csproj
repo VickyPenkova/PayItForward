@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PayItForward.Data.Models\PayItForward.Data.Models.csproj" />
+    <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
+    <ProjectReference Include="..\PayItForward.Models\PayItForward.Models.csproj" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)\StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+</Project>

@@ -8,7 +8,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Common;
     using PayItForward.Data;
-    using PayItForward.Data.Models;
     using Dbmodel = PayItForward.Data.Models;
 
     public class DbInitializer
@@ -215,19 +214,19 @@
                 {
                     Amount = 300,
                     User = users.FirstOrDefault(u => u.FirstName == "Aleksandra"),
-                    StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Help me!").StoryId
+                    StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Sponsor me!").Id
                 },
                 new Dbmodel.Donation
                 {
                     Amount = 800,
                     User = users.FirstOrDefault(u => u.FirstName == "Peter"),
-                    StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Education support").StoryId
+                    StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Help me!").Id
                 },
                 new Dbmodel.Donation
                 {
                     Amount = 3006,
                     User = users.FirstOrDefault(u => u.FirstName == "George"),
-                    StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Sponsor me!").StoryId
+                    StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Education support").Id
                 }
             };
 
