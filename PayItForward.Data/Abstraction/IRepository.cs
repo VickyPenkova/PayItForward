@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -12,14 +11,11 @@
 
         IQueryable<T> GetAll();
 
-        Task<IEnumerable<T>> GetAllAsync();
-
         Task<T> GetByIdAsync(TKey id);
 
         T GetById(TKey id);
 
         // TODO: Update chnages in one call to the database
-        // void Update(T entity);
         void HardDelete(T entity);
 
         void SoftDelete(T entity);

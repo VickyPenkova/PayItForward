@@ -5,25 +5,25 @@
     using PayItForward.Data;
     using PayItForward.Models;
     using PayItForward.Services.Data.Abstraction;
-    using Dbmodel = PayItForward.Data.Models;
+    using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class UsersService : IUsersService
     {
-        private readonly IRepository<Dbmodel.User, string> usersRepo;
+        private readonly IRepository<PayItForwardDbmodels.User, string> usersRepo;
 
         // Constructor DI
-        public UsersService(IRepository<Dbmodel.User, string> usersRepo)
+        public UsersService(IRepository<PayItForwardDbmodels.User, string> usersRepo)
         {
             this.usersRepo = usersRepo;
         }
 
         public IEnumerable<UserDTO> GetUsers(int count)
         {
-            var dbUsers = this.usersRepo.GetAll().Take(count).ToList();
+            var usersFromDb = this.usersRepo.GetAll().Take(count).ToList();
 
             List<UserDTO> users = new List<UserDTO>();
 
-            foreach (var dbUser in dbUsers)
+            foreach (var dbUser in usersFromDb)
             {
                 users.Add(
                     new UserDTO()
@@ -32,8 +32,7 @@
                         LastName = dbUser.LastName,
                         AvilableMoneyAmount = dbUser.AvilableMoneyAmount,
                         AvatarUrl = dbUser.AvatarUrl
-                    }
-                  );
+                    });
             }
 
             return users;

@@ -1,15 +1,13 @@
 ﻿namespace PayItForward.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data.Abstraction;
-    using Dbmodels = PayItForward.Data.Models;
 
     public class UsersRepository<T, TKey> : IRepository<T, TKey>
-        where T : Dbmodels.User
+        where T : PayItForward.Data.Models.User
     {
         public UsersRepository(IPayItForwardDbContext context)
         {
@@ -26,69 +24,36 @@
 
         protected IPayItForwardDbContext Context { get; set; }
 
-        // TESTED
         public async Task<T> GetByIdAsync(TKey id)
         {
             return await this.DbSet.FindAsync(id);
         }
 
-        // TESTED IN StartUp
-        public virtual T GetById(TKey id)
+        public T GetById(TKey id)
         {
             return this.DbSet.Find(id);
         }
 
-        // TESTED IN StartUp
-        public void Add(T entity)
-        {
-            this.ChangeEntityState(entity, EntityState.Added);
-        }
-
-        // TESTED IN StartUp
-        public void Update(T entity)
-        {
-            var entry = this.Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
-
-            entry.State = EntityState.Modified;
-        }
-
-        // TESTED IN StartUp
         public IQueryable<T> GetAll()
         {
             return this.DbSet;
         }
 
-        // TESTED IN StartUp
-        public Task<IEnumerable<T>> GetAllAsync()
+        public void Add(T entity)
         {
-            return Task.FromResult(this.DbSet.AsEnumerable());
+            this.ChangeEntityState(entity, EntityState.Added);
         }
 
-        // TODO: take care of deleting Donations before deleting user entity
+        // take care of deleting Donations before deleting user entity
         // TODO: Catch exception when trying to delete User who has Donations, because of Foreign key restriction
         public void HardDelete(T userTodelete)
         {
-            // var donations = this.Context.Donations.Where(s => s.UserId == userTodelete.Id);
-
-            // if (donations != null)
-            // {
-            //    foreach (var donation in donations.ToList())
-            //    {
-            //        this.Context.Set<Dbmodels.Donation>().Remove(donation);
-            //    }
-            // }
             this.Context.Set<T>().Remove(userTodelete);
-            this.Context.SaveChanges();
         }
 
-        // TESTED IN StartUp
         public void SoftDelete(T userTodelete)
         {
-            this.Update(userTodelete);
+            this.ChangeEntityState(userTodelete, EntityState.Deleted);
         }
 
         public Task<int> SaveAsync()

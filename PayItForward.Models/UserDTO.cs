@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PayItForward.Models
+﻿namespace PayItForward.Models
 {
     public class UserDTO
     {

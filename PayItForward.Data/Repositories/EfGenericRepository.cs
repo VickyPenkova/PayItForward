@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
@@ -31,14 +30,9 @@
             return await this.DbSet.FindAsync(id);
         }
 
-        public virtual T GetById(TKey id)
+        public T GetById(TKey id)
         {
             return this.DbSet.Find(id);
-        }
-
-        public void Add(T entity)
-        {
-            this.ChangeEntityState(entity, EntityState.Added);
         }
 
         public IQueryable<T> GetAll()
@@ -46,15 +40,14 @@
             return this.DbSet;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public void Add(T entity)
         {
-            return await Task.FromResult(this.DbSet.ToList());
+            this.ChangeEntityState(entity, EntityState.Added);
         }
 
         public void SoftDelete(T userTodelete)
         {
-            userTodelete.IsDeleted = true;
-            userTodelete.DeletedOn = DateTime.Now;
+            this.ChangeEntityState(userTodelete, EntityState.Deleted);
         }
 
         public void HardDelete(T entity)
@@ -67,14 +60,14 @@
             return this.Context.SaveChangesAsync();
         }
 
-        public void Dispose()
-        {
-            this.Context.Dispose();
-        }
-
         public int Save()
         {
             return this.Context.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            this.Context.Dispose();
         }
 
         private void ChangeEntityState(T entity, EntityState entityState)
