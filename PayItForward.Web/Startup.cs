@@ -12,6 +12,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Data;
+    using PayItForward.Data.Abstraction;
+    using PayItForward.Services.Data;
+    using PayItForward.Services.Data.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Services;
     using PayItForwardDbmodels = PayItForward.Data.Models;
@@ -43,6 +46,9 @@
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IPayItForwardDbContext, PayItForwardDbContext>();
+            services.AddScoped(typeof(IRepository<,>), typeof(UsersRepository<,>));
+            services.AddScoped<IUsersService, UsersService>();
             services.AddAutoMapper();
             services.AddMvc();
         }

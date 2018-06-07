@@ -23,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PayItForward.Common\PayItForward.Common.csproj" />
+    <ProjectReference Include="..\PayItForward.Data.Services\PayItForward.Services.Data.csproj" />
     <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
   </ItemGroup>
 

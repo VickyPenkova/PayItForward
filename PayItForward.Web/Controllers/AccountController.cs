@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PayItForward.Common;
 using PayItForward.Web.Models;
 using PayItForward.Web.Models.AccountViewModels;
 using PayItForward.Web.Services;
@@ -224,12 +225,19 @@ namespace PayItForward.Web.Controllers
             this.ViewData["ReturnUrl"] = returnUrl;
             if (this.ModelState.IsValid)
             {
-                var user = new PayItForwardDbmodels.User { UserName = model.Email, Email = model.Email };
+                var user = new PayItForwardDbmodels.User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AvilableMoneyAmount = model.AvilableMoneyAmount
+                };
                 var result = await this.userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("User created a new account with password.");
-
+                    this.userManager.AddToRoleAsync(user, GlobalConstants.UserRole).Wait();
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = this.Url.EmailConfirmationLink(user.Id, code, this.Request.Scheme);
                     await this.emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);

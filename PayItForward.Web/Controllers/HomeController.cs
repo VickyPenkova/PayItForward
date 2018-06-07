@@ -4,14 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using PayItForward.Services.Data.Abstraction;
 using PayItForward.Web.Models;
 
 namespace PayItForward.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUsersService usersService;
+
+        public HomeController(IUsersService usersService)
+        {
+            this.usersService = usersService;
+        }
+
         public IActionResult Index()
         {
+            // TODO: Remove this
+            this.usersService.GetUsers(2);
             return this.View();
         }
 

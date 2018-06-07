@@ -6,9 +6,11 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
+    <CodeAnalysisRuleSet>$(SolutionDir)\StyleCop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0" />
     <PackageReference Include="Moq" Version="4.8.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
@@ -16,6 +18,7 @@
     <PackageReference Include="xunit.runner.console" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
