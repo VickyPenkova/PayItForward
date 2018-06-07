@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using PayItForward.Web.Models;
 using PayItForward.Web.Models.AccountViewModels;
 using PayItForward.Web.Services;
+using PayItForwardDbmodels = PayItForward.Data.Models;
 
 namespace PayItForward.Web.Controllers
 {
@@ -20,14 +21,14 @@ namespace PayItForward.Web.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<PayItForwardDbmodels.User> userManager;
+        private readonly SignInManager<PayItForwardDbmodels.User> signInManager;
         private readonly IEmailSender emailSender;
         private readonly ILogger logger;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<PayItForwardDbmodels.User> userManager,
+            SignInManager<PayItForwardDbmodels.User> signInManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
@@ -223,7 +224,7 @@ namespace PayItForward.Web.Controllers
             this.ViewData["ReturnUrl"] = returnUrl;
             if (this.ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new PayItForwardDbmodels.User { UserName = model.Email, Email = model.Email };
                 var result = await this.userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -317,7 +318,7 @@ namespace PayItForward.Web.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new PayItForwardDbmodels.User { UserName = model.Email, Email = model.Email };
                 var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

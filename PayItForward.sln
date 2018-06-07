@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.ConsoleClient.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.Common", "PayItForward.Common\PayItForward.Common.csproj", "{9AA893B7-BE1A-47C0-AAC3-F45330CAC915}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{092528D2-ADB7-470B-8112-F4F57363F01F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayItForward.Web", "PayItForward.Web\PayItForward.Web.csproj", "{26E6CA78-5C14-4BFB-97F4-B58AB50F92A1}"
 EndProject
 Global

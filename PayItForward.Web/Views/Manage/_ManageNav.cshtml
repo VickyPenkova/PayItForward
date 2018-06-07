@@ -1,5 +1,5 @@
 ﻿@using PayItForward.Web.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+@inject SignInManager<PayItForward.Data.Models.User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

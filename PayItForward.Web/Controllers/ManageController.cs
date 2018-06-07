@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using PayItForward.Web.Models;
 using PayItForward.Web.Models.ManageViewModels;
 using PayItForward.Web.Services;
+using PayItForwardDbmodels = PayItForward.Data.Models;
 
 namespace PayItForward.Web.Controllers
 {
@@ -20,8 +21,8 @@ namespace PayItForward.Web.Controllers
     [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<PayItForwardDbmodels.User> userManager;
+        private readonly SignInManager<PayItForwardDbmodels.User> signInManager;
         private readonly IEmailSender emailSender;
         private readonly ILogger logger;
         private readonly UrlEncoder urlEncoder;
@@ -30,8 +31,8 @@ namespace PayItForward.Web.Controllers
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
 
         public ManageController(
-          UserManager<ApplicationUser> userManager,
-          SignInManager<ApplicationUser> signInManager,
+          UserManager<PayItForwardDbmodels.User> userManager,
+          SignInManager<PayItForwardDbmodels.User> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
@@ -526,7 +527,7 @@ namespace PayItForward.Web.Controllers
                 unformattedKey);
         }
 
-        private async Task LoadSharedKeyAndQrCodeUriAsync(ApplicationUser user, EnableAuthenticatorViewModel model)
+        private async Task LoadSharedKeyAndQrCodeUriAsync(PayItForwardDbmodels.User user, EnableAuthenticatorViewModel model)
         {
             var unformattedKey = await this.userManager.GetAuthenticatorKeyAsync(user);
             if (string.IsNullOrEmpty(unformattedKey))
