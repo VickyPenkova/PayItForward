@@ -28,4 +28,8 @@
     <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\StoriesViewModel\" />
+  </ItemGroup>
+
 </Project>

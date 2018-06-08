@@ -29,7 +29,7 @@
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
-            userRepo.HardDelete(context.Users.FirstOrDefault(u => u.LastName == "Mingle"));
+            // userRepo.HardDelete(context.Users.FirstOrDefault(u => u.LastName == "Mingle"));
             var services = new ServiceCollection();
 
             var connectionStringResolver = new ConnectionStringResolver();

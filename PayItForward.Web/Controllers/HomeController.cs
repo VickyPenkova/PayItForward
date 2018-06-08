@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PayItForward.Services.Data.Abstraction;
-using PayItForward.Web.Models;
-
-namespace PayItForward.Web.Controllers
+﻿namespace PayItForward.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Web.Models;
+
     public class HomeController : Controller
     {
-        private readonly IUsersService usersService;
+        private readonly IStoriesService storiesService;
 
-        public HomeController(IUsersService usersService)
+        public HomeController(IStoriesService storiesService)
         {
-            this.usersService = usersService;
+            this.storiesService = storiesService;
         }
 
         public IActionResult Index()
         {
-            // TODO: Remove this
-            this.usersService.GetUsers(2);
-            return this.View();
+            var stories = this.storiesService.GetStories(2).ToList();
+            return this.View(stories);
         }
 
         public IActionResult About()
