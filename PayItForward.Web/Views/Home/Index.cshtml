@@ -2,26 +2,55 @@
     ViewData["Title"] = "Home Page";
 }
 @model List<PayItForward.Models.StoryDTO>
-
-<div class="container table-data table table-striped">
-    <div class="row fields-borders">
-        <div class="col-sm-4 title-font right-border">
-            <span>Title</span>
+@*<div class="container table-data table table-striped">
+        <div class="row fields-borders">
+            <div class="col-sm-4 title-font right-border">
+                <span>Title</span>
+            </div>
+            <div class="col-sm-4 title-font right-border">
+                <span>Description</span>
+            </div>
         </div>
-        <div class="col-sm-4 title-font right-border">
-            <span>Description</span>
-        </div>
-    </div>
 
-    @foreach (var story in Model)
+        @foreach (var story in Model)
+        {
+            <div class="row fields-borders mark-pointed">
+                <div class="col-sm-4 right-border">
+                    @story.Title
+                </div>
+                <div class="col-sm-4 right-border">
+                    @story.Description
+                </div>
+            </div>
+        }
+    </div>*@
+
+<table class="table">
+    <tr>
+        <th>
+            Tittle
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Image
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
     {
-        <div class="row fields-borders mark-pointed">
-            <div class="col-sm-4 right-border">
-                @story.Title
-            </div>
-            <div class="col-sm-4 right-border">
-                @story.Description
-            </div>
-        </div>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <img class="table-images"  src =@Html.DisplayFor(modelItem => item.ImageUrl) alt="Image Please help me">              
+            </td>
+        </tr>
     }
-</div>
+</table>
