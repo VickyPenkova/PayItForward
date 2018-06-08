@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using PayItForward.Common;
-using PayItForward.Web.Models;
-using PayItForward.Web.Models.AccountViewModels;
-using PayItForward.Web.Services;
-using PayItForwardDbmodels = PayItForward.Data.Models;
-
-namespace PayItForward.Web.Controllers
+﻿namespace PayItForward.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
+    using PayItForward.Common;
+    using PayItForward.Web.Models;
+    using PayItForward.Web.Models.AccountViewModels;
+    using PayItForward.Web.Services;
+    using PayItForwardDbmodels = PayItForward.Data.Models;
+
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller

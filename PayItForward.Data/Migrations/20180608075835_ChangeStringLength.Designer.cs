@@ -11,9 +11,10 @@ using System;
 namespace PayItForward.Data.Migrations
 {
     [DbContext(typeof(PayItForwardDbContext))]
-    partial class PayItForwardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180608075835_ChangeStringLength")]
+    partial class ChangeStringLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,7 +201,7 @@ namespace PayItForward.Data.Migrations
                     b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(50);
+                        .HasMaxLength(500);
 
                     b.Property<string>("DocumentUrl")
                         .HasColumnType("varchar(200)");
@@ -225,7 +226,7 @@ namespace PayItForward.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(100);
 
                     b.Property<string>("UserId")
                         .IsRequired();
