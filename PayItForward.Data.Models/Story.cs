@@ -19,13 +19,13 @@ namespace PayItForward.Data.Models
         }
 
         [Required]
-        [StringLength(500, MinimumLength = 3)]
+        [StringLength(100, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
 
-        [StringLength(50, MinimumLength = 5)]
+        [StringLength(500, MinimumLength = 5)]
         public string Description { get; set; }
 
         [Column(TypeName = "money")]

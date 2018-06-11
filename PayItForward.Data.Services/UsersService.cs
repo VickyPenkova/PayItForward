@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
     using PayItForward.Data;
     using PayItForward.Models;
     using PayItForward.Services.Data.Abstraction;
@@ -10,11 +11,13 @@
     public class UsersService : IUsersService
     {
         private readonly IRepository<PayItForwardDbmodels.User, string> usersRepo;
+        private readonly IMapper mapper;
 
         // Constructor DI
-        public UsersService(IRepository<PayItForwardDbmodels.User, string> usersRepo)
+        public UsersService(IRepository<PayItForwardDbmodels.User, string> usersRepo, IMapper mapper)
         {
             this.usersRepo = usersRepo;
+            this.mapper = mapper;
         }
 
         public IEnumerable<UserDTO> GetUsers(int count)
@@ -23,18 +26,8 @@
 
             List<UserDTO> users = new List<UserDTO>();
 
-            foreach (var dbUser in usersFromDb)
-            {
-                users.Add(
-                    new UserDTO()
-                    {
-                        FirstName = dbUser.FirstName,
-                        LastName = dbUser.LastName,
-                        AvilableMoneyAmount = dbUser.AvilableMoneyAmount,
-                        AvatarUrl = dbUser.AvatarUrl
-                    });
-            }
-
+            // var user = this.mapper.Map<UserDTO>(dbUser);
+            users = this.mapper.Map<List<UserDTO>>(usersFromDb);
             return users;
         }
 

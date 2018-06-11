@@ -8,6 +8,7 @@
     <ProjectReference Include="..\PayItForward.Data.Models\PayItForward.Data.Models.csproj" />
     <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
     <ProjectReference Include="..\PayItForward.Models\PayItForward.Models.csproj" />
+    <PackageReference Include="AutoMapper" Version="7.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 

@@ -63,7 +63,7 @@
             var userManager = this.serviceProvider.GetRequiredService<UserManager<Dbmodel.User>>();
             var adminUser = new Dbmodel.User
             {
-                UserName = "Aleks",
+                UserName = "aleks@gmail.com",
                 Email = "aleks@gmail.com",
                 FirstName = "Aleksandra",
                 LastName = "Stoicheva",
@@ -78,7 +78,7 @@
             {
                 new Dbmodel.User
                 {
-                    UserName = "peter",
+                    UserName = "peter@gmail.com",
                     Email = "peter@gmail.com",
                     FirstName = "Peter",
                     LastName = "Petkov",
@@ -86,7 +86,7 @@
                 },
                 new Dbmodel.User
                 {
-                    UserName = "george",
+                    UserName = "george@gmail.com",
                     Email = "george@gmail.com",
                     FirstName = "George",
                     LastName = "Mingle",
