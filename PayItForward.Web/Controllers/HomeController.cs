@@ -20,7 +20,7 @@
 
         public IActionResult Index()
         {
-            var stories = this.storiesService.GetStories(2).ToList();
+            var stories = this.storiesService.GetStories(7).ToList();
             return this.View(stories);
         }
 

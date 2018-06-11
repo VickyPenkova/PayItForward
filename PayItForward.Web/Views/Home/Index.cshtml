@@ -2,55 +2,76 @@
     ViewData["Title"] = "Home Page";
 }
 @model List<PayItForward.Models.StoryDTO>
-@*<div class="container table-data table table-striped">
-        <div class="row fields-borders">
-            <div class="col-sm-4 title-font right-border">
-                <span>Title</span>
-            </div>
-            <div class="col-sm-4 title-font right-border">
-                <span>Description</span>
-            </div>
-        </div>
-
-        @foreach (var story in Model)
+<div class="container-fluid">
+    <div class="row equal">
+        @foreach (var item in Model)
         {
-            <div class="row fields-borders mark-pointed">
-                <div class="col-sm-4 right-border">
-                    @story.Title
-                </div>
-                <div class="col-sm-4 right-border">
-                    @story.Description
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail" style="height: 100%">
+                    <img src=@Html.DisplayFor(modelItem => item.ImageUrl) alt="Card image cap">
+                    <div class="caption" style="height: 100%;">
+                        <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                        <div class="wrapper equal">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <span>@Html.DisplayFor(modelItem => item.User.FirstName)</span>
+                                    <span>@Html.DisplayFor(modelItem => item.User.LastName)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>@Html.DisplayFor(modelItem => item.Category.Name)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="alert-danger">@Html.DisplayFor(modelItem => item.ExpirationDate)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Collected Amount</p>
+                                    <i class="small material-icons">attach_money</i>
+                                    <span class="lead">@Html.DisplayFor(modelItem => item.CollectedAmount)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p><a href="#" class="btn btn-primary wrapper" role="button">Details</a> </p>
+                    </div>
                 </div>
             </div>
         }
-    </div>*@
+    </div>
+    <nav aria-label="...">
+    <ul class="pager">
+        <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
+        <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
+    </ul>
+</nav>
+</div>
 
-<table class="table">
-    <tr>
-        <th>
-            Tittle
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Image
-        </th>
-        <th></th>
-    </tr>
+@*display table*@
 
-    @foreach (var item in Model)
-    {
+@*<table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <img class="table-images"  src =@Html.DisplayFor(modelItem => item.ImageUrl) alt="Image Please help me">              
-            </td>
+            <th>
+                Tittle
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Image
+            </th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <img class="table-images"  src =@Html.DisplayFor(modelItem => item.ImageUrl) alt="Image Please help me">
+                </td>
+            </tr>
+        }
+    </table>*@
