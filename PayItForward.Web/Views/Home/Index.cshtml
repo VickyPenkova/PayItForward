@@ -1,12 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-@model List<PayItForward.Models.StoryDTO>
+@model PayItForward.Web.Models.HomeViewModel.IndexViewModel
 <div class="container-fluid">
     <div class="row equal">
-        @foreach (var item in Model)
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
         {
-            <div class="col-sm-6 col-md-4">
+            @Html.Partial("_SearchPartial");
+        }
+    </div>
+    <div class="row equal">
+        @foreach (var item in Model.Stories)
+        {
+            <div class="col-sm-4">
                 <div class="thumbnail" style="height: 100%">
                     <img src=@Html.DisplayFor(modelItem => item.ImageUrl) alt="Card image cap">
                     <div class="caption" style="height: 100%;">
@@ -36,12 +42,8 @@
             </div>
         }
     </div>
-    <nav aria-label="...">
-    <ul class="pager">
-        <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-        <li class="next"><a href="#">Newer <span aria-hidden="true">&rarr;</span></a></li>
-    </ul>
-</nav>
+    @Html.Partial("_PaginationPartial", Model)
+
 </div>
 
 @*display table*@

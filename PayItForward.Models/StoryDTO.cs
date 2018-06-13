@@ -19,5 +19,7 @@ namespace PayItForward.Models
         public CategoryDTO Category { get; set; }
 
         public decimal CollectedAmount { get; set; }
+
+        public bool IsClosed { get; set; }
     }
 }

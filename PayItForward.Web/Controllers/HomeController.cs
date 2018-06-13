@@ -5,23 +5,49 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Data.Abstraction;
     using PayItForward.Web.Models;
+    using PayItForward.Web.Models.HomeViewModel;
 
     public class HomeController : Controller
     {
-        private readonly IStoriesService storiesService;
+        private const int ItemsPerPage = 3;
 
-        public HomeController(IStoriesService storiesService)
+        private readonly IStoriesService storiesService;
+        private readonly IMapper mapper;
+
+        public HomeController(IStoriesService storiesService, IMapper mapper)
         {
             this.storiesService = storiesService;
+            this.mapper = mapper;
         }
 
-        public IActionResult Index()
+        // TODO: Refactor paging
+        [HttpGet]
+        public IActionResult Index(int id = 1)
         {
-            var stories = this.storiesService.GetStories(7).ToList();
-            return this.View(stories);
+            var url = this.Request.Path.ToString();
+
+            var searchString = this.HttpContext.Request.Query["search"].ToString() ?? string.Empty;
+
+            var page = id;
+            int totalNumberOfStories = this.storiesService.CountStories(searchString);
+            var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
+            var skip = (page - 1) * ItemsPerPage;
+            var stories = this.storiesService.GetStories(ItemsPerPage, skip, searchString);
+
+            var resultModel = new IndexViewModel
+            {
+                CurrentPage = page,
+                TotalPages = totalPages,
+                Stories = stories,
+                CurrentUrl = url.ToString(),
+                SearchWord = searchString
+            };
+
+            return this.View(resultModel);
         }
 
         public IActionResult About()

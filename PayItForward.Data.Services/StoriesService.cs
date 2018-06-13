@@ -22,15 +22,20 @@
             this.mapper = mapper;
         }
 
-        public List<StoryDTO> GetStories(int count)
+        public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "")
         {
-            var storiesFromDb = this.storiesRepo.GetAll().Take(count);
+            var storiesFromDb = this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Skip(skip).Take(take);
 
             List<StoryDTO> stories = new List<StoryDTO>();
 
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
 
             return stories;
+        }
+
+        public int CountStories(string containsTitle = "")
+        {
+            return this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Count();
         }
     }
 }

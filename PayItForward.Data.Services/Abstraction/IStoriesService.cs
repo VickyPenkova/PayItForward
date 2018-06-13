@@ -7,6 +7,8 @@
 
     public interface IStoriesService
     {
-        List<StoryDTO> GetStories(int count);
+        IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "");
+
+        int CountStories(string containsTitle = "");
     }
 }
