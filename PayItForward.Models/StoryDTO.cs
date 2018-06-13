@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PayItForward.Models
+﻿namespace PayItForward.Models
 {
+    using System;
+
     public class StoryDTO
     {
         public string Title { get; set; }
@@ -19,7 +17,5 @@ namespace PayItForward.Models
         public CategoryDTO Category { get; set; }
 
         public decimal CollectedAmount { get; set; }
-
-        public bool IsClosed { get; set; }
     }
 }

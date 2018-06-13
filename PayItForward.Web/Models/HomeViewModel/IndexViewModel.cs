@@ -1,11 +1,11 @@
 ﻿namespace PayItForward.Web.Models.HomeViewModel
 {
     using System.Collections.Generic;
-    using PayItForward.Models;
+    using PayItForward.Web.Models.StoriesViewModel;
 
     public class IndexViewModel
     {
-        public IEnumerable<StoryDTO> Stories { get; set; }
+        public IEnumerable<BasicStoryViewModel> Stories { get; set; }
 
         public int CurrentPage { get; set; }
 

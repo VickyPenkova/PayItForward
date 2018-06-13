@@ -1,15 +1,13 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Data.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Models.HomeViewModel;
+    using PayItForward.Web.Models.StoriesViewModel;
 
     public class HomeController : Controller
     {
@@ -42,7 +40,8 @@
             {
                 CurrentPage = page,
                 TotalPages = totalPages,
-                Stories = stories,
+
+                // Stories = stories,
                 CurrentUrl = url.ToString(),
                 SearchWord = searchString
             };

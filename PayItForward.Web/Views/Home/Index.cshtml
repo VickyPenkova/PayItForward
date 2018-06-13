@@ -45,35 +45,3 @@
     @Html.Partial("_PaginationPartial", Model)
 
 </div>
-
-@*display table*@
-
-@*<table class="table">
-        <tr>
-            <th>
-                Tittle
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Image
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    <img class="table-images"  src =@Html.DisplayFor(modelItem => item.ImageUrl) alt="Image Please help me">
-                </td>
-            </tr>
-        }
-    </table>*@

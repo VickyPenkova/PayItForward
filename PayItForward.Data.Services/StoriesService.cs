@@ -27,9 +27,7 @@
             var storiesFromDb = this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Skip(skip).Take(take);
 
             List<StoryDTO> stories = new List<StoryDTO>();
-
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
-
             return stories;
         }
 
