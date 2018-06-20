@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
     using PayItForward.Models;
     using PayItForward.Services.Data.Abstraction;
@@ -24,7 +25,12 @@
 
         public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "")
         {
-            var storiesFromDb = this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Skip(skip).Take(take);
+            var storiesFromDb = this.storiesRepo.GetAll()
+                .Include(user => user.User)
+                .Include(category => category.Category)
+                .Where(x => x.Title.Contains(containsTitle))
+                .Skip(skip)
+                .Take(take);
 
             List<StoryDTO> stories = new List<StoryDTO>();
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);

@@ -7,6 +7,8 @@
     {
         public IEnumerable<BasicStoryViewModel> Stories { get; set; }
 
+        public IEnumerable<BasicStoryViewModel> Users { get; set; }
+
         public int CurrentPage { get; set; }
 
         public int TotalPages { get; set; }

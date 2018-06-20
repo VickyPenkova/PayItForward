@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.Services.Data.Abstraction
 {
     using System.Collections.Generic;
-    using System.Linq;
     using PayItForward.Models;
 
     public interface IStoriesService

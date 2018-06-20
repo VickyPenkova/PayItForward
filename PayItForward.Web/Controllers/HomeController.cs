@@ -1,7 +1,9 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Data.Abstraction;
@@ -40,8 +42,7 @@
             {
                 CurrentPage = page,
                 TotalPages = totalPages,
-
-                // Stories = stories,
+                Stories = this.mapper.Map<IEnumerable<BasicStoryViewModel>>(stories),
                 CurrentUrl = url.ToString(),
                 SearchWord = searchString
             };

@@ -7,6 +7,8 @@
     {
         IEnumerable<UserDTO> GetUsers(int count);
 
+        UserDTO GetUserById(string id);
+
         int Count();
     }
 }
