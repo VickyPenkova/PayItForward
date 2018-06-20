@@ -18,5 +18,7 @@
         public DateTime ExpirationDate { get; set; }
 
         public decimal CollectedAmount { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

@@ -1,0 +1,43 @@
+﻿@model PayItForward.Web.Models.HomeViewModel.DetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    
+    <div class="panel panel-primary">
+        <div class="panel-heading">@Html.DisplayFor(m => m.Story.Title)</div>
+        <div class="panel-body">
+            <p>@Html.DisplayFor(m => m.Story.Description)</p>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Goal Amount</th>
+                    <th>Collected Amount</th>
+                    <th>Available</th>
+                    <th>Date Created</th>
+                    <th>Expiration Date</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(m => m.Story.GoalAmount)</td>
+                    <td>@Html.DisplayFor(m => m.Story.CollectedAmount)</td>
+                    <td class="media-right media-middle @(Model.Story.IsClosed ? "glyphicon glyphicon-remove" : "glyphicon glyphicon-ok" )"
+                        style="text-align: center;"></td>
+                    <td>@Html.DisplayFor(m => m.Story.DateCreated)</td>
+                    <td>@Html.DisplayFor(m => m.Story.ExpirationDate)</td>
+                    <td>@Html.DisplayFor(m => m.Story.User.FirstName) @Html.DisplayFor(m => m.Story.User.LastName)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+

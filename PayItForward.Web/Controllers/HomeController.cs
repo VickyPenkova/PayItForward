@@ -50,6 +50,20 @@
             return this.View(resultModel);
         }
 
+        public IActionResult Details(Guid id)
+        {
+            var story = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            var url = this.Request.Path.ToString();
+            var storyToTest = this.mapper.Map<DetailedStoryViewModel>(story);
+
+            var resultModel = new DetailsViewModel
+            {
+                Story = storyToTest
+            };
+
+            return this.View(resultModel);
+        }
+
         public IActionResult About()
         {
             this.ViewData["Message"] = "Your application description page.";

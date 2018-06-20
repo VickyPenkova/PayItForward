@@ -1,5 +1,6 @@
 ﻿namespace PayItForward.Web.Models.HomeViewModel
 {
+    using System;
     using System.Collections.Generic;
     using PayItForward.Web.Models.StoriesViewModel;
 
@@ -16,5 +17,7 @@
         public string CurrentUrl { get; set; }
 
         public string SearchWord { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

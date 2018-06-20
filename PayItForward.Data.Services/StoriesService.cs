@@ -41,5 +41,16 @@
         {
             return this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Count();
         }
+
+        public IEnumerable<StoryDTO> GetStories()
+        {
+            var storiesFromDb = this.storiesRepo.GetAll()
+                .Include(user => user.User)
+                .Include(category => category.Category);
+
+            List<StoryDTO> stories = new List<StoryDTO>();
+            stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
+            return stories;
+        }
     }
 }
