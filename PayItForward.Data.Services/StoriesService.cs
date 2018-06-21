@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Services.Data
+﻿namespace PayItForward.Services
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
     using PayItForward.Models;
-    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Services.Abstraction;
     using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class StoriesService : IStoriesService

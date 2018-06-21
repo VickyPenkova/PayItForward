@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Services.Data.Abstraction
+﻿namespace PayItForward.Services.Abstraction
 {
     using System.Collections.Generic;
     using PayItForward.Models;

@@ -1,11 +1,11 @@
-﻿namespace PayItForward.Services.Data
+﻿namespace PayItForward.Services
 {
     using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
     using PayItForward.Data;
     using PayItForward.Models;
-    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Services.Abstraction;
     using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class UsersService : IUsersService

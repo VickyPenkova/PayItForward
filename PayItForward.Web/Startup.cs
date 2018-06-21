@@ -14,8 +14,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Data;
     using PayItForward.Data.Abstraction;
-    using PayItForward.Services.Data;
-    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Services;
+    using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Services;
     using PayItForwardDbmodels = PayItForward.Data.Models;

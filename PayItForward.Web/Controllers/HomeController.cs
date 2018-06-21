@@ -7,7 +7,7 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Models.HomeViewModel;
     using PayItForward.Web.Models.StoriesViewModel;
