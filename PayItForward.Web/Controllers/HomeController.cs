@@ -5,12 +5,14 @@
     using System.Diagnostics;
     using System.Linq;
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Data.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Models.HomeViewModel;
     using PayItForward.Web.Models.StoriesViewModel;
 
+    [Authorize]
     public class HomeController : Controller
     {
         private const int ItemsPerPage = 3;

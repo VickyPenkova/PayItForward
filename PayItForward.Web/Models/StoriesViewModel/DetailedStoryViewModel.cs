@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using PayItForward.Models;
-    using PayItForward.Web.Infrastructure.AutoMapper;
 
     public class DetailedStoryViewModel
     {
