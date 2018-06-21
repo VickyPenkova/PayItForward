@@ -1,43 +1,47 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model PayItForward.Web.Models.HomeViewModel.IndexViewModel
+<div class="container-fluid">
+    <div class="row equal">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+        {
+            @Html.Partial("_SearchPartial");
+        }
+    </div>
+    <div class="row equal">
+        @foreach (var item in Model.Stories)
+        {
+            <div class="col-sm-4">
+                <div class="thumbnail" style="height: 100%">
+                    <img src=@Html.DisplayFor(modelItem => item.ImageUrl) alt="Card image cap">
+                    <div class="caption" style="height: 100%;">
+                        <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                        <div class="wrapper equal">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <span>@Html.DisplayFor(modelItem => item.User.FirstName)</span>
+                                    <span>@Html.DisplayFor(modelItem => item.User.LastName)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>@Html.DisplayFor(modelItem => item.Category.Name)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="alert-danger">@Html.DisplayFor(modelItem => item.ExpirationDate)</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Collected Amount</p>
+                                    <i class="small material-icons">attach_money</i>
+                                    <span class="lead">@Html.DisplayFor(modelItem => item.CollectedAmount)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p><a href="#" class="btn btn-primary wrapper" role="button">Details</a> </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @Html.Partial("_PaginationPartial", Model)
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
-    </div>
 </div>

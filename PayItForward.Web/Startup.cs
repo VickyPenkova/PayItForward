@@ -48,7 +48,9 @@
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IPayItForwardDbContext, PayItForwardDbContext>();
             services.AddScoped(typeof(IRepository<,>), typeof(UsersRepository<,>));
+            services.AddScoped(typeof(IRepository<,>), typeof(EfGenericRepository<,>));
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IStoriesService, StoriesService>();
             services.AddAutoMapper();
             services.AddMvc();
         }

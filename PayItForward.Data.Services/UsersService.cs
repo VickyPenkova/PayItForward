@@ -35,5 +35,12 @@
         {
             return this.usersRepo.GetAll().Count();
         }
+
+        public UserDTO GetUserById(string id)
+        {
+            var userFromDb = this.usersRepo.GetById(id);
+
+            return this.mapper.Map<UserDTO>(userFromDb);
+        }
     }
 }

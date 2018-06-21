@@ -1,28 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PayItForward.Services.Data.Abstraction;
-using PayItForward.Web.Models;
-
-namespace PayItForward.Web.Controllers
+﻿namespace PayItForward.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
+    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Web.Models;
+    using PayItForward.Web.Models.HomeViewModel;
+    using PayItForward.Web.Models.StoriesViewModel;
+
     public class HomeController : Controller
     {
-        private readonly IUsersService usersService;
+        private const int ItemsPerPage = 3;
 
-        public HomeController(IUsersService usersService)
+        private readonly IStoriesService storiesService;
+        private readonly IMapper mapper;
+
+        public HomeController(IStoriesService storiesService, IMapper mapper)
         {
-            this.usersService = usersService;
+            this.storiesService = storiesService;
+            this.mapper = mapper;
         }
 
-        public IActionResult Index()
+        // TODO: Refactor paging
+        [HttpGet]
+        public IActionResult Index(int id = 1)
         {
-            // TODO: Remove this
-            this.usersService.GetUsers(2);
-            return this.View();
+            var url = this.Request.Path.ToString();
+
+            var searchString = this.HttpContext.Request.Query["search"].ToString() ?? string.Empty;
+
+            var page = id;
+            int totalNumberOfStories = this.storiesService.CountStories(searchString);
+            var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
+            var skip = (page - 1) * ItemsPerPage;
+            var stories = this.storiesService.GetStories(ItemsPerPage, skip, searchString);
+
+            var resultModel = new IndexViewModel
+            {
+                CurrentPage = page,
+                TotalPages = totalPages,
+                Stories = this.mapper.Map<IEnumerable<BasicStoryViewModel>>(stories),
+                CurrentUrl = url.ToString(),
+                SearchWord = searchString
+            };
+
+            return this.View(resultModel);
         }
 
         public IActionResult About()
