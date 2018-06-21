@@ -284,6 +284,7 @@
                     IsAccepted = true,
                     CollectedAmount = 0,
                     ExpirationDate = new DateTime(2020, 6, 9, 16, 5, 7, 123),
+                    ImageUrl = "https://www.paho.org/salud-en-las-americas-2017/wp-content/uploads/2017/02/mother-and-child.png",
                     Description = "The next few months are an important time to be spending with my mother." +
                     " My sister Caitlynne lives in Florida, works a ton and is a badass single mother. She is the only " +
                     "sibling who is too far to drive to spend time. She will kill me if she knows I am doing this but I " +
