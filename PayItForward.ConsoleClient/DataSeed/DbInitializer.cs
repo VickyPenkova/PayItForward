@@ -113,63 +113,51 @@
             {
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryEducation,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryEducation
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryHealth,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryHealth
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryCharity,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryCharity
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryEmergencies,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryEmergencies
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryAnimals,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryAnimals
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryMemorials,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryMemorials
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryVolunteer,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryVolunteer
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategorySports,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategorySports
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryWishes,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryWishes
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryTravel,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryTravel
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryEmergencies,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryEmergencies
                 },
                 new Dbmodel.Category
                 {
-                    Name = GlobalConstants.CategoryCreative,
-                    IsRemoved = false
+                    Name = GlobalConstants.CategoryCreative
                 }
             };
 
@@ -199,10 +187,8 @@
                 new Dbmodel.Story
                 {
                     Title = "Lyme Disease Fundraising",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "aleks@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryHealth),
-                    IsRemoved = false,
                     GoalAmount = 35000,
                     IsAccepted = true,
                     CollectedAmount = 0,
@@ -217,10 +203,8 @@
                 new Dbmodel.Story
                 {
                     Title = "Medical School Tuition Fundraising",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "aleks@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryEducation),
-                    IsRemoved = false,
                     GoalAmount = 900,
                     IsAccepted = true,
                     DateCreated = DateTime.Now,
@@ -234,10 +218,8 @@
                 new Dbmodel.Story
                 {
                     Title = "#Pizza4Equality help homeless kids",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "george@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryCharity),
-                    IsRemoved = false,
                     GoalAmount = 700,
                     IsAccepted = true,
                     DateCreated = DateTime.Now,
@@ -249,10 +231,8 @@
                  new Dbmodel.Story
                 {
                     Title = "Brain Tumor Fundraising",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "george@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryHealth),
-                    IsRemoved = false,
                     GoalAmount = 20000,
                     IsAccepted = true,
                     CollectedAmount = 0,
@@ -266,10 +246,8 @@
                  new Dbmodel.Story
                 {
                     Title = "Fundraising for Vet Treatment Costs",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryAnimals),
-                    IsRemoved = false,
                     GoalAmount = 7000,
                     IsAccepted = true,
                     CollectedAmount = 0,
@@ -282,10 +260,8 @@
                  new Dbmodel.Story
                 {
                     Title = "Fundraising for Funeral and Cremation Expenses",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryMemorials),
-                    IsRemoved = false,
                     GoalAmount = 7000,
                     IsAccepted = true,
                     CollectedAmount = 0,
@@ -298,10 +274,8 @@
                  new Dbmodel.Story
                 {
                     Title = "Help my sister get home to mum",
-                    IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "george@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryWishes),
-                    IsRemoved = false,
                     GoalAmount = 5000,
                     IsAccepted = true,
                     CollectedAmount = 0,

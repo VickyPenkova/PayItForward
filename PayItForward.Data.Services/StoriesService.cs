@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
@@ -26,11 +25,13 @@
         public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "")
         {
             var storiesFromDb = this.storiesRepo.GetAll()
-                .Include(user => user.User)
-                .Include(category => category.Category)
-                .Where(x => x.Title.Contains(containsTitle))
-                .Skip(skip)
-                .Take(take);
+               .Include(user => user.User)
+               .Include(category => category.Category)
+               .Where(x => x.Title.Contains(containsTitle))
+               .OrderBy(x => x.CreatedOn)
+               .Skip(skip)
+               .Take(take)
+               .ToList();
 
             List<StoryDTO> stories = new List<StoryDTO>();
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
