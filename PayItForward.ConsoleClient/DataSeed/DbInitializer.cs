@@ -218,7 +218,7 @@
                 {
                     Title = "Medical School Tuition Fundraising",
                     IsClosed = false,
-                    User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
+                    User = users.FirstOrDefault(u => u.Email == "aleks@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryEducation),
                     IsRemoved = false,
                     GoalAmount = 900,
@@ -267,7 +267,7 @@
                 {
                     Title = "Fundraising for Vet Treatment Costs",
                     IsClosed = false,
-                    User = users.FirstOrDefault(u => u.Email == "yana@gmail.com"),
+                    User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryAnimals),
                     IsRemoved = false,
                     GoalAmount = 7000,
@@ -283,7 +283,7 @@
                 {
                     Title = "Fundraising for Funeral and Cremation Expenses",
                     IsClosed = false,
-                    User = users.FirstOrDefault(u => u.Email == "daniel@gmail.com"),
+                    User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryMemorials),
                     IsRemoved = false,
                     GoalAmount = 7000,
@@ -299,7 +299,7 @@
                 {
                     Title = "Help my sister get home to mum",
                     IsClosed = false,
-                    User = users.FirstOrDefault(u => u.Email == "daniel@gmail.com"),
+                    User = users.FirstOrDefault(u => u.Email == "george@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryWishes),
                     IsRemoved = false,
                     GoalAmount = 5000,
@@ -341,13 +341,13 @@
                 new Dbmodel.Donation
                 {
                     Amount = 800,
-                    User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
+                    User = users.FirstOrDefault(u => u.Email == "aleks@gmail.com"),
                     StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Lyme Disease Fundraising").Id
                 },
                 new Dbmodel.Donation
                 {
                     Amount = 3006,
-                    User = users.FirstOrDefault(u => u.Email == "george@gmail.com"),
+                    User = users.FirstOrDefault(u => u.Email == "peter@gmail.com"),
                     StoryId = this.context.Stories.FirstOrDefault(c => c.Title == "Fundraising for Funeral and Cremation Expenses").Id
                 }
             };
