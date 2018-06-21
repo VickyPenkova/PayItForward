@@ -207,6 +207,7 @@
                     IsAccepted = true,
                     CollectedAmount = 0,
                     ExpirationDate = new DateTime(2018, 9, 9, 16, 5, 7, 123),
+                    ImageUrl = "https://d5wt70d4gnm1t.cloudfront.net/media/annika_strom/please_help_me_green/annika_strom_5294_1024x768.jpg",
                     Description = "At the age of 13, Janie became seriously ill with a mysterious condition " +
                     "that would later be diagnosed as Lyme disease. Unfortunately, the diagnosis came late and " +
                     "conventional treatments of the disease were no longer working. Jamie and her family kept pushing" +
@@ -223,9 +224,9 @@
                     IsRemoved = false,
                     GoalAmount = 900,
                     IsAccepted = true,
-                    DateCreated = DateTime.Now,
                     CollectedAmount = 30,
                     ExpirationDate = new DateTime(2018, 9, 9, 16, 5, 7, 123),
+                    ImageUrl = "http://www.doctorblanch.com/wp-content/uploads/slider3-image.png",
                     Description = "Dreaming of being a doctor, Dolapo was crushed when she realized she didn’t have" +
                     " enough money to cover her 4th year tuition at the University of Leicester in England. " +
                     "Determined to receive her degree, she turned to GoFundMe to raise the remainder of " +
@@ -240,9 +241,9 @@
                     IsRemoved = false,
                     GoalAmount = 700,
                     IsAccepted = true,
-                    DateCreated = DateTime.Now,
                     CollectedAmount = 80,
                     ExpirationDate = new DateTime(2018, 9, 9, 16, 5, 7, 123),
+                    ImageUrl = "https://d2mekbzx20fc11.cloudfront.net/uploads/2014_1889_Margherita_Web_300x300-1.png",
                     Description = "If $864,000 can be raised for a pizza joint, how much can we raise for homeless youth?" +
                     " I'm an dreamer, but I say yes, I think we can!"
                 },
@@ -257,6 +258,7 @@
                     IsAccepted = true,
                     CollectedAmount = 0,
                     ExpirationDate = new DateTime(2018, 9, 9, 16, 5, 7, 123),
+                    ImageUrl = "https://b-i.forbesimg.com/baininsights/files/2013/09/both-brain21.jpg",
                     Description = "In the middle of his studies as a medical student," +
                     " Dave was diagnosed with a life-threatening brain tumor. " +
                     "Even with such a grim prognosis, hope and perseverance were the defining themes of Dave's story." +
@@ -274,6 +276,7 @@
                     IsAccepted = true,
                     CollectedAmount = 0,
                     ExpirationDate = new DateTime(2020, 9, 9, 16, 5, 7, 123),
+                    ImageUrl = "https://www.evergreenmovingsystems.com/img/6351/256.png",
                     Description = "Ssgt. Caesar is a 4.5-year-old English Bulldog with a lot of American spirit. " +
                     "Not only is he the mascot for a battalion of Vietnam veterans, he also makes regular visits to marines as a service animal. " +
                     "When Ssgt. Caesar's owners discovered he had an enlarged heart, they started a GoFundMe that raised over $7,000 " +
@@ -290,6 +293,7 @@
                     IsAccepted = true,
                     CollectedAmount = 0,
                     ExpirationDate = new DateTime(2020, 9, 9, 16, 5, 7, 123),
+                    ImageUrl = "https://cdn.thefishy.co.uk/blahdocs/Avatars/SnowIsh/favorites.png",
                     Description = "Marissa described her mother as a “stubborn fighter” who refused to let cancer take her " +
                     "away from her children. After being in remission for over a decade, though, the cancer returned in full " +
                     "force and Marissa’s mother passed away. Marissa started a GoFundMe to honor her mother’s wishes of being " +
@@ -301,7 +305,6 @@
                     IsClosed = false,
                     User = users.FirstOrDefault(u => u.Email == "george@gmail.com"),
                     Category = categories.FirstOrDefault(c => c.Name == GlobalConstants.CategoryWishes),
-                    IsRemoved = false,
                     GoalAmount = 5000,
                     IsAccepted = true,
                     CollectedAmount = 0,

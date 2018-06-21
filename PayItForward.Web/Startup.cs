@@ -45,8 +45,6 @@
             .AddEntityFrameworkStores<PayItForwardDbContext>()
             .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/something");
-
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IPayItForwardDbContext, PayItForwardDbContext>();

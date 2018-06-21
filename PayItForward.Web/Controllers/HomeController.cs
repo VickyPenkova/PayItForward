@@ -12,7 +12,6 @@
     using PayItForward.Web.Models.HomeViewModel;
     using PayItForward.Web.Models.StoriesViewModel;
 
-    [Authorize]
     public class HomeController : Controller
     {
         private const int ItemsPerPage = 3;
@@ -26,7 +25,6 @@
             this.mapper = mapper;
         }
 
-        // TODO: Refactor paging
         [HttpGet]
         public IActionResult Index(int id = 1)
         {
@@ -52,6 +50,7 @@
             return this.View(resultModel);
         }
 
+        [Authorize]
         public IActionResult Details(Guid id)
         {
             var story = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
