@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
+    using PayItForward.Web.Models.DonationViewModels;
     using PayItForward.Web.Models.HomeViewModels;
     using PayItForward.Web.Models.StoryViewModels;
 
@@ -54,27 +55,17 @@
         public IActionResult Details(Guid id)
         {
             var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var story = this.mapper.Map<DetailedStoryViewModel>(storyFromDb);
+            var story = this.mapper.Map<DetailsViewModel>(storyFromDb);
 
-            var resultModel = new DetailsViewModel
-            {
-                Story = story
-            };
-
-            return this.View(resultModel);
+            return this.View(story);
         }
 
         public IActionResult Donate(Guid id)
         {
             var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var story = this.mapper.Map<DetailedStoryViewModel>(storyFromDb);
+            var storyToDonate = this.mapper.Map<DonateViewModel>(storyFromDb);
 
-            var resultModel = new DetailsViewModel
-            {
-                Story = story
-            };
-
-            return this.View(resultModel);
+            return this.View(storyToDonate);
         }
 
         [HttpPost]
@@ -96,7 +87,7 @@
                 return this.View(e.Data);
             }
 
-            var resultModel = new DetailsViewModel();
+            var resultModel = new DonateViewModel();
 
             if (userAvailableMoney >= moneyToDonate
                 && moneyToDonate != 0)
@@ -104,13 +95,9 @@
                 userAvailableMoney -= moneyToDonate;
                 earnedMoney += moneyToDonate;
 
-                resultModel = new DetailsViewModel
-                {
-                    Story = this.mapper.Map<DetailedStoryViewModel>(storyFromDb)
-                };
-
-                resultModel.Story.CollectedAmount += earnedMoney;
-                resultModel.Story.Donations.Amount += earnedMoney;
+                resultModel = this.mapper.Map<DonateViewModel>(storyFromDb);
+                resultModel.CollectedAmount += earnedMoney;
+                resultModel.Donations.Amount += earnedMoney;
                 this.TempData["message"] = "You have just made a donation!";
             }
             else

@@ -8,9 +8,9 @@
 <div class="row">
 
     <div class="panel panel-primary">
-        <div class="panel-heading">@Html.DisplayFor(m => m.Story.Title)</div>
+        <div class="panel-heading">@Html.DisplayFor(m => m.Title)</div>
         <div class="panel-body">
-            <p>@Html.DisplayFor(m => m.Story.Description)</p>
+            <p>@Html.DisplayFor(m => m.Description)</p>
         </div>
 
         <!-- Table -->
@@ -27,17 +27,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>@Html.DisplayFor(m => m.Story.GoalAmount)</td>
-                    <td>@Html.DisplayFor(m => m.Story.CollectedAmount)</td>
-                    <td class="media-right media-middle @(Model.Story.IsClosed ? "glyphicon glyphicon-remove" : "glyphicon glyphicon-ok" )"
+                    <td>@Html.DisplayFor(m => m.GoalAmount)</td>
+                    <td>@Html.DisplayFor(m => m.CollectedAmount)</td>
+                    <td class="media-right media-middle @(Model.IsClosed ? "glyphicon glyphicon-remove" : "glyphicon glyphicon-ok" )"
                         style="text-align: center;"></td>
-                    <td>@Html.DisplayFor(m => m.Story.DateCreated)</td>
-                    <td>@Html.DisplayFor(m => m.Story.ExpirationDate)</td>
-                    <td>@Html.DisplayFor(m => m.Story.User.FirstName) @Html.DisplayFor(m => m.Story.User.LastName)</td>
+                    <td>@Html.DisplayFor(m => m.DateCreated)</td>
+                    <td>@Html.DisplayFor(m => m.ExpirationDate)</td>
+                    <td>@Html.DisplayFor(m => m.User.FirstName) @Html.DisplayFor(m => m.User.LastName)</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <p><a href="/Home/Donate/@Model.Story.Id" class="btn btn-lg btn-success btn-block" role="button">DONATE</a></p>
+    <p><a href="/Home/Donate/@Model.Id" class="btn btn-lg btn-success btn-block" role="button">DONATE</a></p>
 </div>
 
