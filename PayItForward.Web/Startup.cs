@@ -52,6 +52,7 @@
             services.AddScoped(typeof(IRepository<,>), typeof(EfGenericRepository<,>));
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IStoriesService, StoriesService>();
+            services.AddScoped<IDonationsService, DonationsService>();
             services.AddAutoMapper();
             services.AddMvc();
         }

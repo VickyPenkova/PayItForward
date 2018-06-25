@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
-    using PayItForward.Web.Models.DonationViewModels;
     using PayItForward.Web.Models.HomeViewModels;
     using PayItForward.Web.Models.StoryViewModels;
 
@@ -58,55 +57,6 @@
             var story = this.mapper.Map<DetailsViewModel>(storyFromDb);
 
             return this.View(story);
-        }
-
-        public IActionResult Donate(Guid id)
-        {
-            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var storyToDonate = this.mapper.Map<DonateViewModel>(storyFromDb);
-
-            return this.View(storyToDonate);
-        }
-
-        [HttpPost]
-        public IActionResult MakeDonation(Guid id)
-        {
-            string moneyInput = this.Request.Form["moneyToDonate"];
-            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-
-            decimal userAvailableMoney = storyFromDb.User.AvilableMoneyAmount;
-            decimal earnedMoney = storyFromDb.CollectedAmount;
-            decimal moneyToDonate;
-
-            try
-            {
-                moneyToDonate = decimal.Parse(moneyInput);
-            }
-            catch (Exception e)
-            {
-                return this.View(e.Data);
-            }
-
-            var resultModel = new DonateViewModel();
-
-            if (userAvailableMoney >= moneyToDonate
-                && moneyToDonate != 0)
-            {
-                userAvailableMoney -= moneyToDonate;
-                earnedMoney += moneyToDonate;
-
-                resultModel = this.mapper.Map<DonateViewModel>(storyFromDb);
-                resultModel.CollectedAmount += earnedMoney;
-                resultModel.Donations.Amount += earnedMoney;
-                this.TempData["message"] = "You have just made a donation!";
-            }
-            else
-            {
-                this.TempData["message"] = "Not enough availability!";
-            }
-
-            // return this.Redirect(this.ControllerContext.HttpContext.Request.Headers["Referer"].ToString());
-            return this.View("Donate", resultModel);
         }
 
         public IActionResult About()

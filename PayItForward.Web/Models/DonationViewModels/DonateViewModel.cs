@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Web.Models.HomeViewModels
+﻿namespace PayItForward.Web.Models.DonationViewModels
 {
     using System;
     using PayItForward.Models;
@@ -14,8 +14,6 @@
         public decimal CollectedAmount { get; set; }
 
         public UserDTO User { get; set; }
-
-        public DonationDTO Donations { get; set; }
 
         public Guid Id { get; set; }
     }

@@ -7,8 +7,6 @@
     {
         public string Title { get; set; }
 
-        public string ImageUrl { get; set; }
-
         public string Description { get; set; }
 
         public decimal GoalAmount { get; set; }
@@ -20,9 +18,6 @@
         public DateTime ExpirationDate { get; set; }
 
         public UserDTO User { get; set; }
-
-        // Not used in details
-        public DonationDTO Donations { get; set; }
 
         public bool IsClosed { get; set; }
 

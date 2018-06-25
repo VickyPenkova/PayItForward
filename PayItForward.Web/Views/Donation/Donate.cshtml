@@ -1,4 +1,4 @@
-﻿@model PayItForward.Web.Models.HomeViewModels.DonateViewModel
+﻿@model PayItForward.Web.Models.DonationViewModels.DonateViewModel
 @{
     ViewData["Title"] = "Donation";
     var notEnoughAvailabilityToDonateMsg = TempData["message"];
@@ -38,7 +38,7 @@
             <div class="form-group" asp-action="MakeDonation">
                 <label for="inputMoney" class="col-sm-2 control-label">Donate</label>
                 <div class="col-sm-5">
-                    @using (Html.BeginForm("MakeDonation", "Home", new { id = @Model.Id }, FormMethod.Post))
+                    @using (Html.BeginForm("MakeDonation", "Donation", new { id = @Model.Id }, FormMethod.Post))
                     {
                         <input type="number" min="1" class="form-control" name="moneyToDonate" id="moneyToDonate">
                         <input id="Button" type="submit" class="btn btn-lg btn-success" value="Make Donation" />
