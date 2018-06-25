@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using PayItForward.Web.Models.StoriesViewModel;
+    using PayItForward.Web.Models.StoryViewModels;
 
     public class IndexViewModel
     {

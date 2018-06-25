@@ -1,4 +1,4 @@
-﻿@model PayItForward.Web.Models.HomeViewModel.DetailsViewModel
+﻿@model PayItForward.Web.Models.HomeViewModels.DetailsViewModel
 @{
     ViewData["Title"] = "Details";
 }
@@ -37,9 +37,7 @@
                 </tr>
             </tbody>
         </table>
-
-
     </div>
-    <button type="button" class="btn btn-lg btn-success btn-block">DONATE</button>
+    <p><a href="/Home/Donate/@Model.Story.Id" class="btn btn-lg btn-success btn-block" role="button">DONATE</a></p>
 </div>
 

@@ -34,6 +34,6 @@ namespace PayItForward.Web.Models.AccountViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        public double AvilableMoneyAmount { get; set; } = 0;
+        public decimal AvilableMoneyAmount { get; set; } = 0;
     }
 }

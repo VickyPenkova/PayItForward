@@ -6,7 +6,9 @@
 
         public string LastName { get; set; }
 
-        public double AvilableMoneyAmount { get; set; }
+        public string Email { get; set; }
+
+        public decimal AvilableMoneyAmount { get; set; }
 
         public string AvatarUrl { get; set; }
     }

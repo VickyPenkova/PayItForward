@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Web.Models.StoriesViewModel
+﻿namespace PayItForward.Web.Models.StoryViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -18,10 +18,6 @@
 
         public decimal CollectedAmount { get; set; }
 
-        public bool IsClosed { get; set; }
-
-        public bool IsAccepted { get; set; }
-
         public DateTime DateCreated { get; set; }
 
         public DateTime ExpirationDate { get; set; }
@@ -34,6 +30,8 @@
 
         public DonationDTO Donations { get; set; }
 
-        public bool IsRemoved { get; set; }
+        public bool IsClosed { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

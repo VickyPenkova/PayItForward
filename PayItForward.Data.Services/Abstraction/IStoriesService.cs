@@ -11,5 +11,7 @@
         IEnumerable<StoryDTO> GetStories();
 
         int CountStories(string containsTitle = "");
+
+        StoryDTO GetStoryById(Guid id);
     }
 }

@@ -67,6 +67,7 @@
                 Email = "aleks@gmail.com",
                 FirstName = "Aleksandra",
                 LastName = "Stoicheva",
+                AvilableMoneyAmount = 10000,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
@@ -82,6 +83,7 @@
                     Email = "peter@gmail.com",
                     FirstName = "Peter",
                     LastName = "Petkov",
+                    AvilableMoneyAmount = 0,
                     SecurityStamp = Guid.NewGuid().ToString()
                 },
                 new Dbmodel.User
@@ -90,6 +92,7 @@
                     Email = "george@gmail.com",
                     FirstName = "George",
                     LastName = "Mingle",
+                    AvilableMoneyAmount = 1000,
                     SecurityStamp = Guid.NewGuid().ToString()
                 }
             };

@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Web.Models.StoriesViewModel
+﻿namespace PayItForward.Web.Models.StoryViewModels
 {
     using System;
     using System.Collections.Generic;

@@ -53,5 +53,14 @@
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
             return stories;
         }
+
+        public StoryDTO GetStoryById(Guid id)
+        {
+            var storiesFromDb = this.storiesRepo.GetAll()
+                .Include(s => s.User)
+                .Where(s => s.Id == id).FirstOrDefault();
+
+            return this.mapper.Map<StoryDTO>(storiesFromDb);
+        }
     }
 }

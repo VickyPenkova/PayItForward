@@ -10,7 +10,7 @@
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Models.HomeViewModels;
-    using PayItForward.Web.Models.StoriesViewModel;
+    using PayItForward.Web.Models.StoryViewModels;
 
     public class HomeController : Controller
     {
@@ -53,23 +53,80 @@
         [Authorize]
         public IActionResult Details(Guid id)
         {
-            var story = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var url = this.Request.Path.ToString();
-            var storyToTest = this.mapper.Map<DetailedStoryViewModel>(story);
+            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            var story = this.mapper.Map<DetailedStoryViewModel>(storyFromDb);
 
             var resultModel = new DetailsViewModel
             {
-                Story = storyToTest
+                Story = story
             };
 
             return this.View(resultModel);
+        }
+
+        public IActionResult Donate(Guid id)
+        {
+            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            var story = this.mapper.Map<DetailedStoryViewModel>(storyFromDb);
+
+            var resultModel = new DetailsViewModel
+            {
+                Story = story
+            };
+
+            return this.View(resultModel);
+        }
+
+        [HttpPost]
+        public IActionResult MakeDonation(Guid id)
+        {
+            string moneyInput = this.Request.Form["moneyToDonate"];
+            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+
+            decimal userAvailableMoney = storyFromDb.User.AvilableMoneyAmount;
+            decimal earnedMoney = storyFromDb.CollectedAmount;
+            decimal moneyToDonate;
+
+            try
+            {
+                moneyToDonate = decimal.Parse(moneyInput);
+            }
+            catch (Exception e)
+            {
+                return this.View(e.Data);
+            }
+
+            var resultModel = new DetailsViewModel();
+
+            if (userAvailableMoney >= moneyToDonate
+                && moneyToDonate != 0)
+            {
+                userAvailableMoney -= moneyToDonate;
+                earnedMoney += moneyToDonate;
+
+                resultModel = new DetailsViewModel
+                {
+                    Story = this.mapper.Map<DetailedStoryViewModel>(storyFromDb)
+                };
+
+                resultModel.Story.CollectedAmount += earnedMoney;
+                resultModel.Story.Donations.Amount += earnedMoney;
+                this.TempData["message"] = "You have just made a donation!";
+            }
+            else
+            {
+                this.TempData["message"] = "Not enough availability!";
+            }
+
+            // return this.Redirect(this.ControllerContext.HttpContext.Request.Headers["Referer"].ToString());
+            return this.View("Donate", resultModel);
         }
 
         public IActionResult About()
         {
             this.ViewData["Message"] = "Your application description page.";
 
-            return this.View();
+            return this.View("Donate");
         }
 
         public IActionResult Contact()

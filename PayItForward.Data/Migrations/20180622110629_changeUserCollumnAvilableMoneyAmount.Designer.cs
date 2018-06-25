@@ -11,9 +11,10 @@ using System;
 namespace PayItForward.Data.Migrations
 {
     [DbContext(typeof(PayItForwardDbContext))]
-    partial class PayItForwardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180622110629_changeUserCollumnAvilableMoneyAmount")]
+    partial class ChangeUserCollumnAvilableMoneyAmount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

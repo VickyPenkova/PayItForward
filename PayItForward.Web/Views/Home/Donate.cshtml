@@ -1,0 +1,53 @@
+﻿@model PayItForward.Web.Models.HomeViewModels.DetailsViewModel
+@{
+    ViewData["Title"] = "Donation";
+    var notEnoughAvailabilityToDonateMsg = TempData["message"];
+}
+
+<div class="jumbotron">
+    <h1>@Model.Story.Title</h1>
+    <p></p>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <div class="thumbnail">
+                <img src="@Model.Story.ImageUrl" alt="Image in here">
+                <div class="caption">
+                    <h4><strong>Goal: </strong>@Model.Story.GoalAmount</h4>
+                    <h4>
+                        <strong>Earned: </strong>
+                        @Model.Story.CollectedAmount
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label for="inputEmail" class="control-label col-sm-2">Email</label>
+                <div class="col-xs-10">
+                    <p class="form-control-static" style="font-size: 15px;">@Model.Story.User.Email</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputName" class="control-label col-sm-2">Name</label>
+                <div class="col-xs-10">
+                    <p class="form-control-static" style="font-size: 15px;">
+                        @Model.Story.User.FirstName @Model.Story.User.LastName
+                    </p>
+                </div>
+            </div>
+            <div class="form-group" asp-action="MakeDonation">
+                <label for="inputMoney" class="col-sm-2 control-label">Donate</label>
+                <div class="col-sm-5">
+                    @using (Html.BeginForm("MakeDonation", "Home", new { id = @Model.Story.Id }, FormMethod.Post))
+                    {
+                        <input type="number" min="1" class="form-control" name="moneyToDonate" id="moneyToDonate">
+                        <input id="Button" type="submit" class="btn btn-lg btn-success" value="Make Donation" />
+                    }
+                    <span>@notEnoughAvailabilityToDonateMsg</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
