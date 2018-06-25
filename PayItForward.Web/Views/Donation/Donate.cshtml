@@ -12,10 +12,10 @@
             <div class="thumbnail">
                 <img src="@Model.ImageUrl" alt="Image in here">
                 <div class="caption">
-                    <h4><strong>Goal: </strong>@Model.GoalAmount</h4>
+                    <h4><strong>Goal: </strong>@Model.Donation.Story.GoalAmount</h4>
                     <h4>
                         <strong>Earned: </strong>
-                        @Model.CollectedAmount
+                        @Model.Donation.Story.CollectedAmount
                     </h4>
                 </div>
             </div>
@@ -24,21 +24,21 @@
             <div class="form-group">
                 <label for="inputEmail" class="control-label col-sm-2">Email</label>
                 <div class="col-xs-10">
-                    <p class="form-control-static" style="font-size: 15px;">@Model.User.Email</p>
+                    <p class="form-control-static" style="font-size: 15px;">@Model.Donation.Story.User.Email</p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputName" class="control-label col-sm-2">Name</label>
                 <div class="col-xs-10">
                     <p class="form-control-static" style="font-size: 15px;">
-                        @Model.User.FirstName @Model.User.LastName
+                        @Model.Donation.Story.User.FirstName @Model.Donation.Story.User.LastName
                     </p>
                 </div>
             </div>
             <div class="form-group" asp-action="MakeDonation">
                 <label for="inputMoney" class="col-sm-2 control-label">Donate</label>
                 <div class="col-sm-5">
-                    @using (Html.BeginForm("MakeDonation", "Donation", new { id = @Model.Id }, FormMethod.Post))
+                    @using (Html.BeginForm("MakeDonation", "Donation", new { id = @Model.Donation.Story.Id }, FormMethod.Post))
                     {
                         <input type="number" min="1" class="form-control" name="moneyToDonate" id="moneyToDonate">
                         <input id="Button" type="submit" class="btn btn-lg btn-success" value="Make Donation" />

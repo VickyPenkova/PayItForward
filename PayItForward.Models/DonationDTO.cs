@@ -1,8 +1,11 @@
 ﻿namespace PayItForward.Models
 {
-    public class DonationDTO
+    using System;
+    using PayItForward.Data.Models;
+
+    public class DonationDTO : BaseModel<Guid>
     {
-        public UserDTO User { get; set; }
+        public UserDTO Donator { get; set; }
 
         public StoryDTO Story { get; set; }
 

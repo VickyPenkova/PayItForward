@@ -9,12 +9,8 @@
 
         public string ImageUrl { get; set; }
 
-        public decimal GoalAmount { get; set; }
+        public DonationDTO Donation { get; set; }
 
-        public decimal CollectedAmount { get; set; }
-
-        public UserDTO User { get; set; }
-
-        public Guid Id { get; set; }
+        public Guid StoryId { get; set; }
     }
 }

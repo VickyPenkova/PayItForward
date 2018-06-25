@@ -63,7 +63,7 @@
         {
             this.ViewData["Message"] = "Your application description page.";
 
-            return this.View("Donate");
+            return this.View();
         }
 
         public IActionResult Contact()

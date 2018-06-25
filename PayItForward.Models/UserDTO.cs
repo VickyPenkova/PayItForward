@@ -11,5 +11,7 @@
         public decimal AvilableMoneyAmount { get; set; }
 
         public string AvatarUrl { get; set; }
+
+        public string Id { get; set; }
     }
 }

@@ -2,29 +2,52 @@
 {
     using System;
     using System.Linq;
+    using System.Security.Claims;
     using AutoMapper;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.DonationViewModels;
-    using PayItForward.Web.Models.HomeViewModels;
+    using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class DonationController : Controller
     {
         private readonly IDonationsService donationsService;
         private readonly IStoriesService storiesService;
+        private readonly IUsersService usersService;
         private readonly IMapper mapper;
 
-        public DonationController(IDonationsService donationsService, IStoriesService storiesService, IMapper mapper)
+        public DonationController(
+            IDonationsService donationsService,
+            IStoriesService storiesService,
+            IUsersService usersService,
+            IMapper mapper)
         {
             this.donationsService = donationsService;
             this.storiesService = storiesService;
+            this.usersService = usersService;
             this.mapper = mapper;
         }
 
         public IActionResult Donate(Guid id)
         {
             var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var storyToDonate = this.mapper.Map<DonateViewModel>(storyFromDb);
+            var donation = new DonationDTO()
+            {
+                Story = storyFromDb,
+                Donator = this.usersService.GetUserById(this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value)
+            };
+
+            var d = new DonateViewModel()
+            {
+                Donation = donation,
+                StoryId = id,
+                Title = storyFromDb.Title,
+                ImageUrl = storyFromDb.ImageUrl
+            };
+
+            var storyToDonate = this.mapper.Map<DonateViewModel>(d);
 
             return this.View(storyToDonate);
         }
@@ -56,11 +79,26 @@
                 userAvailableMoney -= moneyToDonate;
                 earnedMoney += moneyToDonate;
 
-                // TO DO: add donation here
-                resultModel = this.mapper.Map<DonateViewModel>(storyFromDb);
+                var donatorId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var donator = this.usersService.GetUserById(donatorId);
 
-                // resultModel.CollectedAmount += earnedMoney;
-                // resultModel.Donations.Amount += earnedMoney;
+                var donation = new DonationDTO()
+                {
+                    Amount = moneyToDonate,
+                    Story = storyFromDb,
+                    Donator = donator
+                };
+
+                var makeDonation = this.donationsService.Add(donation, id);
+
+                // TO DO: add donation here
+                resultModel = new DonateViewModel()
+                {
+                    ImageUrl = storyFromDb.ImageUrl,
+                    Donation = donation,
+                    Title = storyFromDb.Title
+                };
+
                 this.TempData["message"] = "You have just made a donation!";
             }
             else
