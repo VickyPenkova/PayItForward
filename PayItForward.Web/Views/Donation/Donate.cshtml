@@ -1,53 +1,55 @@
 ﻿@model PayItForward.Web.Models.DonationViewModels.DonateViewModel
 @{
     ViewData["Title"] = "Donation";
-    var notEnoughAvailabilityToDonateMsg = TempData["message"];
 }
 
 <div class="jumbotron">
-    <h1>@Model.Title</h1>
-    <p></p>
-    <div class="row">
-        <div class="col-sm-6 col-md-6">
-            <div class="thumbnail">
-                <img src="@Model.ImageUrl" alt="Image in here">
-                <div class="caption">
-                    <h4><strong>Goal: </strong>@Model.Donation.Story.GoalAmount</h4>
-                    <h4>
-                        <strong>Earned: </strong>
-                        @Model.Donation.Story.CollectedAmount
-                    </h4>
+    <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+        <h1>@Model.Title</h1>
+        <p></p>
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+                <div class="thumbnail">
+                    <img src="@Model.ImageUrl" alt="Image in here">
+                    <div class="caption">
+                        <h4><strong>Goal: </strong>@Model.GoalAmount</h4>
+                        <h4>
+                            <strong>Earned: </strong>
+                            @Model.CollectedAmount
+                        </h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="form-group">
-                <label for="inputEmail" class="control-label col-sm-2">Email</label>
-                <div class="col-xs-10">
-                    <p class="form-control-static" style="font-size: 15px;">@Model.Donation.Story.User.Email</p>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label for="inputEmail" class="control-label col-sm-2">Email</label>
+                    <div class="col-xs-10">
+                        <p class="form-control-static" style="font-size: 15px;">@Model.Donator.Email</p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="inputName" class="control-label col-sm-2">Name</label>
-                <div class="col-xs-10">
-                    <p class="form-control-static" style="font-size: 15px;">
-                        @Model.Donation.Story.User.FirstName @Model.Donation.Story.User.LastName
-                    </p>
+                <div class="form-group">
+                    <label for="inputName" class="control-label col-sm-2">Name</label>
+                    <div class="col-xs-10">
+                        <p class="form-control-static" style="font-size: 15px;">
+                            @Model.Donator.FirstName @Model.Donator.LastName
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group" asp-action="MakeDonation">
-                <label for="inputMoney" class="col-sm-2 control-label">Donate</label>
-                <div class="col-sm-5">
-                    @using (Html.BeginForm("MakeDonation", "Donation", new { id = @Model.Donation.Story.Id }, FormMethod.Post))
-                    {
-                        <input type="number" min="1" class="form-control" name="moneyToDonate" id="moneyToDonate">
-                        <input id="Button" type="submit" class="btn btn-lg btn-success" value="Make Donation" />
-                    }
-                    <span>@notEnoughAvailabilityToDonateMsg</span>
-                </div>
-            </div>
 
+                <div class="form-group">
+                    <label asp-for="@Model.Amount" class="col-sm-2 control-label">Donate</label>
+                    <div class="col-sm-5">
+                        <input asp-for="@Model.Amount" class="form-control" />
+                        <span asp-validation-for="@Model.Amount" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-default">Make Donation</button>
+                </div>
+                <span>@TempData["message"]</span>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

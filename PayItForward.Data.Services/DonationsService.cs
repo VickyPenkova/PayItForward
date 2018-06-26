@@ -31,8 +31,9 @@
         }
 
         // TODO: TEST
-        public Guid Add(DonationDTO donation, Guid storyId)
+        public bool Add(DonationDTO donation, Guid storyId)
         {
+            var makeDonation = false;
             var donationEntity = new Donation
             {
                 Amount = donation.Amount,
@@ -42,18 +43,20 @@
                 UserId = donation.Donator.Id
             };
 
-            this.donationsRepo.Add(donationEntity);
-            this.donationsRepo.Save();
-
-            var storyToDonate = this.storiesRepo.GetById(storyId);
-            storyToDonate.CollectedAmount += donation.Amount;
-            this.storiesRepo.Save();
-
             var userToDonate = this.usersRepo.GetById(donation.Donator.Id);
-            userToDonate.AvilableMoneyAmount -= donation.Amount;
-            this.usersRepo.Save();
+            if (userToDonate.AvilableMoneyAmount >= donation.Amount)
+            {
+                this.donationsRepo.Add(donationEntity);
+                this.donationsRepo.Save();
+                var storyToDonate = this.storiesRepo.GetById(storyId);
+                storyToDonate.CollectedAmount += donation.Amount;
+                this.storiesRepo.Save();
+                userToDonate.AvilableMoneyAmount -= donation.Amount;
+                this.usersRepo.Save();
+                makeDonation = true;
+            }
 
-            return donationEntity.Id;
+            return makeDonation;
         }
     }
 }

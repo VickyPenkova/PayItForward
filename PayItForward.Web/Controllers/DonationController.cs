@@ -4,12 +4,10 @@
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.DonationViewModels;
-    using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class DonationController : Controller
     {
@@ -33,16 +31,12 @@
         public IActionResult Donate(Guid id)
         {
             var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var donation = new DonationDTO()
-            {
-                Story = storyFromDb,
-                Donator = this.usersService.GetUserById(this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value)
-            };
 
             var d = new DonateViewModel()
             {
-                Donation = donation,
-                StoryId = id,
+                CollectedAmount = storyFromDb.CollectedAmount,
+                GoalAmount = storyFromDb.GoalAmount,
+                Donator = this.usersService.GetUserById(this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value),
                 Title = storyFromDb.Title,
                 ImageUrl = storyFromDb.ImageUrl
             };
@@ -52,61 +46,59 @@
             return this.View(storyToDonate);
         }
 
-        [HttpPost]
-        public IActionResult MakeDonation(Guid id)
+        [HttpGet]
+        public IActionResult MakeDonation(string returnUrl = null)
         {
-            string moneyInput = this.Request.Form["moneyToDonate"];
-            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            this.ViewData["ReturnUrl"] = returnUrl;
+            return this.View("Donate");
+        }
 
-            decimal userAvailableMoney = storyFromDb.User.AvilableMoneyAmount;
-            decimal earnedMoney = storyFromDb.CollectedAmount;
-            decimal moneyToDonate;
-
-            try
-            {
-                moneyToDonate = decimal.Parse(moneyInput);
-            }
-            catch (Exception e)
-            {
-                return this.View(e.Data);
-            }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Donate(DonateViewModel model, Guid id, string returnUrl = null)
+        {
+            this.TempData["message"] = string.Empty;
             var resultModel = new DonateViewModel();
-
-            if (userAvailableMoney >= moneyToDonate
-                && moneyToDonate != 0)
+            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            var donatorId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var donator = this.usersService.GetUserById(donatorId);
+            if (this.ModelState.IsValid)
             {
-                userAvailableMoney -= moneyToDonate;
-                earnedMoney += moneyToDonate;
-
-                var donatorId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var donator = this.usersService.GetUserById(donatorId);
-
                 var donation = new DonationDTO()
                 {
-                    Amount = moneyToDonate,
+                    Amount = model.Amount,
                     Story = storyFromDb,
                     Donator = donator
                 };
 
                 var makeDonation = this.donationsService.Add(donation, id);
-
-                // TO DO: add donation here
-                resultModel = new DonateViewModel()
+                if (makeDonation == true)
                 {
-                    ImageUrl = storyFromDb.ImageUrl,
-                    Donation = donation,
-                    Title = storyFromDb.Title
-                };
-
-                this.TempData["message"] = "You have just made a donation!";
+                    resultModel = new DonateViewModel()
+                    {
+                        ImageUrl = storyFromDb.ImageUrl,
+                        Amount = model.Amount,
+                        CollectedAmount = storyFromDb.CollectedAmount,
+                        GoalAmount = storyFromDb.GoalAmount,
+                        Donator = donator,
+                        Title = storyFromDb.Title
+                    };
+                }
+                else
+                {
+                    this.TempData["message"] = "Can not donate!";
+                    resultModel = new DonateViewModel()
+                    {
+                        ImageUrl = storyFromDb.ImageUrl,
+                        Amount = 0,
+                        CollectedAmount = storyFromDb.CollectedAmount,
+                        GoalAmount = storyFromDb.GoalAmount,
+                        Donator = donator,
+                        Title = storyFromDb.Title
+                    };
+                }
             }
-            else
-            {
-                this.TempData["message"] = "Not enough availability!";
-            }
 
-            // return this.Redirect(this.ControllerContext.HttpContext.Request.Headers["Referer"].ToString());
             return this.View("Donate", resultModel);
         }
     }

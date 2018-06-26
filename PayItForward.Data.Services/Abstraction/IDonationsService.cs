@@ -5,6 +5,6 @@
 
     public interface IDonationsService
     {
-        Guid Add(DonationDTO donation, Guid storyId);
+        bool Add(DonationDTO donation, Guid storyId);
     }
 }
