@@ -1,47 +1,46 @@
-﻿namespace PayItForward.Services.Data
+﻿namespace PayItForward.Services
 {
     using System.Collections.Generic;
     using System.Linq;
+    using AutoMapper;
     using PayItForward.Data;
     using PayItForward.Models;
-    using PayItForward.Services.Data.Abstraction;
-    using Dbmodel = PayItForward.Data.Models;
+    using PayItForward.Services.Abstraction;
+    using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class UsersService : IUsersService
     {
-        private readonly IRepository<Dbmodel.User, string> usersRepo;
+        private readonly IRepository<PayItForwardDbmodels.User, string> usersRepo;
+        private readonly IMapper mapper;
 
         // Constructor DI
-        public UsersService(IRepository<Dbmodel.User, string> usersRepo)
+        public UsersService(IRepository<PayItForwardDbmodels.User, string> usersRepo, IMapper mapper)
         {
             this.usersRepo = usersRepo;
+            this.mapper = mapper;
         }
 
         public IEnumerable<UserDTO> GetUsers(int count)
         {
-            var dbUsers = this.usersRepo.GetAll().Take(count).ToList();
+            var usersFromDb = this.usersRepo.GetAll().Take(count).ToList();
 
             List<UserDTO> users = new List<UserDTO>();
 
-            foreach (var dbUser in dbUsers)
-            {
-                users.Add(
-                    new UserDTO()
-                    {
-                        FirstName = dbUser.FirstName,
-                        LastName = dbUser.LastName,
-                        AvilableMoneyAmount = dbUser.AvilableMoneyAmount,
-                        AvatarUrl = dbUser.AvatarUrl
-                    }
-                  );
-            }
-
+            // var user = this.mapper.Map<UserDTO>(dbUser);
+            users = this.mapper.Map<List<UserDTO>>(usersFromDb);
             return users;
         }
 
         public int Count()
         {
             return this.usersRepo.GetAll().Count();
+        }
+
+        public UserDTO GetUserById(string id)
+        {
+            var userFromDb = this.usersRepo.GetById(id);
+
+            return this.mapper.Map<UserDTO>(userFromDb);
         }
     }
 }

@@ -200,7 +200,7 @@ namespace PayItForward.Data.Migrations
                     b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(50);
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("DocumentUrl")
                         .HasColumnType("varchar(200)");
@@ -225,7 +225,7 @@ namespace PayItForward.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(500);
+                        .HasMaxLength(100);
 
                     b.Property<string>("UserId")
                         .IsRequired();
@@ -249,7 +249,8 @@ namespace PayItForward.Data.Migrations
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("varchar(200)");
 
-                    b.Property<double>("AvilableMoneyAmount");
+                    b.Property<decimal>("AvilableMoneyAmount")
+                        .HasColumnType("money");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();

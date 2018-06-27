@@ -1,0 +1,43 @@
+﻿@model PayItForward.Web.Models.HomeViewModels.DetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">@Html.DisplayFor(m => m.Title)</div>
+        <div class="panel-body">
+            <p>@Html.DisplayFor(m => m.Description)</p>
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Goal Amount</th>
+                    <th>Collected Amount</th>
+                    <th>Available</th>
+                    <th>Date Created</th>
+                    <th>Expiration Date</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(m => m.GoalAmount)</td>
+                    <td>@Html.DisplayFor(m => m.CollectedAmount)</td>
+                    <td class="media-right media-middle @(Model.IsClosed ? "glyphicon glyphicon-remove" : "glyphicon glyphicon-ok" )"
+                        style="text-align: center;"></td>
+                    <td>@Html.DisplayFor(m => m.DateCreated)</td>
+                    <td>@Html.DisplayFor(m => m.ExpirationDate)</td>
+                    <td>@Html.DisplayFor(m => m.User.FirstName) @Html.DisplayFor(m => m.User.LastName)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/Donation/Donate/@Model.Id" class="btn btn-lg btn-success btn-block" role="button">DONATE</a></p>
+</div>
+
