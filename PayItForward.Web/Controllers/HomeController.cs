@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -26,25 +25,20 @@
         }
 
         [HttpGet]
-        public IActionResult Index(int id = 1)
+        public IActionResult Index(string search = " ", int id = 1)
         {
-            var url = this.Request.Path.ToString();
-
-            var searchString = this.HttpContext.Request.Query["search"].ToString() ?? string.Empty;
-
             var page = id;
-            int totalNumberOfStories = this.storiesService.CountStories(searchString);
+            int totalNumberOfStories = this.storiesService.CountStories(search);
             var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
             var skip = (page - 1) * ItemsPerPage;
-            var stories = this.storiesService.GetStories(ItemsPerPage, skip, searchString);
+            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search);
 
             var resultModel = new IndexViewModel
             {
                 CurrentPage = page,
                 TotalPages = totalPages,
                 Stories = this.mapper.Map<IEnumerable<BasicStoryViewModel>>(stories),
-                CurrentUrl = url.ToString(),
-                SearchWord = searchString
+                SearchWord = search
             };
 
             return this.View(resultModel);
@@ -53,10 +47,29 @@
         [Authorize]
         public IActionResult Details(Guid id)
         {
-            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
-            var story = this.mapper.Map<DetailsViewModel>(storyFromDb);
+            if (id == Guid.Empty || id == null)
+            {
+                return this.RedirectToAction(actionName: nameof(this.Index), controllerName: "Home");
+            }
 
-            return this.View(story);
+            var storyFromDb = this.storiesService.GetStoryById(id);
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
+            var viewModel = new DetailsViewModel()
+            {
+                CollectedAmount = storyFromDb.CollectedAmount,
+                DateCreated = storyFromDb.DateCreated,
+                Description = storyFromDb.Description,
+                GoalAmount = storyFromDb.GoalAmount,
+                Id = storyFromDb.Id,
+                Title = storyFromDb.Title,
+                User = storyFromDb.User
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult About()

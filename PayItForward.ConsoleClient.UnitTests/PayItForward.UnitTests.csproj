@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PayItForward.ConsoleClient\PayItForward.ConsoleClient.csproj" />
+    <ProjectReference Include="..\PayItForward.Web\PayItForward.Web.csproj" />
   </ItemGroup>
 
 </Project>
