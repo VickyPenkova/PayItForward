@@ -1,10 +1,7 @@
 ﻿namespace PayItForward.Services
 {
     using System;
-    using System.Linq;
     using AutoMapper;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
     using PayItForward.Data.Models;
     using PayItForward.Models;

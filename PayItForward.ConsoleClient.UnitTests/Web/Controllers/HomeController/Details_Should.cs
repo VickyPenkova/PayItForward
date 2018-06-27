@@ -30,6 +30,8 @@
         public void ReturnNotNullViewResult()
         {
             // Arrange
+            this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
+               .Returns(this.HelperStoryDto().FirstOrDefault());
 
             // Act
             var result = this.homeController.Details(this.storyId) as ViewResult;
