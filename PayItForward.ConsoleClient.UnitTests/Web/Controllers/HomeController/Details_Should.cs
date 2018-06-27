@@ -55,7 +55,7 @@
         }
 
         [Fact]
-        public void ReturnContentWithStoryNotFoundWhenStoryNotFound()
+        public void ReturnContent_WithStoryNotFound_WhenStoryNotFound()
         {
             // Arrange
             var setup = this.storiesServices.Setup(s => s.GetStoryById(this.storyId)).Returns((StoryDTO)null);
@@ -69,7 +69,7 @@
         }
 
         [Fact]
-        public void ReturnViewResultWithDetailsViewModel()
+        public void ReturnViewResult_WithDetailsViewModel()
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
@@ -84,7 +84,7 @@
         }
 
         [Fact]
-        public void CallGetStoyByIdOnce()
+        public void CallGetStoryByIdOnce()
         {
             // Arrange
             this.storiesServices.Setup(story => story.GetStoryById(this.storyId))

@@ -25,7 +25,7 @@
         }
 
         [HttpGet]
-        public IActionResult Index(string search = " ", int id = 1)
+        public IActionResult Index(string search = "", int id = 1)
         {
             var page = id;
             int totalNumberOfStories = this.storiesService.CountStories(search);

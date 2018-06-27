@@ -30,9 +30,14 @@
 
         public IActionResult Donate(Guid id)
         {
-            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            var storyFromDb = this.storiesService.GetStoryById(id);
 
-            var d = new DonateViewModel()
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
+            var viewModel = new DonateViewModel()
             {
                 CollectedAmount = storyFromDb.CollectedAmount,
                 GoalAmount = storyFromDb.GoalAmount,
@@ -41,9 +46,7 @@
                 ImageUrl = storyFromDb.ImageUrl
             };
 
-            var storyToDonate = this.mapper.Map<DonateViewModel>(d);
-
-            return this.View(storyToDonate);
+            return this.View(viewModel);
         }
 
         [HttpGet]
@@ -57,7 +60,7 @@
         [ValidateAntiForgeryToken]
         public IActionResult Donate(DonateViewModel model, Guid id, string returnUrl = null)
         {
-            this.TempData["message"] = string.Empty;
+            this.TempData["message"] = "You've just made a donation!";
             var resultModel = new DonateViewModel();
             var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
             var donatorId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
