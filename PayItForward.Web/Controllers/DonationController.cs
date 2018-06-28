@@ -64,8 +64,8 @@
                 return this.Content("Story not found.");
             }
 
-            var donatorId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var donator = this.usersService.GetUserById(donatorId);
+            // HttpContext.User.FindFirst() Cannot be Unit tested
+            var donator = this.usersService.GetUserById(this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             if (donator == null)
             {
                 return this.Content("No user to donate.");
@@ -96,7 +96,6 @@
                 }
                 else
                 {
-                    this.TempData["message"] = "Can not donate!";
                     resultModel = new DonateViewModel()
                     {
                         ImageUrl = storyFromDb.ImageUrl,

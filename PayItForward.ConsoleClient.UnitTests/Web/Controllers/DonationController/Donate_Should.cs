@@ -52,6 +52,22 @@
             Assert.Equal("Story not found.", contentResult.Content);
         }
 
+        // [Fact]
+
+        // public void ReturnResultContetnt_WithNoUserToDonate_WhenDonatorIdIsNullOrEmpty()
+        // {
+        //    // Arrange
+        //    this.storiesService.Setup(s => s.GetStoryById(this.storyId))
+        //        .Returns(this.HelperStoryDto().FirstOrDefault());
+        //    this.usersService.Setup(u => u.GetUserById(this.HelperUserDTO().Id)).Returns((UserDTO)null);
+
+        // // Act
+        //    var result = this.donationController.Donate(this.HelperDonateViewModel(), this.storyId);
+
+        // // Assert
+        //    var contentResult = Assert.IsType<ContentResult>(result);
+        //    Assert.Equal("No user to donate.", contentResult.Content);
+        // }
         [Fact]
         public void ReturnContentResult_WithStoryNotFound_WhenGivenInvalidModel()
         {
