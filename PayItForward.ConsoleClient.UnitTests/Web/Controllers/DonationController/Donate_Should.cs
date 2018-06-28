@@ -3,8 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Moq;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
@@ -49,17 +53,25 @@
         }
 
         [Fact]
-        public void ReturnViewResult_WithDonateViewModel()
+        public void ReturnContentResult_WithStoryNotFound_WhenGivenInvalidModel()
         {
-            // Arrange
-            this.storiesService.Setup(x => x.GetStoryById(this.storyId))
-                .Returns(this.HelperStoryDto().FirstOrDefault());
-
-            var result = this.donationController.Donate(this.storyId);
+            // Arrange & Act
+            var result = this.donationController.Donate(model: null, id: this.storyId);
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsType<DonateViewModel>(viewResult.ViewData.Model);
+            var contentResult = Assert.IsType<ContentResult>(result);
+            Assert.Equal("Story not found.", contentResult.Content);
+        }
+
+        [Fact]
+        public void ReturnContentResult_WithStoryNotFound_WhenIdIsNull()
+        {
+            // Arrange & Act
+            var result = this.donationController.Donate(model: new DonateViewModel(), id: Guid.Empty);
+
+            // Assert
+            var contentResult = Assert.IsType<ContentResult>(result);
+            Assert.Equal("Story not found.", contentResult.Content);
         }
 
         private List<StoryDTO> HelperStoryDto()
@@ -89,7 +101,27 @@
                 Email = "vicky.penkova@gmial.com",
                 FirstName = "Viki",
                 LastName = "Penkova",
-                AvilableMoneyAmount = 100
+                AvilableMoneyAmount = 100,
+                Id = "alabala"
+            };
+        }
+
+        private DonateViewModel HelperDonateViewModel()
+        {
+            return new DonateViewModel()
+            {
+                Amount = 2,
+                CollectedAmount = 0,
+                Donator = new UserDTO()
+                {
+                    FirstName = "Donator",
+                    LastName = "D",
+                    Email = "email",
+                    Id = "donator",
+                    AvilableMoneyAmount = 2000
+                },
+                GoalAmount = 3000,
+                Title = "Title"
             };
         }
     }

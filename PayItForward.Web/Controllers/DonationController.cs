@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
@@ -37,6 +38,9 @@
                 return this.Content("Story not found.");
             }
 
+            // TODO: Can not be xUnit tested
+            UserDTO test = this.usersService.GetUserById(this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
             var viewModel = new DonateViewModel()
             {
                 CollectedAmount = storyFromDb.CollectedAmount,
@@ -49,22 +53,24 @@
             return this.View(viewModel);
         }
 
-        [HttpGet]
-        public IActionResult MakeDonation(string returnUrl = null)
-        {
-            this.ViewData["ReturnUrl"] = returnUrl;
-            return this.View("Donate");
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Donate(DonateViewModel model, Guid id, string returnUrl = null)
         {
-            this.TempData["message"] = "You've just made a donation!";
             var resultModel = new DonateViewModel();
-            var storyFromDb = this.storiesService.GetStories().Where(s => s.Id == id).FirstOrDefault();
+            var storyFromDb = this.storiesService.GetStoryById(id);
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
             var donatorId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var donator = this.usersService.GetUserById(donatorId);
+            if (donator == null)
+            {
+                return this.Content("No user to donate.");
+            }
+
             if (this.ModelState.IsValid)
             {
                 var donation = new DonationDTO()
@@ -84,7 +90,8 @@
                         CollectedAmount = storyFromDb.CollectedAmount,
                         GoalAmount = storyFromDb.GoalAmount,
                         Donator = donator,
-                        Title = storyFromDb.Title
+                        Title = storyFromDb.Title,
+                        ErrorMessage = "You've just made a donation!"
                     };
                 }
                 else
@@ -97,7 +104,8 @@
                         CollectedAmount = storyFromDb.CollectedAmount,
                         GoalAmount = storyFromDb.GoalAmount,
                         Donator = donator,
-                        Title = storyFromDb.Title
+                        Title = storyFromDb.Title,
+                        ErrorMessage = "Can not donate!"
                     };
                 }
             }
