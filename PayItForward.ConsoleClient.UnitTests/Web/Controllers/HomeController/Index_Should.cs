@@ -56,15 +56,15 @@
         public void CallCountStoriesOnce()
         {
             // Arrange
-            var empty = " ";
+            var empty = string.Empty;
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories("/Home/Index/", empty))
+                        services.CountStories(empty, "/Home/Index/"))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, empty))
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, "/Home/Index/"))
                 .Returns(this.HelperStoryDto());
             this.categoriesService.Setup(c => c.GetCategories()).Returns(new List<CategoryDTO>()
             {
@@ -79,18 +79,18 @@
             var result = this.homeController.Index("/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.CountStories("/Home/Index/", empty), Times.Once);
+            this.storiesServices.Verify(x => x.CountStories(empty, "/Home/Index/"), Times.Once);
         }
 
         [Fact]
         public void CallGetStoriesOnce()
         {
             // Arrange
-            var empty = " ";
+            var empty = string.Empty;
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories("/Home/Index/", empty))
+                        services.CountStories(empty, "/Home/Index/"))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
@@ -101,7 +101,7 @@
             var result = this.homeController.Index("/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.GetStories(3, 0, "/Home/Index/", empty), Times.Once);
+            this.storiesServices.Verify(x => x.GetStories(3, 0, empty, "/Home/Index/"), Times.Once);
         }
 
         private IndexViewModel HelperIndexViewModelToTest()

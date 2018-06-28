@@ -28,14 +28,15 @@
         }
 
         [HttpGet]
-        public IActionResult Index(string search = "", int id = 1)
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+        public IActionResult Index(string Name, string search = "", int id = 1)
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         {
-            var categoryName = this.Request.Query["Name"];
             var page = id;
-            int totalNumberOfStories = this.storiesService.CountStories(search, categoryName);
+            int totalNumberOfStories = this.storiesService.CountStories(search, Name);
             var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
             var skip = (page - 1) * ItemsPerPage;
-            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search, categoryName);
+            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search, Name);
             var categories = this.categoriesService.GetCategories();
 
             var resultModel = new IndexViewModel
