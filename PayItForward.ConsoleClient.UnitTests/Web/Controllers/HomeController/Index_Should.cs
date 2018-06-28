@@ -16,13 +16,16 @@
     {
         private readonly PayItForward.Web.Controllers.HomeController homeController;
         private readonly Mock<IStoriesService> storiesServices;
+        private readonly Mock<ICategoriesService> categoriesService;
         private readonly Mock<IMapper> mapper;
 
         public Index_Should()
         {
             this.mapper = new Mock<IMapper>();
             this.storiesServices = new Mock<IStoriesService>();
-            this.homeController = new PayItForward.Web.Controllers.HomeController(this.storiesServices.Object, this.mapper.Object);
+            this.categoriesService = new Mock<ICategoriesService>();
+            this.homeController = new PayItForward.Web.Controllers.HomeController(
+                this.storiesServices.Object, this.categoriesService.Object, this.mapper.Object);
         }
 
         [Fact]
@@ -33,12 +36,12 @@
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories(empty))
+                        services.CountStories(empty, empty))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
 
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty))
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, empty))
                 .Returns(this.HelperStoryDto());
 
             // Act
@@ -57,18 +60,26 @@
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories("/Home/Index/"))
+                        services.CountStories("/Home/Index/", empty))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty))
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, empty))
                 .Returns(this.HelperStoryDto());
+            this.categoriesService.Setup(c => c.GetCategories()).Returns(new List<CategoryDTO>()
+            {
+                new CategoryDTO()
+                {
+                    Id = this.HelperStoryDto().FirstOrDefault(st => st.Category.Name == "Health").Id,
+                    Name = "Health"
+                }
+            });
 
             // Act
             var result = this.homeController.Index("/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.CountStories("/Home/Index/"), Times.Once);
+            this.storiesServices.Verify(x => x.CountStories("/Home/Index/", empty), Times.Once);
         }
 
         [Fact]
@@ -79,18 +90,18 @@
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories("/Home/Index/"))
+                        services.CountStories("/Home/Index/", empty))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty))
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, empty))
                 .Returns(this.HelperStoryDto());
 
             // Act
             var result = this.homeController.Index("/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.GetStories(3, 0, "/Home/Index/"), Times.Once);
+            this.storiesServices.Verify(x => x.GetStories(3, 0, "/Home/Index/", empty), Times.Once);
         }
 
         private IndexViewModel HelperIndexViewModelToTest()

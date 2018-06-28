@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
+    using PayItForward.Web.Models.CategoryViewModels;
     using PayItForward.Web.Models.HomeViewModels;
     using PayItForward.Web.Models.StoryViewModels;
 
@@ -16,29 +17,34 @@
         private const int ItemsPerPage = 3;
 
         private readonly IStoriesService storiesService;
+        private readonly ICategoriesService categoriesService;
         private readonly IMapper mapper;
 
-        public HomeController(IStoriesService storiesService, IMapper mapper)
+        public HomeController(IStoriesService storiesService, ICategoriesService categoriesService, IMapper mapper)
         {
             this.storiesService = storiesService;
+            this.categoriesService = categoriesService;
             this.mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index(string search = "", int id = 1)
         {
+            var categoryName = this.Request.Query["Name"];
             var page = id;
-            int totalNumberOfStories = this.storiesService.CountStories(search);
+            int totalNumberOfStories = this.storiesService.CountStories(search, categoryName);
             var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
             var skip = (page - 1) * ItemsPerPage;
-            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search);
+            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search, categoryName);
+            var categories = this.categoriesService.GetCategories();
 
             var resultModel = new IndexViewModel
             {
                 CurrentPage = page,
                 TotalPages = totalPages,
                 Stories = this.mapper.Map<IEnumerable<BasicStoryViewModel>>(stories),
-                SearchWord = search
+                SearchWord = search,
+                Categories = this.mapper.Map<IEnumerable<ListCategoriesViewModel>>(categories)
             };
 
             return this.View(resultModel);

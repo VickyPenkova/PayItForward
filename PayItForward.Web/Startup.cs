@@ -53,6 +53,7 @@
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IStoriesService, StoriesService>();
             services.AddScoped<IDonationsService, DonationsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddAutoMapper();
             services.AddMvc();
         }

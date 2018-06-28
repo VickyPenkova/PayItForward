@@ -6,11 +6,11 @@
 
     public interface IStoriesService
     {
-        IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "");
+        IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "", string isFromCategory = "");
 
         IEnumerable<StoryDTO> GetStories();
 
-        int CountStories(string containsTitle = "");
+        int CountStories(string containsTitle = "", string isFromCategory = "");
 
         StoryDTO GetStoryById(Guid id);
     }

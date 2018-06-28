@@ -22,9 +22,26 @@
             this.mapper = mapper;
         }
 
-        public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "")
+        public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "", string isFromCategory = "")
         {
-            var storiesFromDb = this.storiesRepo.GetAll()
+            var isCategoryNull = string.IsNullOrEmpty(isFromCategory);
+            List<PayItForwardDbmodels.Story> storiesFromDb;
+
+            if (!isCategoryNull)
+            {
+                storiesFromDb = this.storiesRepo.GetAll()
+                   .Include(user => user.User)
+                   .Include(category => category.Category)
+                   .Where(x => x.Title.Contains(containsTitle))
+                   .Where(st => st.Category.Name == isFromCategory)
+                   .OrderBy(x => x.CreatedOn)
+                   .Skip(skip)
+                   .Take(take)
+                   .ToList();
+            }
+            else
+            {
+                storiesFromDb = this.storiesRepo.GetAll()
                .Include(user => user.User)
                .Include(category => category.Category)
                .Where(x => x.Title.Contains(containsTitle))
@@ -32,15 +49,31 @@
                .Skip(skip)
                .Take(take)
                .ToList();
+            }
 
             List<StoryDTO> stories = new List<StoryDTO>();
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
             return stories;
         }
 
-        public int CountStories(string containsTitle = "")
+        public int CountStories(string containsTitle = "", string isFromCategory = "")
         {
-            return this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Count();
+            int count;
+            if (!string.IsNullOrEmpty(isFromCategory))
+            {
+                count = this.storiesRepo.GetAll()
+                .Where(x => x.Title.Contains(containsTitle))
+                .Where(st => st.Category.Name == isFromCategory)
+                .Count();
+            }
+            else
+            {
+                count = this.storiesRepo.GetAll()
+                .Where(x => x.Title.Contains(containsTitle))
+                .Count();
+            }
+
+            return count;
         }
 
         public IEnumerable<StoryDTO> GetStories()

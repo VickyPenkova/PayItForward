@@ -16,6 +16,7 @@
     {
         private readonly PayItForward.Web.Controllers.HomeController homeController;
         private readonly Mock<IStoriesService> storiesServices;
+        private readonly Mock<ICategoriesService> categogoriesService;
         private readonly Mock<IMapper> mapper;
         private Guid storyId = new Guid("E6E635AB-6AD9-40BD-9992-08D5D82FC3F0");
 
@@ -23,7 +24,9 @@
         {
             this.mapper = new Mock<IMapper>();
             this.storiesServices = new Mock<IStoriesService>();
-            this.homeController = new PayItForward.Web.Controllers.HomeController(this.storiesServices.Object, this.mapper.Object);
+            this.categogoriesService = new Mock<ICategoriesService>();
+            this.homeController = new PayItForward.Web.Controllers.HomeController(
+                this.storiesServices.Object, this.categogoriesService.Object, this.mapper.Object);
         }
 
         [Fact]
