@@ -8,7 +8,7 @@
     using Moq;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
-    using PayItForward.Web.Models.HomeViewModels;
+    using PayItForward.Web.Models.StoryViewModels;
     using Xunit;
 
     // These unit tests are only testing what the code in the action method does
@@ -83,7 +83,7 @@
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsType<DetailsViewModel>(viewResult.ViewData.Model);
+            Assert.IsType<DetailedStoryViewModel>(viewResult.ViewData.Model);
         }
 
         [Fact]

@@ -9,6 +9,16 @@
                     <li class="list-group-item">
                         <span>@Html.DisplayFor(modelItem => @Model.User.FirstName)</span>
                         <span>@Html.DisplayFor(modelItem => @Model.User.LastName)</span>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <p>
+                                    <a href="/Admin/UserDetails/{@Model.User.Id}" 
+                                       class="btn btn-primary wrapper" role="button">Details</a>
+                                </p>
+                            }
+                        }
                     </li>
                     <li class="list-group-item">
                         <span>@Html.DisplayFor(modelItem => @Model.Category.Name)</span>

@@ -24,7 +24,6 @@
         {
             var category = this.categoriesService.GetCategoryById(id);
             var model = this.mapper.Map<ListCategoriesViewModel>(category);
-
             return this.RedirectToAction("Index", "Home", model);
         }
     }

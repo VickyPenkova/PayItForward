@@ -65,7 +65,7 @@
                 return this.Content("Story not found.");
             }
 
-            var viewModel = new DetailsViewModel()
+            var viewModel = new DetailedStoryViewModel
             {
                 CollectedAmount = storyFromDb.CollectedAmount,
                 DateCreated = storyFromDb.DateCreated,

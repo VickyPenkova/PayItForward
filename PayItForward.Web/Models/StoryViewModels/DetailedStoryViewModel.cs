@@ -1,9 +1,9 @@
-﻿namespace PayItForward.Web.Models.HomeViewModels
+﻿namespace PayItForward.Web.Models.StoryViewModels
 {
     using System;
     using PayItForward.Models;
 
-    public class DetailsViewModel
+    public class DetailedStoryViewModel
     {
         public string Title { get; set; }
 

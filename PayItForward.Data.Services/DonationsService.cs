@@ -1,7 +1,10 @@
 ﻿namespace PayItForward.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
     using PayItForward.Data.Models;
     using PayItForward.Models;
@@ -54,6 +57,13 @@
             }
 
             return makeDonation;
+        }
+
+        public IEnumerable<DonationDTO> GetDonationsByUserId(string userId)
+        {
+            var donationsFromDb = this.donationsRepo.GetAll().Where(don => don.UserId == userId);
+
+            return this.mapper.Map<List<DonationDTO>>(donationsFromDb);
         }
     }
 }

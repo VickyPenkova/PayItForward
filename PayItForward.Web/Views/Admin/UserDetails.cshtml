@@ -1,0 +1,25 @@
+﻿@model PayItForward.Web.Models.AdminViewModels.UserDetailsViewModel
+
+<div class="row equal">
+    <h2>User Details</h2>
+</div>
+
+<h2 class="text-center">User Info: </h2>
+<ul class="list-group">
+    <li class="list-group-item">
+        <h2>Name:</h2>
+        <span>@Model.User.FirstName @Model.User.LastName</span>
+    </li>
+    <li class="list-group-item">
+        <h2>Id:</h2>
+        <span>@Model.User.Id</span>
+    </li>
+    <li class="list-group-item">
+        <h2>Email: </h2>
+        <span>@Model.User.Email</span>
+    </li>
+    <li class="list-group-item">
+        <h2>Available Money Amount: </h2>
+        <span>@Model.User.AvilableMoneyAmount</span>
+    </li>
+</ul>
