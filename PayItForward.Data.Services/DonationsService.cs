@@ -58,12 +58,5 @@
 
             return makeDonation;
         }
-
-        public IEnumerable<DonationDTO> GetDonationsByUserId(string userId)
-        {
-            var donationsFromDb = this.donationsRepo.GetAll().Where(don => don.UserId == userId);
-
-            return this.mapper.Map<List<DonationDTO>>(donationsFromDb);
-        }
     }
 }

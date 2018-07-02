@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using PayItForward.Models;
+    using PayItForward.Web.Models.StoryViewModels;
 
     public class UserDetailsViewModel
     {
@@ -12,6 +13,6 @@
 
         public IEnumerable<DonationDTO> Donations { get; set; }
 
-        public IEnumerable<StoryDTO> Stories { get; set; }
+        public List<DetailedStoryViewModel> Stories { get; set; }
     }
 }

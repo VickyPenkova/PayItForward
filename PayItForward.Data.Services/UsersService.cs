@@ -43,5 +43,15 @@
 
             return this.mapper.Map<UserDTO>(userFromDb);
         }
+
+        public IEnumerable<DonationDTO> GetDonations(string userId)
+        {
+            var user = this.usersRepo.GetAll()
+                .Include(d => d.Donations)
+                .FirstOrDefault(u => u.Id == userId);
+            var donations = user.Donations;
+
+            return this.mapper.Map<List<DonationDTO>>(donations);
+        }
     }
 }

@@ -10,5 +10,7 @@
         UserDTO GetUserById(string id);
 
         int Count();
+
+        IEnumerable<DonationDTO> GetDonations(string userId);
     }
 }

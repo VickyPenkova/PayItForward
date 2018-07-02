@@ -40,19 +40,36 @@
 
         public IActionResult UserDetails(string id)
         {
-            var userFromDb = this.usersService.GetUserById(id);
-            var donationsFromDb = this.donationsService.GetDonationsByUserId(id);
-            var storiesFromDb = this.storiesService.GetStories().Where(s => s.User.Id == id);
+            var userFromDb = this.usersService.GetUserById(id.ToString());
+            var storiesFromDb = this.storiesService.GetStories().Where(s => s.User.Id == id).ToList();
+            var donationsFromDb = this.usersService.GetDonations(id);
 
             if (userFromDb == null)
             {
                 return this.Content("User unavailable.");
             }
 
+            var detailedStoryInfo = new List<DetailedStoryViewModel>();
+
+            foreach (var story in storiesFromDb)
+            {
+                detailedStoryInfo.Add(new DetailedStoryViewModel()
+                {
+                    CollectedAmount = story.CollectedAmount,
+                    Description = story.Description,
+                    DateCreated = story.DateCreated,
+                    GoalAmount = story.GoalAmount,
+                    Id = story.Id,
+                    ExpirationDate = story.ExpirationDate,
+                    Title = story.Title,
+                    User = userFromDb
+                });
+            }
+
             var model = new UserDetailsViewModel()
             {
                 Donations = donationsFromDb,
-                Stories = storiesFromDb,
+                Stories = detailedStoryInfo,
                 User = userFromDb
             };
 

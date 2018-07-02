@@ -1,10 +1,9 @@
 ﻿@model PayItForward.Web.Models.AdminViewModels.UserDetailsViewModel
 
-<div class="row equal">
-    <h2>User Details</h2>
-</div>
-
-<h2 class="text-center">User Info: </h2>
+<h2 class="text-center">
+    User Details
+    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+</h2>
 <ul class="list-group">
     <li class="list-group-item">
         <h2>Name:</h2>
@@ -21,5 +20,56 @@
     <li class="list-group-item">
         <h2>Available Money Amount: </h2>
         <span>@Model.User.AvilableMoneyAmount</span>
+    </li>
+    <li class="list-group-item">
+        <h2>Made Donations: @Model.Donations.Count()</h2>
+        @if (Model.Donations.Count() > 0)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title of story</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var donation in Model.Donations)
+                    {
+                        <tr>
+
+                            <td>@donation.Story.Title</td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        }
+    </li>
+    <li class="list-group-item">
+        <h2>Stories: </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Goal Amount</th>
+                    <th>Expiration Date</th>
+                    <th>Date Created</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var story in Model.Stories)
+                {
+                    <tr>
+
+                        <td>@story.Title</td>
+                        <td>@story.GoalAmount</td>
+                        <td>@story.ExpirationDate</td>
+                        <td>@story.DateCreated</td>
+                        <td>@story.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </li>
 </ul>

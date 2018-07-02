@@ -7,7 +7,5 @@
     public interface IDonationsService
     {
         bool Add(DonationDTO donation, Guid storyId);
-
-        IEnumerable<DonationDTO> GetDonationsByUserId(string userId);
     }
 }

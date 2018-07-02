@@ -14,7 +14,7 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <p>
-                                    <a href="/Admin/UserDetails/{@Model.User.Id}" 
+                                    <a href="/Admin/UserDetails/@Model.User.Id" 
                                        class="btn btn-primary wrapper" role="button">Details</a>
                                 </p>
                             }

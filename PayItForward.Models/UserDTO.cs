@@ -1,4 +1,6 @@
-﻿namespace PayItForward.Models
+﻿using System.Collections.Generic;
+
+namespace PayItForward.Models
 {
     public class UserDTO
     {
@@ -13,5 +15,7 @@
         public virtual string AvatarUrl { get; set; }
 
         public virtual string Id { get; set; }
+
+        public virtual IEnumerable<DonationDTO> Donations { get; set; }
     }
 }
