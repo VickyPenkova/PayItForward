@@ -75,5 +75,10 @@
 
             return this.View(model);
         }
+
+        public IActionResult DeleteUser(string id)
+        {
+            return this.View();
+        }
     }
 }

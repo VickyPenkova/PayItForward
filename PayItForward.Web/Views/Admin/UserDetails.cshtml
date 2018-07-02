@@ -1,5 +1,7 @@
 ﻿@model PayItForward.Web.Models.AdminViewModels.UserDetailsViewModel
-
+@{
+    bool deleteConfirmation = false;
+}
 <h2 class="text-center">
     User Details
     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -73,3 +75,11 @@
         </table>
     </li>
 </ul>
+<h2 class="btn btn-lg btn-danger btn-block" role="button" style="color:black; font-weight: bold; ">
+    @Html.ActionLink(
+                "Delete",
+                "Delete",
+                new { id = @Model.User.Id },
+                new { onclick = "return confirm('Are you sure you wish to delete this user?');" })
+
+</h2>
