@@ -242,6 +242,7 @@
                     CollectedAmount = 0,
                     ExpirationDate = new DateTime(2018, 9, 9, 16, 5, 7, 123),
                     ImageUrl = "https://b-i.forbesimg.com/baininsights/files/2013/09/both-brain21.jpg",
+
                     Description = "In the middle of his studies as a medical student," +
                     " Dave was diagnosed with a life-threatening brain tumor. " +
                     "Even with such a grim prognosis, hope and perseverance were the defining themes of Dave's story." +

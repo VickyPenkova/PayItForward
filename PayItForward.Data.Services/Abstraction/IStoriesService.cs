@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Services.Abstraction
+namespace PayItForward.Services.Abstraction
 {
     using System;
     using System.Collections.Generic;
@@ -13,5 +13,10 @@
         int CountStories(string containsTitle = "", string isFromCategory = "");
 
         StoryDTO GetStoryById(Guid id);
+
+        IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "");
+
+        int CountStories(string containsTitle = "");
+
     }
 }

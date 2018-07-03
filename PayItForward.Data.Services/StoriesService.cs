@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Services
+namespace PayItForward.Services
 {
     using System;
     using System.Collections.Generic;

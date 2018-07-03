@@ -25,7 +25,7 @@ namespace PayItForward.Data.Models
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
 
-        [StringLength(50, MinimumLength = 5)]
+        [Column(TypeName = "varchar(1000)")]
         public string Description { get; set; }
 
         [Column(TypeName = "money")]
