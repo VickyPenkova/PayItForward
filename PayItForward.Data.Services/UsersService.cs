@@ -27,8 +27,8 @@
 
             List<UserDTO> users = new List<UserDTO>();
 
-            // var user = this.mapper.Map<UserDTO>(dbUser);
             users = this.mapper.Map<List<UserDTO>>(usersFromDb);
+
             return users;
         }
 

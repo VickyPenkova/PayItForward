@@ -18,7 +18,5 @@
         public string CurrentUrl { get; set; }
 
         public string SearchWord { get; set; }
-
-        public Guid Id { get; set; }
     }
 }
