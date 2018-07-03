@@ -38,6 +38,8 @@ namespace PayItForward.Data.Models
         [Column(TypeName = "varchar(200)")]
         public string AvatarUrl { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Story> Stories => this.stories;
 
         public ICollection<Donation> Donations => this.donations;

@@ -33,7 +33,7 @@
                    .Include(user => user.User)
                    .Include(category => category.Category)
                    .Where(x => x.Title.Contains(containsTitle))
-                   .Where(st => st.Category.Name == isFromCategory)
+                   .Where(st => st.Category.Name == isFromCategory && st.IsDeleted == false)
                    .OrderBy(x => x.CreatedOn)
                    .Skip(skip)
                    .Take(take)
@@ -44,7 +44,7 @@
                 storiesFromDb = this.storiesRepo.GetAll()
                .Include(user => user.User)
                .Include(category => category.Category)
-               .Where(x => x.Title.Contains(containsTitle))
+               .Where(x => x.Title.Contains(containsTitle) && x.IsDeleted == false)
                .OrderBy(x => x.CreatedOn)
                .Skip(skip)
                .Take(take)
@@ -62,14 +62,14 @@
             if (!string.IsNullOrEmpty(isFromCategory))
             {
                 count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(containsTitle))
+                .Where(x => x.Title.Contains(containsTitle) && x.IsDeleted == false)
                 .Where(st => st.Category.Name == isFromCategory)
                 .Count();
             }
             else
             {
                 count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(containsTitle))
+                .Where(x => x.Title.Contains(containsTitle) && x.IsDeleted == false)
                 .Count();
             }
 

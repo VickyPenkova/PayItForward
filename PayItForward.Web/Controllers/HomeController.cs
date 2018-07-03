@@ -68,7 +68,7 @@
             var viewModel = new DetailedStoryViewModel
             {
                 CollectedAmount = storyFromDb.CollectedAmount,
-                DateCreated = storyFromDb.DateCreated,
+                DateCreated = storyFromDb.CreatedOn,
                 Description = storyFromDb.Description,
                 GoalAmount = storyFromDb.GoalAmount,
                 Id = storyFromDb.Id,

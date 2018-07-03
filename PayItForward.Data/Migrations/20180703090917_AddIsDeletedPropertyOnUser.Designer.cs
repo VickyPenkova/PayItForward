@@ -11,9 +11,10 @@ using System;
 namespace PayItForward.Data.Migrations
 {
     [DbContext(typeof(PayItForwardDbContext))]
-    partial class PayItForwardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180703090917_AddIsDeletedPropertyOnUser")]
+    partial class AddIsDeletedPropertyOnUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,10 +195,13 @@ namespace PayItForward.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(1000)");
+                        .HasMaxLength(50);
 
                     b.Property<string>("DocumentUrl")
                         .HasColumnType("varchar(200)");

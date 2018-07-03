@@ -111,7 +111,7 @@
                         Name = "Health"
                     },
                     CollectedAmount = 0,
-                    DateCreated = DateTime.UtcNow,
+                    CreatedOn = DateTime.UtcNow,
                     Description = "Some description",
                     Title = "Title",
                     User = this.HelperUserDTO(),

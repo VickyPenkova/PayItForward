@@ -28,7 +28,7 @@
 
         public bool IsAccepted { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public DonationDTO Donations { get; set; }
 

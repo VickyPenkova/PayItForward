@@ -25,7 +25,7 @@ namespace PayItForward.Data.Models
         [Column(TypeName = "varchar(200)")]
         public string ImageUrl { get; set; }
 
-        [StringLength(50, MinimumLength = 5)]
+        [Column(TypeName = "varchar(1000)")]
         public string Description { get; set; }
 
         [Column(TypeName = "money")]
@@ -37,9 +37,6 @@ namespace PayItForward.Data.Models
         public bool IsClosed { get; set; }
 
         public bool IsAccepted { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public DateTime ExpirationDate { get; set; }
 

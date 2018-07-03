@@ -37,9 +37,9 @@
             return this.usersRepo.GetAll().Count();
         }
 
-        public UserDTO GetUserById(string id)
+        public UserDTO GetUserById(string userId)
         {
-            var userFromDb = this.usersRepo.GetById(id);
+            var userFromDb = this.usersRepo.GetById(userId);
 
             return this.mapper.Map<UserDTO>(userFromDb);
         }
@@ -52,6 +52,24 @@
             var donations = user.Donations;
 
             return this.mapper.Map<List<DonationDTO>>(donations);
+        }
+
+        public string Delete(string userId)
+        {
+            var userToDelete = this.usersRepo.GetAll()
+                .Include(s => s.Stories)
+                .FirstOrDefault(u => u.Id == userId);
+             foreach (var story in userToDelete.Stories)
+            {
+                story.IsDeleted = true;
+            }
+
+            // TODO: TEST
+            this.usersRepo.SoftDelete(userToDelete);
+
+            this.usersRepo.Save();
+
+            return string.Format("User with id {0} was deleted", userId);
         }
     }
 }

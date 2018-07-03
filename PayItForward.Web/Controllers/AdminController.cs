@@ -57,7 +57,7 @@
                 {
                     CollectedAmount = story.CollectedAmount,
                     Description = story.Description,
-                    DateCreated = story.DateCreated,
+                    DateCreated = story.CreatedOn,
                     GoalAmount = story.GoalAmount,
                     Id = story.Id,
                     ExpirationDate = story.ExpirationDate,
@@ -78,6 +78,7 @@
 
         public IActionResult DeleteUser(string id)
         {
+            var res = this.usersService.Delete(id);
             return this.View();
         }
     }

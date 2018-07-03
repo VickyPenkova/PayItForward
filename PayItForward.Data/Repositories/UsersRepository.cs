@@ -53,7 +53,8 @@
 
         public void SoftDelete(T userTodelete)
         {
-            this.ChangeEntityState(userTodelete, EntityState.Deleted);
+            userTodelete.IsDeleted = true;
+            this.ChangeEntityState(userTodelete, EntityState.Modified);
         }
 
         public Task<int> SaveAsync()

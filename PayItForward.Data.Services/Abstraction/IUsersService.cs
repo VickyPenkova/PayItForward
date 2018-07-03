@@ -7,10 +7,12 @@
     {
         IEnumerable<UserDTO> GetUsers(int count);
 
-        UserDTO GetUserById(string id);
+        UserDTO GetUserById(string userId);
 
         int Count();
 
         IEnumerable<DonationDTO> GetDonations(string userId);
+
+        string Delete(string userId);
     }
 }
