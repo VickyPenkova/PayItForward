@@ -1,6 +1,5 @@
 ﻿namespace PayItForward.Web.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
@@ -14,22 +13,17 @@
     [Authorize(Roles = GlobalConstants.AdminRole)]
     public class AdminController : Controller
     {
-        private const int ItemsPerPage = 3;
-
         private readonly IUsersService usersService;
         private readonly IStoriesService storiesService;
-        private readonly IDonationsService donationsService;
         private readonly IMapper mapper;
 
         public AdminController(
             IUsersService usersService,
             IStoriesService storiesService,
-            IDonationsService donationsService,
             IMapper mapper)
         {
             this.usersService = usersService;
             this.storiesService = storiesService;
-            this.donationsService = donationsService;
             this.mapper = mapper;
         }
 
@@ -40,7 +34,7 @@
 
         public IActionResult UserDetails(string id)
         {
-            var userFromDb = this.usersService.GetUserById(id.ToString());
+            var userFromDb = this.usersService.GetUserById(id);
             var storiesFromDb = this.storiesService.GetStories().Where(s => s.User.Id == id).ToList();
             var donationsFromDb = this.usersService.GetDonations(id);
 

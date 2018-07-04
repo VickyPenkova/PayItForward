@@ -45,7 +45,7 @@
                 .Returns(this.HelperStoryDto());
 
             // Act
-            var result = this.homeController.Index("/Home/Index/");
+            var result = this.homeController.Index(1, empty, "/Home/Index/");
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -60,11 +60,11 @@
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories(empty, "/Home/Index/"))
+                        services.CountStories("/Home/Index/", empty))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, "/Home/Index/"))
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, "/Home/Index/", empty))
                 .Returns(this.HelperStoryDto());
             this.categoriesService.Setup(c => c.GetCategories()).Returns(new List<CategoryDTO>()
             {
@@ -76,10 +76,10 @@
             });
 
             // Act
-            var result = this.homeController.Index("/Home/Index/");
+            var result = this.homeController.Index(1, empty, "/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.CountStories(empty, "/Home/Index/"), Times.Once);
+            this.storiesServices.Verify(x => x.CountStories("/Home/Index/", empty), Times.Once);
         }
 
         [Fact]
@@ -90,18 +90,43 @@
             var page = 1;
             var totalNumberOfStories = this.storiesServices.Setup(
                 services =>
-                        services.CountStories(empty, "/Home/Index/"))
+                        services.CountStories("/Home/Index/", empty))
                         .Returns(this.HelperIndexViewModelToTest().Stories.Count());
             var totalPages = (int)Math.Ceiling(1 / (decimal)3);
             var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, empty))
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, "/Home/Index/", empty))
                 .Returns(this.HelperStoryDto());
 
             // Act
-            var result = this.homeController.Index("/Home/Index/");
+            var result = this.homeController.Index(1, empty, "/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.GetStories(3, 0, empty, "/Home/Index/"), Times.Once);
+            this.storiesServices.Verify(x => x.GetStories(3, 0, "/Home/Index/", empty), Times.Once);
+        }
+
+        [Fact]
+        public void CallGetCategoriesOnce()
+        {
+            // Arrange
+            var empty = string.Empty;
+            var page = 1;
+            var totalNumberOfStories = this.storiesServices.Setup(
+                services =>
+                        services.CountStories("/Home/Index/", empty))
+                        .Returns(this.HelperIndexViewModelToTest().Stories.Count());
+            var totalPages = (int)Math.Ceiling(1 / (decimal)3);
+            var skip = (page - 1) * 3;
+            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, "/Home/Index/", empty))
+                .Returns(this.HelperStoryDto());
+
+            var categories = this.categoriesService.Setup(c => c.GetCategories())
+                .Returns(this.HelperCategoriesListWithCategoryDTO());
+
+            // Act
+            var result = this.homeController.Index(1, empty, "/Home/Index/");
+
+            // Assert
+            this.categoriesService.Verify(x => x.GetCategories(), Times.Once);
         }
 
         private IndexViewModel HelperIndexViewModelToTest()
@@ -138,6 +163,28 @@
                         LastName = "Penkova",
                         AvilableMoneyAmount = 100
                     }
+                }
+            };
+        }
+
+        private List<CategoryDTO> HelperCategoriesListWithCategoryDTO()
+        {
+            return new List<CategoryDTO>()
+            {
+               new CategoryDTO()
+               {
+                   Id = Guid.NewGuid(),
+                   Name = "Health"
+               },
+               new CategoryDTO()
+               {
+                   Id = Guid.NewGuid(),
+                   Name = "Volunteer"
+               },
+                new CategoryDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Sports"
                 }
             };
         }

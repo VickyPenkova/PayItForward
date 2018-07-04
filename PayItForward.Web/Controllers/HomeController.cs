@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using AutoMapper;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
@@ -28,15 +27,13 @@
         }
 
         [HttpGet]
-#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-        public IActionResult Index(string Name, string search = "", int id = 1)
-#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        public IActionResult Index(int id, string categoryName, string search = "")
         {
-            var page = id;
-            int totalNumberOfStories = this.storiesService.CountStories(search, Name);
+            var page = id == 0 ? 1 : id;
+            int totalNumberOfStories = this.storiesService.CountStories(search, categoryName);
             var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
             var skip = (page - 1) * ItemsPerPage;
-            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search, Name);
+            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search, categoryName);
             var categories = this.categoriesService.GetCategories();
 
             var resultModel = new IndexViewModel
@@ -51,45 +48,13 @@
             return this.View(resultModel);
         }
 
-        [Authorize]
-        public IActionResult Details(Guid id)
-        {
-            if (id == Guid.Empty || id == null)
-            {
-                return this.RedirectToAction(actionName: nameof(this.Index), controllerName: "Home");
-            }
-
-            var storyFromDb = this.storiesService.GetStoryById(id);
-            if (storyFromDb == null)
-            {
-                return this.Content("Story not found.");
-            }
-
-            var viewModel = new DetailedStoryViewModel
-            {
-                CollectedAmount = storyFromDb.CollectedAmount,
-                DateCreated = storyFromDb.CreatedOn,
-                Description = storyFromDb.Description,
-                GoalAmount = storyFromDb.GoalAmount,
-                Id = storyFromDb.Id,
-                Title = storyFromDb.Title,
-                User = storyFromDb.User
-            };
-
-            return this.View(viewModel);
-        }
-
         public IActionResult About()
         {
-            this.ViewData["Message"] = "Your application description page.";
-
             return this.View();
         }
 
         public IActionResult Contact()
         {
-            this.ViewData["Message"] = "Your contact page.";
-
             return this.View();
         }
 

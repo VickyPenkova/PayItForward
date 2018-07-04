@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using PayItForward.Models;
@@ -14,19 +15,27 @@
     // These unit tests are only testing what the code in the action method does
     public class Details_Should
     {
-        private readonly PayItForward.Web.Controllers.HomeController homeController;
+        private readonly PayItForward.Web.Controllers.StoriesController storiesController;
         private readonly Mock<IStoriesService> storiesServices;
-        private readonly Mock<ICategoriesService> categogoriesService;
+        private readonly Mock<IDonationsService> donationsService;
+        private readonly Mock<IUsersService> usersService;
         private readonly Mock<IMapper> mapper;
+        private readonly Mock<IHttpContextAccessor> httpaccessor;
         private Guid storyId = new Guid("E6E635AB-6AD9-40BD-9992-08D5D82FC3F0");
 
         public Details_Should()
         {
             this.mapper = new Mock<IMapper>();
             this.storiesServices = new Mock<IStoriesService>();
-            this.categogoriesService = new Mock<ICategoriesService>();
-            this.homeController = new PayItForward.Web.Controllers.HomeController(
-                this.storiesServices.Object, this.categogoriesService.Object, this.mapper.Object);
+            this.donationsService = new Mock<IDonationsService>();
+            this.usersService = new Mock<IUsersService>();
+            this.httpaccessor = new Mock<IHttpContextAccessor>();
+            this.storiesController = new PayItForward.Web.Controllers.StoriesController(
+                this.storiesServices.Object,
+                this.donationsService.Object,
+                this.usersService.Object,
+                this.mapper.Object,
+                this.httpaccessor.Object);
         }
 
         [Fact]
@@ -37,7 +46,7 @@
                .Returns(this.HelperStoryDto().FirstOrDefault());
 
             // Act
-            var result = this.homeController.Details(this.storyId) as ViewResult;
+            var result = this.storiesController.Details(this.storyId) as ViewResult;
 
             // Assert
             Assert.NotNull(result);
@@ -49,7 +58,7 @@
             // Arrange
 
             // Act
-            var result = this.homeController.Details(id: Guid.Empty);
+            var result = this.storiesController.Details(id: Guid.Empty);
 
             // Assert
             var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
@@ -64,7 +73,7 @@
             var setup = this.storiesServices.Setup(s => s.GetStoryById(this.storyId)).Returns((StoryDTO)null);
 
             // Act
-            var result = this.homeController.Details(this.storyId);
+            var result = this.storiesController.Details(this.storyId);
 
             // Assert
             var contentResult = Assert.IsType<ContentResult>(result);
@@ -79,7 +88,7 @@
                 .Returns(this.HelperStoryDto().FirstOrDefault());
 
             // Act
-            var result = this.homeController.Details(this.storyId);
+            var result = this.storiesController.Details(this.storyId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -94,7 +103,7 @@
                 .Returns(this.HelperStoryDto().FirstOrDefault());
 
             // Act
-            var result = this.homeController.Details(this.storyId);
+            var result = this.storiesController.Details(this.storyId);
 
             // Assert
             this.storiesServices.Verify(m => m.GetStoryById(this.storyId), Times.Once);
