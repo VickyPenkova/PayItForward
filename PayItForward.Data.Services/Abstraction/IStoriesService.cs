@@ -6,9 +6,9 @@
 
     public interface IStoriesService
     {
-        IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "", string isFromCategory = "");
+        IEnumerable<StoryDTO> Stories(int take, int skip, string containsTitle = "", string isFromCategory = "");
 
-        IEnumerable<StoryDTO> GetStories();
+        IEnumerable<StoryDTO> Stories();
 
         int CountStories(string containsTitle = "", string isFromCategory = "");
 

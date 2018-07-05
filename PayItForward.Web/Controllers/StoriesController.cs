@@ -100,7 +100,7 @@
                 return this.Content("Story not found.");
             }
 
-            var donator = this.usersService.GetUserById(this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var donator = this.usersService.GetUserById(this.httpaccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
             if (donator == null)
             {
                 return this.Content("No user to donate.");

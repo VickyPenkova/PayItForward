@@ -22,9 +22,9 @@
             this.mapper = mapper;
         }
 
-        public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "", string isFromCategory = "")
+        public IEnumerable<StoryDTO> Stories(int take, int skip, string subTitle = "", string categoryname = "")
         {
-            var isCategoryNull = string.IsNullOrEmpty(isFromCategory);
+            var isCategoryNull = string.IsNullOrEmpty(categoryname);
             List<PayItForwardDbmodels.Story> storiesFromDb;
 
             if (!isCategoryNull)
@@ -32,8 +32,8 @@
                 storiesFromDb = this.storiesRepo.GetAll()
                    .Include(user => user.User)
                    .Include(category => category.Category)
-                   .Where(x => x.Title.Contains(containsTitle))
-                   .Where(st => st.Category.Name == isFromCategory && st.IsDeleted == false)
+                   .Where(x => x.Title.Contains(subTitle))
+                   .Where(st => st.Category.Name == categoryname && st.IsDeleted == false)
                    .OrderBy(x => x.CreatedOn)
                    .Skip(skip)
                    .Take(take)
@@ -44,7 +44,7 @@
                 storiesFromDb = this.storiesRepo.GetAll()
                .Include(user => user.User)
                .Include(category => category.Category)
-               .Where(x => x.Title.Contains(containsTitle) && x.IsDeleted == false)
+               .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
                .OrderBy(x => x.CreatedOn)
                .Skip(skip)
                .Take(take)
@@ -56,27 +56,27 @@
             return stories;
         }
 
-        public int CountStories(string containsTitle = "", string isFromCategory = "")
+        public int CountStories(string subTitle = "", string categoryname = "")
         {
             int count;
-            if (!string.IsNullOrEmpty(isFromCategory))
+            if (!string.IsNullOrEmpty(categoryname))
             {
                 count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(containsTitle) && x.IsDeleted == false)
-                .Where(st => st.Category.Name == isFromCategory)
+                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                .Where(st => st.Category.Name == categoryname)
                 .Count();
             }
             else
             {
                 count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(containsTitle) && x.IsDeleted == false)
+                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
                 .Count();
             }
 
             return count;
         }
 
-        public IEnumerable<StoryDTO> GetStories()
+        public IEnumerable<StoryDTO> Stories()
         {
             var storiesFromDb = this.storiesRepo.GetAll()
                 .Include(user => user.User)

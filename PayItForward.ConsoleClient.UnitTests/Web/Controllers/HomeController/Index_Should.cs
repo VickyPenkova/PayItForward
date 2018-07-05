@@ -8,6 +8,7 @@
     using Moq;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
+    using PayItForward.Web.Models.CategoryViewModels;
     using PayItForward.Web.Models.HomeViewModels;
     using PayItForward.Web.Models.StoryViewModels;
     using Xunit;
@@ -15,37 +16,35 @@
     public class Index_Should
     {
         private readonly PayItForward.Web.Controllers.HomeController homeController;
-        private readonly Mock<IStoriesService> storiesServices;
+        private readonly Mock<IStoriesService> storiesService;
         private readonly Mock<ICategoriesService> categoriesService;
         private readonly Mock<IMapper> mapper;
 
         public Index_Should()
         {
             this.mapper = new Mock<IMapper>();
-            this.storiesServices = new Mock<IStoriesService>();
+            this.storiesService = new Mock<IStoriesService>();
             this.categoriesService = new Mock<ICategoriesService>();
             this.homeController = new PayItForward.Web.Controllers.HomeController(
-                this.storiesServices.Object, this.categoriesService.Object, this.mapper.Object);
+                this.storiesService.Object, this.categoriesService.Object, this.mapper.Object);
         }
 
         [Fact]
         public void ReturnIndexViewModel_WithAListOfBasicStoryViewModel()
         {
             // Arrange
-            var empty = " ";
-            var page = 1;
-            var totalNumberOfStories = this.storiesServices.Setup(
+            var categoryname = string.Empty;
+            var subTitle = string.Empty;
+            this.storiesService.Setup(
                 services =>
-                        services.CountStories(empty, empty))
-                        .Returns(this.HelperIndexViewModelToTest().Stories.Count());
+                        services.CountStories(subTitle, categoryname))
+                        .Returns(this.GetTestIndexViewModel().Stories.Count());
 
-            var totalPages = (int)Math.Ceiling(1 / (decimal)3);
-            var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, empty, empty))
-                .Returns(this.HelperStoryDto());
+            var stories = this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+                .Returns(this.GetTestStoryDto());
 
             // Act
-            var result = this.homeController.Index(1, empty, "/Home/Index/");
+            var result = this.homeController.Index(1, categoryname, "/Home/Index/");
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -53,96 +52,69 @@
         }
 
         [Fact]
-        public void CallCountStoriesOnce()
+        public void ReturnIndexViewModel_WithCurrentPagePropertySetToOne()
         {
             // Arrange
-            var empty = string.Empty;
-            var page = 1;
-            var totalNumberOfStories = this.storiesServices.Setup(
+            var categoryname = string.Empty;
+            var subTitle = string.Empty;
+            this.storiesService.Setup(
                 services =>
-                        services.CountStories("/Home/Index/", empty))
-                        .Returns(this.HelperIndexViewModelToTest().Stories.Count());
-            var totalPages = (int)Math.Ceiling(1 / (decimal)3);
-            var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, "/Home/Index/", empty))
-                .Returns(this.HelperStoryDto());
-            this.categoriesService.Setup(c => c.GetCategories()).Returns(new List<CategoryDTO>()
-            {
-                new CategoryDTO()
-                {
-                    Id = this.HelperStoryDto().FirstOrDefault(st => st.Category.Name == "Health").Id,
-                    Name = "Health"
-                }
-            });
+                        services.CountStories(subTitle, categoryname))
+                        .Returns(this.GetTestIndexViewModel().Stories.Count());
+
+            var stories = this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+                .Returns(this.GetTestStoryDto());
 
             // Act
-            var result = this.homeController.Index(1, empty, "/Home/Index/");
+            var result = this.homeController.Index(1, categoryname, "/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.CountStories("/Home/Index/", empty), Times.Once);
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var indexViewModel = (IndexViewModel)viewResult.ViewData.Model;
+            Assert.Equal(1, indexViewModel.CurrentPage);
         }
 
         [Fact]
-        public void CallGetStoriesOnce()
+        public void ReturnIndexViewModel_WithListCategoriesViewModelAsTypeOfCtaegoriesProperty()
         {
             // Arrange
-            var empty = string.Empty;
-            var page = 1;
-            var totalNumberOfStories = this.storiesServices.Setup(
+            var categoryname = string.Empty;
+            var subTitle = string.Empty;
+            this.storiesService.Setup(
                 services =>
-                        services.CountStories("/Home/Index/", empty))
-                        .Returns(this.HelperIndexViewModelToTest().Stories.Count());
-            var totalPages = (int)Math.Ceiling(1 / (decimal)3);
-            var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, "/Home/Index/", empty))
-                .Returns(this.HelperStoryDto());
+                        services.CountStories(subTitle, categoryname))
+                        .Returns(this.GetTestIndexViewModel().Stories.Count());
+
+            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+                .Returns(this.GetTestStoryDto());
+
+            this.categoriesService.Setup(category => category.GetCategories())
+                .Returns(this.GetTestCategoriesListWithCategoryDTOs());
 
             // Act
-            var result = this.homeController.Index(1, empty, "/Home/Index/");
+            var result = this.homeController.Index(1, categoryname, "/Home/Index/");
 
             // Assert
-            this.storiesServices.Verify(x => x.GetStories(3, 0, "/Home/Index/", empty), Times.Once);
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var indexViewModel = (IndexViewModel)viewResult.ViewData.Model;
+            Assert.IsAssignableFrom<PayItForward.Web.Models.CategoryViewModels.ListCategoriesViewModel[]>(indexViewModel.Categories);
         }
 
-        [Fact]
-        public void CallGetCategoriesOnce()
+        public IndexViewModel GetTestIndexViewModel()
         {
-            // Arrange
-            var empty = string.Empty;
-            var page = 1;
-            var totalNumberOfStories = this.storiesServices.Setup(
-                services =>
-                        services.CountStories("/Home/Index/", empty))
-                        .Returns(this.HelperIndexViewModelToTest().Stories.Count());
-            var totalPages = (int)Math.Ceiling(1 / (decimal)3);
-            var skip = (page - 1) * 3;
-            var stories = this.storiesServices.Setup(s => s.GetStories(3, skip, "/Home/Index/", empty))
-                .Returns(this.HelperStoryDto());
-
-            var categories = this.categoriesService.Setup(c => c.GetCategories())
-                .Returns(this.HelperCategoriesListWithCategoryDTO());
-
-            // Act
-            var result = this.homeController.Index(1, empty, "/Home/Index/");
-
-            // Assert
-            this.categoriesService.Verify(x => x.GetCategories(), Times.Once);
-        }
-
-        private IndexViewModel HelperIndexViewModelToTest()
-        {
-            var basicStoryViewModel = this.HelperStoryDto();
+            var basicStoryViewModel = this.GetTestStoryDto();
             return new IndexViewModel
             {
                 CurrentPage = 1,
                 TotalPages = 3,
                 Stories = this.mapper.Object.Map<IEnumerable<BasicStoryViewModel>>(basicStoryViewModel),
                 SearchWord = string.Empty,
-                CurrentUrl = "/Home/Index"
+                CurrentUrl = "/Home/Index",
+                Categories = this.mapper.Object.Map<IEnumerable<ListCategoriesViewModel>>(this.GetTestCategoriesListWithCategoryDTOs())
             };
         }
 
-        private List<StoryDTO> HelperStoryDto()
+        public List<StoryDTO> GetTestStoryDto()
         {
             return new List<StoryDTO>()
             {
@@ -167,7 +139,7 @@
             };
         }
 
-        private List<CategoryDTO> HelperCategoriesListWithCategoryDTO()
+        public List<CategoryDTO> GetTestCategoriesListWithCategoryDTOs()
         {
             return new List<CategoryDTO>()
             {

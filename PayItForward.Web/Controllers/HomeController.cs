@@ -33,7 +33,7 @@
             int totalNumberOfStories = this.storiesService.CountStories(search, categoryName);
             var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
             var skip = (page - 1) * ItemsPerPage;
-            var stories = this.storiesService.GetStories(ItemsPerPage, skip, search, categoryName);
+            var stories = this.storiesService.Stories(ItemsPerPage, skip, search, categoryName);
             var categories = this.categoriesService.GetCategories();
 
             var resultModel = new IndexViewModel

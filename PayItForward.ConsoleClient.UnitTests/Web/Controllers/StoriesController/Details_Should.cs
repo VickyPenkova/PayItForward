@@ -43,7 +43,7 @@
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
-               .Returns(this.HelperStoryDto().FirstOrDefault());
+               .Returns(this.GetTestStoryDto().FirstOrDefault());
 
             // Act
             var result = this.storiesController.Details(this.storyId) as ViewResult;
@@ -85,7 +85,7 @@
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
-                .Returns(this.HelperStoryDto().FirstOrDefault());
+                .Returns(this.GetTestStoryDto().FirstOrDefault());
 
             // Act
             var result = this.storiesController.Details(this.storyId);
@@ -95,21 +95,7 @@
             Assert.IsType<DetailedStoryViewModel>(viewResult.ViewData.Model);
         }
 
-        [Fact]
-        public void CallGetStoryByIdOnce()
-        {
-            // Arrange
-            this.storiesServices.Setup(story => story.GetStoryById(this.storyId))
-                .Returns(this.HelperStoryDto().FirstOrDefault());
-
-            // Act
-            var result = this.storiesController.Details(this.storyId);
-
-            // Assert
-            this.storiesServices.Verify(m => m.GetStoryById(this.storyId), Times.Once);
-        }
-
-        private List<StoryDTO> HelperStoryDto()
+        private List<StoryDTO> GetTestStoryDto()
         {
             return new List<StoryDTO>()
             {
@@ -123,13 +109,13 @@
                     CreatedOn = DateTime.UtcNow,
                     Description = "Some description",
                     Title = "Title",
-                    User = this.HelperUserDTO(),
+                    User = this.GetTestUserDTO(),
                     Id = this.storyId
                 }
             };
         }
 
-        private UserDTO HelperUserDTO()
+        private UserDTO GetTestUserDTO()
         {
             return new Models.UserDTO()
             {

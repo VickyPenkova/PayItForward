@@ -35,7 +35,7 @@
         public IActionResult UserDetails(string id)
         {
             var userFromDb = this.usersService.GetUserById(id);
-            var storiesFromDb = this.storiesService.GetStories().Where(s => s.User.Id == id).ToList();
+            var storiesFromDb = this.storiesService.Stories().Where(s => s.User.Id == id).ToList();
             var donationsFromDb = this.usersService.GetDonations(id);
 
             if (userFromDb == null)
