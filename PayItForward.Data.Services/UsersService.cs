@@ -23,7 +23,10 @@
 
         public IEnumerable<UserDTO> GetUsers(int count)
         {
-            var usersFromDb = this.usersRepo.GetAll().Take(count).ToList();
+            var usersFromDb = this.usersRepo
+                .GetAll()
+                .Take(count)
+                .ToList();
 
             List<UserDTO> users = new List<UserDTO>();
 
@@ -34,12 +37,15 @@
 
         public int Count()
         {
-            return this.usersRepo.GetAll().Count();
+            return this.usersRepo
+                .GetAll()
+                .Count();
         }
 
         public UserDTO GetUserById(string userId)
         {
-            var userFromDb = this.usersRepo.GetById(userId);
+            var userFromDb = this.usersRepo
+                .GetById(userId);
 
             return this.mapper.Map<UserDTO>(userFromDb);
         }
@@ -59,12 +65,12 @@
             var userToDelete = this.usersRepo.GetAll()
                 .Include(s => s.Stories)
                 .FirstOrDefault(u => u.Id == userId);
+
              foreach (var story in userToDelete.Stories)
             {
                 story.IsDeleted = true;
             }
 
-            // TODO: TEST
             this.usersRepo.SoftDelete(userToDelete);
 
             this.usersRepo.Save();

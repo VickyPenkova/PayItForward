@@ -35,7 +35,8 @@
         {
             var categoriesFromDb = this.categoriesRepo.GetAll()
                 .Include(c => c.Stories)
-                .Where(c => c.Id == id).FirstOrDefault();
+                .Where(c => c.Id == id)
+                .FirstOrDefault();
 
             return this.mapper.Map<CategoryDTO>(categoriesFromDb);
         }

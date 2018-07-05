@@ -88,6 +88,7 @@
                 }
             };
             this.usersService.Setup(u => u.GetUserById("username")).Returns((UserDTO)null);
+            this.httpaccessor.Setup(a => a.HttpContext.User).Returns(this.storiesController.ControllerContext.HttpContext.User);
 
             // Act
             var result = this.storiesController.Donate(this.GetDonateViewModel(), this.storyId);
@@ -131,6 +132,7 @@
                         "someAuthTypeName"))
                 }
             };
+            this.httpaccessor.Setup(a => a.HttpContext.User).Returns(this.storiesController.ControllerContext.HttpContext.User);
             var donationDTO = new DonationDTO()
             {
                 Amount = 10,
@@ -178,6 +180,7 @@
                         "someAuthTypeName"))
                 }
             };
+            this.httpaccessor.Setup(a => a.HttpContext.User).Returns(this.storiesController.ControllerContext.HttpContext.User);
             var donationDTO = new DonationDTO()
             {
                 Amount = 10,
