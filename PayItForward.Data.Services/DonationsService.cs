@@ -28,9 +28,8 @@
         }
 
         // TODO: TEST
-        public bool Add(DonationDTO donation, Guid storyId)
+        public int IsDonationSuccessfull(DonationDTO donation, Guid storyId)
         {
-            var makeDonation = false;
             var donationEntity = new Donation
             {
                 Amount = donation.Amount,
@@ -50,10 +49,11 @@
                 this.storiesRepo.Save();
                 userToDonate.AvilableMoneyAmount -= donation.Amount;
                 this.usersRepo.Save();
-                makeDonation = true;
+
+                return 1;
             }
 
-            return makeDonation;
+            return 0;
         }
     }
 }

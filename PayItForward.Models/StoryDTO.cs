@@ -24,14 +24,6 @@
 
         public decimal GoalAmount { get; set; }
 
-        public bool IsClosed { get; set; }
-
-        public bool IsAccepted { get; set; }
-
         public DateTime CreatedOn { get; set; }
-
-        public DonationDTO Donations { get; set; }
-
-        public bool IsRemoved { get; set; }
     }
 }

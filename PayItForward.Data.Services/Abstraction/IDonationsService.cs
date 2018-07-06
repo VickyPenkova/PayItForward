@@ -6,6 +6,6 @@
 
     public interface IDonationsService
     {
-        bool Add(DonationDTO donation, Guid storyId);
+        int IsDonationSuccessfull(DonationDTO donation, Guid storyId);
     }
 }

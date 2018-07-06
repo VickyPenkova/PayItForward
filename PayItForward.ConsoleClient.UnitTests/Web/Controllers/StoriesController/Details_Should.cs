@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.UnitTests.Web.Controllers.HomeController
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
     using Microsoft.AspNetCore.Http;
@@ -9,6 +8,7 @@
     using Moq;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
+    using PayItForward.UnitTests.Web.Controllers.Stubs;
     using PayItForward.Web.Models.StoryViewModels;
     using Xunit;
 
@@ -43,7 +43,7 @@
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
-               .Returns(this.GetTestStoryDto().FirstOrDefault());
+               .Returns(StoriesController_Stubs.GetTestStoryDto().FirstOrDefault());
 
             // Act
             var result = this.storiesController.Details(this.storyId) as ViewResult;
@@ -85,7 +85,7 @@
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
-                .Returns(this.GetTestStoryDto().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestStoryDto().FirstOrDefault());
 
             // Act
             var result = this.storiesController.Details(this.storyId);
@@ -93,37 +93,6 @@
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<DetailedStoryViewModel>(viewResult.ViewData.Model);
-        }
-
-        private List<StoryDTO> GetTestStoryDto()
-        {
-            return new List<StoryDTO>()
-            {
-                new StoryDTO
-                {
-                    Category = new CategoryDTO()
-                    {
-                        Name = "Health"
-                    },
-                    CollectedAmount = 0,
-                    CreatedOn = DateTime.UtcNow,
-                    Description = "Some description",
-                    Title = "Title",
-                    User = this.GetTestUserDTO(),
-                    Id = this.storyId
-                }
-            };
-        }
-
-        private UserDTO GetTestUserDTO()
-        {
-            return new Models.UserDTO()
-            {
-                Email = "vicky.penkova@gmial.com",
-                FirstName = "Viki",
-                LastName = "Penkova",
-                AvilableMoneyAmount = 100
-            };
         }
     }
 }

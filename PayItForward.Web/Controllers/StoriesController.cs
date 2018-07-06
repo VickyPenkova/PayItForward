@@ -11,6 +11,7 @@
     using PayItForward.Web.Models.DonationViewModels;
     using PayItForward.Web.Models.StoryViewModels;
 
+    [Authorize]
     public class StoriesController : Controller
     {
         private readonly IStoriesService storiesService;
@@ -33,7 +34,6 @@
             this.httpaccessor = httpaccessor;
         }
 
-        [Authorize]
         public IActionResult Details(Guid id)
         {
             if (id == Guid.Empty || id == null)
@@ -115,8 +115,8 @@
                     Donator = donator
                 };
 
-                var makeDonation = this.donationsService.Add(donation, id);
-                if (makeDonation == true)
+                var isDonationSuccessfull = this.donationsService.IsDonationSuccessfull(donation, id);
+                if (isDonationSuccessfull == 1)
                 {
                     resultModel = new DonateViewModel()
                     {

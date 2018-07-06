@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
@@ -11,6 +12,7 @@
     using PayItForward.Web.Models.HomeViewModels;
     using PayItForward.Web.Models.StoryViewModels;
 
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private const int ItemsPerPage = 3;

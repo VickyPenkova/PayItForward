@@ -10,6 +10,7 @@
     using Moq;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
+    using PayItForward.UnitTests.Web.Controllers.Stubs;
     using PayItForward.Web.Models.DonationViewModels;
     using Xunit;
 
@@ -73,7 +74,7 @@
         {
             // Arrange
             this.storiesService.Setup(s => s.GetStoryById(this.storyId))
-                .Returns(this.GetTestStoryDto().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault());
             this.storiesController.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
@@ -91,7 +92,7 @@
             this.httpaccessor.Setup(a => a.HttpContext.User).Returns(this.storiesController.ControllerContext.HttpContext.User);
 
             // Act
-            var result = this.storiesController.Donate(this.GetDonateViewModel(), this.storyId);
+            var result = this.storiesController.Donate(StoriesController_Stubs.GetDonateViewModel(), this.storyId);
 
             // Assert
             var contentResult = Assert.IsType<ContentResult>(result);
@@ -114,10 +115,10 @@
         {
             // Arrange
             this.usersService.Setup(story => story.GetUserById("username"))
-                .Returns(this.GetTestUserDTO());
+                .Returns(StoriesController_Stubs.GetTestUserDTO());
 
             this.storiesService.Setup(s => s.GetStoryById(this.storyId))
-                .Returns(this.GetTestStoryDto().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault());
 
             this.storiesController.ControllerContext = new ControllerContext
             {
@@ -137,10 +138,10 @@
             {
                 Amount = 10,
                 Donator = new UserDTO(),
-                Story = this.GetTestStoryDto().FirstOrDefault()
+                Story = StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault()
             };
 
-            this.donationService.Setup(d => d.Add(donationDTO, this.storyId)).Returns(true);
+            this.donationService.Setup(d => d.IsDonationSuccessfull(donationDTO, this.storyId)).Returns(1);
 
             // Act
             var result = this.storiesController.Donate(
@@ -162,10 +163,10 @@
         {
             // Arrange
             this.usersService.Setup(story => story.GetUserById("username"))
-                .Returns(this.GetTestUserDTO());
+                .Returns(StoriesController_Stubs.GetTestUserDTO());
 
             this.storiesService.Setup(s => s.GetStoryById(this.storyId))
-                .Returns(this.GetTestStoryDto().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault());
 
             this.storiesController.ControllerContext = new ControllerContext
             {
@@ -184,65 +185,19 @@
             var donationDTO = new DonationDTO()
             {
                 Amount = 10,
-                Donator = this.GetTestUserDTO(),
-                Story = this.GetTestStoryDto().FirstOrDefault()
+                Donator = StoriesController_Stubs.GetTestUserDTO(),
+                Story = StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault()
             };
 
-            this.donationService.Setup(d => d.Add(donationDTO, this.storyId)).Returns(false);
+            this.donationService.Setup(d => d.IsDonationSuccessfull(donationDTO, this.storyId)).Returns(0);
 
             // Act
-            var result = this.storiesController.Donate(this.GetDonateViewModel(), this.storyId);
+            var result = this.storiesController.Donate(StoriesController_Stubs.GetDonateViewModel(), this.storyId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var donateViewmodel = (DonateViewModel)viewResult.ViewData.Model;
-            Assert.Equal(this.GetDonateViewModel().ErrorMessage, donateViewmodel.ErrorMessage);
-        }
-
-        private List<StoryDTO> GetTestStoryDto()
-        {
-            return new List<StoryDTO>()
-            {
-                new StoryDTO
-                {
-                    Category = new CategoryDTO()
-                    {
-                        Name = "Health"
-                    },
-                    CollectedAmount = 3,
-                    CreatedOn = DateTime.UtcNow,
-                    Description = "Some description",
-                    Title = "Title",
-                    User = this.GetTestUserDTO(),
-                    Id = this.storyId,
-                    GoalAmount = 30000
-                }
-            };
-        }
-
-        private UserDTO GetTestUserDTO()
-        {
-            return new Models.UserDTO()
-            {
-                Email = "vicky.penkova@gmial.com",
-                FirstName = "Viki",
-                LastName = "Penkova",
-                AvilableMoneyAmount = 10000,
-                Id = "alabala"
-            };
-        }
-
-        private DonateViewModel GetDonateViewModel()
-        {
-            return new DonateViewModel()
-            {
-                Amount = 0,
-                CollectedAmount = 3,
-                Donator = this.GetTestUserDTO(),
-                GoalAmount = 3000,
-                Title = "Title",
-                ErrorMessage = "Can not donate!"
-            };
+            Assert.Equal(StoriesController_Stubs.GetDonateViewModel().ErrorMessage, donateViewmodel.ErrorMessage);
         }
     }
 }

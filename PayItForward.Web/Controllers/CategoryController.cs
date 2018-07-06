@@ -1,14 +1,13 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.CategoryViewModels;
 
+    [AllowAnonymous]
     public class CategoryController : Controller
     {
         private readonly ICategoriesService categoriesService;
