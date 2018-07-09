@@ -81,6 +81,27 @@
         }
 
         [Fact]
+        public void ReturnDetailsViewModel_WithCorrectUser()
+        {
+            // Arrange
+            var expectedDtoStories = StoriesController_Stubs.GetTestStoriesListWithStoryDtos();
+            var expectedOwnerOfStory = expectedDtoStories.FirstOrDefault().User;
+            this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
+                .Returns(expectedDtoStories
+                    .FirstOrDefault());
+
+            // Act
+            var result = this.storiesController.Details(this.storyId);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var detailedStoryViewModel = (DetailedStoryViewModel)viewResult.ViewData.Model;
+            var actualUser = detailedStoryViewModel.User;
+
+            Assert.Equal(expectedOwnerOfStory, actualUser);
+        }
+
+        [Fact]
         public void ReturnViewResult_WithDetailsViewModel()
         {
             // Arrange
