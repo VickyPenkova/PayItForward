@@ -1,4 +1,6 @@
-﻿namespace PayItForward.Models
+﻿using System.Collections.Generic;
+
+namespace PayItForward.Models
 {
     public class UserDTO
     {
@@ -6,8 +8,14 @@
 
         public string LastName { get; set; }
 
-        public double AvilableMoneyAmount { get; set; }
+        public string Email { get; set; }
+
+        public decimal AvilableMoneyAmount { get; set; }
 
         public string AvatarUrl { get; set; }
+
+        public string Id { get; set; }
+
+        public IEnumerable<DonationDTO> Donations { get; set; }
     }
 }

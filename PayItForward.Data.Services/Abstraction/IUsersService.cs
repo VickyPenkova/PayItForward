@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Services.Data.Abstraction
+﻿namespace PayItForward.Services.Abstraction
 {
     using System.Collections.Generic;
     using PayItForward.Models;
@@ -7,8 +7,12 @@
     {
         IEnumerable<UserDTO> GetUsers(int count);
 
-        UserDTO GetUserById(string id);
+        UserDTO GetUserById(string userId);
 
         int Count();
+
+        IEnumerable<DonationDTO> GetDonations(string userId);
+
+        string Delete(string userId);
     }
 }

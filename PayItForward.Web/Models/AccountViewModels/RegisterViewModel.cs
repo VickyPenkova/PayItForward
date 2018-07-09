@@ -33,7 +33,5 @@ namespace PayItForward.Web.Models.AccountViewModels
         [StringLength(20, ErrorMessage = "The {0} must be at max {1} characters long.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
-        public double AvilableMoneyAmount { get; set; } = 0;
     }
 }

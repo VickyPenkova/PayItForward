@@ -1,0 +1,40 @@
+﻿@model PayItForward.Web.Models.StoryViewModels.BasicStoryViewModel
+<div class="col-sm-4">
+    <div class="thumbnail" style="height: 100%">
+        <img src=@Html.DisplayFor(modelItem => @Model.ImageUrl) alt="Card image cap">
+        <div class="caption" style="height: 100%;">
+            <h3>@Html.DisplayFor(modelItem => @Model.Title)</h3>
+            <div class="wrapper equal">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span>@Html.DisplayFor(modelItem => @Model.User.FirstName)</span>
+                        <span>@Html.DisplayFor(modelItem => @Model.User.LastName)</span>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <p>
+                                    <a href="/Admin/UserDetails/@Model.User.Id" 
+                                       class="btn btn-primary wrapper" role="button">Details</a>
+                                </p>
+                            }
+                        }
+                    </li>
+                    <li class="list-group-item">
+                        <span>@Html.DisplayFor(modelItem => @Model.Category.Name)</span>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="alert-danger">@Html.DisplayFor(modelItem => @Model.ExpirationDate)</span>
+                    </li>
+                    <li class="list-group-item">
+                        <p>Collected Amount</p>
+                        <i class="small material-icons">attach_money</i>
+                        <span class="lead">@Html.DisplayFor(modelItem => @Model.CollectedAmount)</span>
+                    </li>
+                </ul>
+            </div>
+            <p><a href="/Stories/Details/@Model.Id" class="btn btn-primary wrapper" role="button">Details</a></p>
+        </div>
+    </div>
+</div>
+

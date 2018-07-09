@@ -19,7 +19,7 @@ namespace PayItForward.Data.Models
         }
 
         [Required]
-        [StringLength(100, MinimumLength = 3)]
+        [StringLength(500, MinimumLength = 3)]
         public string Title { get; set; }
 
         [Column(TypeName = "varchar(200)")]
@@ -37,9 +37,6 @@ namespace PayItForward.Data.Models
         public bool IsClosed { get; set; }
 
         public bool IsAccepted { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public DateTime ExpirationDate { get; set; }
 

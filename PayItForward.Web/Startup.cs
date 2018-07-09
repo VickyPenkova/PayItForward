@@ -7,14 +7,15 @@
     using global::AutoMapper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Data;
     using PayItForward.Data.Abstraction;
-    using PayItForward.Services.Data;
-    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Services;
+    using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Services;
     using PayItForwardDbmodels = PayItForward.Data.Models;
@@ -47,10 +48,12 @@
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IPayItForwardDbContext, PayItForwardDbContext>();
-            services.AddScoped(typeof(IRepository<,>), typeof(UsersRepository<,>));
+            services.AddScoped(typeof(IRepository<PayItForwardDbmodels.User, string>), typeof(UsersRepository<PayItForwardDbmodels.User, string>));
             services.AddScoped(typeof(IRepository<,>), typeof(EfGenericRepository<,>));
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IStoriesService, StoriesService>();
+            services.AddScoped<IDonationsService, DonationsService>();
+            services.AddScoped<ICategoriesService, CategoriesService>();
             services.AddAutoMapper();
             services.AddMvc();
         }

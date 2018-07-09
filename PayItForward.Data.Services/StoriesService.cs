@@ -1,4 +1,4 @@
-﻿namespace PayItForward.Services.Data
+﻿namespace PayItForward.Services
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
     using PayItForward.Models;
-    using PayItForward.Services.Data.Abstraction;
+    using PayItForward.Services.Abstraction;
     using PayItForwardDbmodels = PayItForward.Data.Models;
 
     public class StoriesService : IStoriesService
@@ -22,25 +22,79 @@
             this.mapper = mapper;
         }
 
-        public IEnumerable<StoryDTO> GetStories(int take, int skip, string containsTitle = "")
+        public IEnumerable<StoryDTO> Stories(int take, int skip, string subTitle = "", string categoryname = "")
         {
-            var storiesFromDb = this.storiesRepo.GetAll()
+            var isCategoryNull = string.IsNullOrEmpty(categoryname);
+            List<PayItForwardDbmodels.Story> storiesFromDb;
+
+            if (!isCategoryNull)
+            {
+                storiesFromDb = this.storiesRepo.GetAll()
+                   .Include(user => user.User)
+                   .Include(category => category.Category)
+                   .Where(x => x.Title.Contains(subTitle))
+                   .Where(st => st.Category.Name == categoryname && st.IsDeleted == false)
+                   .OrderBy(x => x.CreatedOn)
+                   .Skip(skip)
+                   .Take(take)
+                   .ToList();
+            }
+            else
+            {
+                storiesFromDb = this.storiesRepo.GetAll()
                .Include(user => user.User)
                .Include(category => category.Category)
-               .Where(x => x.Title.Contains(containsTitle))
+               .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
                .OrderBy(x => x.CreatedOn)
                .Skip(skip)
                .Take(take)
                .ToList();
+            }
 
             List<StoryDTO> stories = new List<StoryDTO>();
             stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
             return stories;
         }
 
-        public int CountStories(string containsTitle = "")
+        public int CountStories(string subTitle = "", string categoryname = "")
         {
-            return this.storiesRepo.GetAll().Where(x => x.Title.Contains(containsTitle)).Count();
+            int count;
+            if (!string.IsNullOrEmpty(categoryname))
+            {
+                count = this.storiesRepo.GetAll()
+                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                .Where(st => st.Category.Name == categoryname)
+                .Count();
+            }
+            else
+            {
+                count = this.storiesRepo.GetAll()
+                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                .Count();
+            }
+
+            return count;
+        }
+
+        public IEnumerable<StoryDTO> Stories()
+        {
+            var storiesFromDb = this.storiesRepo.GetAll()
+                .Include(user => user.User)
+                .Include(category => category.Category);
+
+            List<StoryDTO> stories = new List<StoryDTO>();
+            stories = this.mapper.Map<List<StoryDTO>>(storiesFromDb);
+            return stories;
+        }
+
+        public StoryDTO GetStoryById(Guid id)
+        {
+            var storiesFromDb = this.storiesRepo.GetAll()
+                .Include(s => s.User)
+                .Where(s => s.Id == id)
+                .FirstOrDefault();
+
+            return this.mapper.Map<StoryDTO>(storiesFromDb);
         }
     }
 }

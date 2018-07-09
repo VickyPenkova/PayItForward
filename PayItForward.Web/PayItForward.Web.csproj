@@ -24,13 +24,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PayItForward.Common\PayItForward.Common.csproj" />
-    <ProjectReference Include="..\PayItForward.Data.Services\PayItForward.Services.Data.csproj" />
+    <ProjectReference Include="..\PayItForward.Data.Services\PayItForward.Services.csproj" />
     <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
     <ProjectReference Include="..\PayItForward.Web.Infrastructure\PayItForward.Web.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Stories\" />
   </ItemGroup>
 
 </Project>

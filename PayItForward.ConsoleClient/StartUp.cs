@@ -14,7 +14,6 @@
     {
         public static void Main(string[] args)
         {
-            // TODO: Remove this code from here, after the testing is finished
             var factory = new PayItForwardContextFactory();
 
             var context = factory.CreateDbContext();
@@ -29,7 +28,6 @@
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
-            // userRepo.HardDelete(context.Users.FirstOrDefault(u => u.LastName == "Mingle"));
             var services = new ServiceCollection();
 
             var connectionStringResolver = new ConnectionStringResolver();

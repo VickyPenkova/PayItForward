@@ -33,10 +33,12 @@ namespace PayItForward.Data.Models
         [StringLength(20)]
         public string LastName { get; set; }
 
-        public double AvilableMoneyAmount { get; set; }
+        public decimal AvilableMoneyAmount { get; set; }
 
         [Column(TypeName = "varchar(200)")]
         public string AvatarUrl { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public ICollection<Story> Stories => this.stories;
 
