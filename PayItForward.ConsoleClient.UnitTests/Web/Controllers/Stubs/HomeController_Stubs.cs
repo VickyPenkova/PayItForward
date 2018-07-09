@@ -88,19 +88,6 @@
             };
         }
 
-        public static List<BasicStoryViewModel> GetTestListOfBasicStoryViewModel()
-        {
-            return new List<BasicStoryViewModel>()
-            {
-                new BasicStoryViewModel
-                {
-                    Category = GetTestCategoriesListWithCategoryDTOs().FirstOrDefault(),
-                    User = GetTestUserDTO(),
-                    Title = "Good"
-                }
-            };
-        }
-
         public static List<CategoryDTO> GetTestCategoriesListWithCategoryDTOs()
         {
             return new List<CategoryDTO>()

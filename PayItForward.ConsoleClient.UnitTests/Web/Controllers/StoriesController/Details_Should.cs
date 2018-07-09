@@ -43,7 +43,7 @@
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
-               .Returns(StoriesController_Stubs.GetTestStoryDto().FirstOrDefault());
+               .Returns(StoriesController_Stubs.GetTestStoriesListWithStoryDtos().FirstOrDefault());
 
             // Act
             var result = this.storiesController.Details(this.storyId) as ViewResult;
@@ -85,7 +85,7 @@
         {
             // Arrange
             this.storiesServices.Setup(x => x.GetStoryById(this.storyId))
-                .Returns(StoriesController_Stubs.GetTestStoryDto().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestStoriesListWithStoryDtos().FirstOrDefault());
 
             // Act
             var result = this.storiesController.Details(this.storyId);

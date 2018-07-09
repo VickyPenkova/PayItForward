@@ -7,7 +7,7 @@
 
     public static class StoriesController_Stubs
     {
-        public static List<StoryDTO> GetTestStoryDtos()
+        public static List<StoryDTO> GetTestListOfStoryDtos()
         {
             return new List<StoryDTO>()
             {
@@ -54,7 +54,7 @@
             };
         }
 
-        public static DonateViewModel GetDonateViewModel()
+        public static DonateViewModel GetTestDonateViewModel()
         {
             return new DonateViewModel()
             {
@@ -67,7 +67,7 @@
             };
         }
 
-        public static List<StoryDTO> GetTestStoryDto()
+        public static List<StoryDTO> GetTestStoriesListWithStoryDtos()
         {
             return new List<StoryDTO>()
             {
