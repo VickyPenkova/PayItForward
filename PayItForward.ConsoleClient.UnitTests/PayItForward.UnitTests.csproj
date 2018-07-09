@@ -26,8 +26,4 @@
     <ProjectReference Include="..\PayItForward.Web\PayItForward.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Web\Controllers\HelperClasses\" />
-  </ItemGroup>
-
 </Project>
