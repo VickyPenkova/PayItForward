@@ -1,4 +1,4 @@
-﻿namespace PayItForward.UnitTests.Web.Controllers.HomeController
+﻿namespace PayItForward.UnitTests.Web.Controllers.StoriesController
 {
     using System;
     using System.Linq;

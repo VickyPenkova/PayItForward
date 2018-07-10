@@ -76,6 +76,11 @@
 
         public IActionResult DeleteUser(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return this.RedirectToAction(actionName: "UserDetails", controllerName: "Admin");
+            }
+
             var res = this.usersService.Delete(id);
             return this.View();
         }

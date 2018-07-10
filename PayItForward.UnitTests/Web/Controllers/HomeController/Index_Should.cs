@@ -41,7 +41,7 @@
                         .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
 
             var stories = this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(HomeController_Stubs.GetTestListOfStoryDtos());
+                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
 
             // Act
             var result = this.homeController.Index(1, categoryname, subTitle);
@@ -52,7 +52,7 @@
         }
 
         [Fact]
-        public void ReturnIndexViewModel_WithCurrentPagePropertySetToOne()
+        public void ReturnIndexViewModel_WithCurrentPageProperty_SetToOne()
         {
             // Arrange
             var categoryname = string.Empty;
@@ -63,7 +63,7 @@
                         .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
 
             var stories = this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(HomeController_Stubs.GetTestListOfStoryDtos());
+                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
 
             // Act
             var result = this.homeController.Index(1, categoryname, subTitle);
@@ -75,7 +75,7 @@
         }
 
         [Fact]
-        public void ReturnIndexViewModel_WithListCategoriesViewModelAsTypeOfCategoriesProperty()
+        public void ReturnIndexViewModel_WithListCategoriesViewModel_AsTypeOfCategoriesProperty()
         {
             // Arrange
             var categoryname = string.Empty;
@@ -86,7 +86,7 @@
                         .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
 
             this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(HomeController_Stubs.GetTestListOfStoryDtos());
+                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
 
             this.categoriesService.Setup(category => category.GetCategories())
                 .Returns(HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs());
@@ -106,7 +106,7 @@
             // Arrange
             var categoryname = string.Empty;
             var subTitle = string.Empty;
-            var dtoStories = HomeController_Stubs.GetTestListOfStoryDtos();
+            var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var dtoCategories = HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs();
             var expectedCategoriesViewModels = dtoCategories.Select(x => new ListCategoriesViewModel()
             {
@@ -149,7 +149,7 @@
             // Arrange
             var categoryname = GlobalConstants.CategoryHealth;
             var subTitle = string.Empty;
-            var dtoStories = HomeController_Stubs.GetTestListOfStoryDtos();
+            var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var dtoCategories = HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs();
 
             var expectedStoriesViewModels = dtoStories
@@ -190,7 +190,7 @@
             // Arrange
             var categoryname = string.Empty;
             var subTitle = string.Empty;
-            var dtoStories = HomeController_Stubs.GetTestListOfStoryDtos();
+            var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var expectedStoriesViewModels = dtoStories.Select(x => new BasicStoryViewModel()
             {
                 Title = x.Title
@@ -232,7 +232,7 @@
             // Arrange
             var categoryname = string.Empty;
             var subTitle = string.Empty;
-            var dtoStories = HomeController_Stubs.GetTestListOfStoryDtos();
+            var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var expectedStoriesViewModels = dtoStories.Select(x => new BasicStoryViewModel()
             {
                 User = x.User
@@ -274,7 +274,7 @@
             // Arrange
             var categoryname = string.Empty;
             var subTitle = string.Empty;
-            var dtoStories = HomeController_Stubs.GetTestListOfStoryDtos();
+            var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var expectedStoriesViewModels = dtoStories.Select(x => new BasicStoryViewModel()
             {
                 Title = x.Title,

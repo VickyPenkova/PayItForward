@@ -1,7 +1,9 @@
 ﻿namespace PayItForward.UnitTests.Web.Controllers.AdminController
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
@@ -55,6 +57,33 @@
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsAssignableFrom<UserDetailsViewModel>(viewResult.ViewData.Model);
+        }
+
+        [Fact]
+        public void ReturnUserDatailsModel_WithCorrectUser()
+        {
+            // Arrange
+            var userDto = AdminController_Stubs.GetTestUserDto(this.userId);
+
+            var storiesDtos = AdminController_Stubs.GetTestListWIthStoryDtos(this.storyId, this.userId);
+
+            var donationDtos = AdminController_Stubs.GetTestListWithDOnationDtos(this.storyId, this.userId);
+
+            this.usersService.Setup(user => user.GetUserById(this.userId))
+                .Returns(userDto);
+            this.storiesServices.Setup(s => s.Stories())
+                .Returns(storiesDtos.Where(story => story.User.Id == this.userId));
+            this.usersService.Setup(u => u.GetDonations(this.userId))
+                .Returns(donationDtos);
+
+            // Act
+            var result = this.adminController.UserDetails(this.userId);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var userDetailsViewModel = (UserDetailsViewModel)viewResult.ViewData.Model;
+
+            Assert.Equal(userDto, userDetailsViewModel.User);
         }
 
         [Fact]

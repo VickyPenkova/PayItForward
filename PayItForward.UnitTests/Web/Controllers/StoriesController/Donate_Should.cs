@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.UnitTests.Web.Controllers.StoriesController
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
@@ -40,7 +39,7 @@
         }
 
         [Fact]
-        public void ReturnARedirectToIndexHomeWhenIdIsEmpty()
+        public void ReturnARedirectToIndexHome_WhenIdIsEmpty()
         {
             // Arrange
 
@@ -159,7 +158,7 @@
         }
 
         [Fact]
-        public void ReturnDonateViewModelWithErrorMessageCanNotDonate()
+        public void ReturnDonateViewModel_WithErrorMessageCanNotDonate()
         {
             // Arrange
             this.usersService.Setup(story => story.GetUserById("username"))
