@@ -1,7 +1,6 @@
 ﻿namespace PayItForward.UnitTests.Web.Controllers.StoriesController
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
@@ -40,7 +39,7 @@
         }
 
         [Fact]
-        public void ReturnARedirectToIndexHomeWhenIdIsEmpty()
+        public void ReturnARedirectToIndexHome_WhenIdIsEmpty()
         {
             // Arrange
 
@@ -74,7 +73,7 @@
         {
             // Arrange
             this.storiesService.Setup(s => s.GetStoryById(this.storyId))
-                .Returns(StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestListOfStoryDtos().FirstOrDefault());
             this.storiesController.ControllerContext = new ControllerContext
             {
                 HttpContext = new DefaultHttpContext
@@ -92,7 +91,7 @@
             this.httpaccessor.Setup(a => a.HttpContext.User).Returns(this.storiesController.ControllerContext.HttpContext.User);
 
             // Act
-            var result = this.storiesController.Donate(StoriesController_Stubs.GetDonateViewModel(), this.storyId);
+            var result = this.storiesController.Donate(StoriesController_Stubs.GetTestDonateViewModel(), this.storyId);
 
             // Assert
             var contentResult = Assert.IsType<ContentResult>(result);
@@ -118,7 +117,7 @@
                 .Returns(StoriesController_Stubs.GetTestUserDTO());
 
             this.storiesService.Setup(s => s.GetStoryById(this.storyId))
-                .Returns(StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestListOfStoryDtos().FirstOrDefault());
 
             this.storiesController.ControllerContext = new ControllerContext
             {
@@ -138,7 +137,7 @@
             {
                 Amount = 10,
                 Donator = new UserDTO(),
-                Story = StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault()
+                Story = StoriesController_Stubs.GetTestListOfStoryDtos().FirstOrDefault()
             };
 
             this.donationService.Setup(d => d.IsDonationSuccessfull(donationDTO, this.storyId)).Returns(1);
@@ -159,14 +158,14 @@
         }
 
         [Fact]
-        public void ReturnDonateViewModelWithErrorMessageCanNotDonate()
+        public void ReturnDonateViewModel_WithErrorMessageCanNotDonate()
         {
             // Arrange
             this.usersService.Setup(story => story.GetUserById("username"))
                 .Returns(StoriesController_Stubs.GetTestUserDTO());
 
             this.storiesService.Setup(s => s.GetStoryById(this.storyId))
-                .Returns(StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault());
+                .Returns(StoriesController_Stubs.GetTestListOfStoryDtos().FirstOrDefault());
 
             this.storiesController.ControllerContext = new ControllerContext
             {
@@ -186,18 +185,18 @@
             {
                 Amount = 10,
                 Donator = StoriesController_Stubs.GetTestUserDTO(),
-                Story = StoriesController_Stubs.GetTestStoryDtos().FirstOrDefault()
+                Story = StoriesController_Stubs.GetTestListOfStoryDtos().FirstOrDefault()
             };
 
             this.donationService.Setup(d => d.IsDonationSuccessfull(donationDTO, this.storyId)).Returns(0);
 
             // Act
-            var result = this.storiesController.Donate(StoriesController_Stubs.GetDonateViewModel(), this.storyId);
+            var result = this.storiesController.Donate(StoriesController_Stubs.GetTestDonateViewModel(), this.storyId);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var donateViewmodel = (DonateViewModel)viewResult.ViewData.Model;
-            Assert.Equal(StoriesController_Stubs.GetDonateViewModel().ErrorMessage, donateViewmodel.ErrorMessage);
+            Assert.Equal(StoriesController_Stubs.GetTestDonateViewModel().ErrorMessage, donateViewmodel.ErrorMessage);
         }
     }
 }

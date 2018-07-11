@@ -14,7 +14,7 @@
     {
         public static IndexViewModel GetTestIndexViewModel()
         {
-            var basicStoryViewModel = GetTestListOfStoryDtos();
+            var basicStoryViewModel = GetTestListWithStoryDtos();
             return new IndexViewModel
             {
                 CurrentPage = 1,
@@ -34,7 +34,7 @@
             };
         }
 
-        public static List<StoryDTO> GetTestListOfStoryDtos()
+        public static List<StoryDTO> GetTestListWithStoryDtos()
         {
             return new List<StoryDTO>()
             {
@@ -85,19 +85,6 @@
                 FirstName = "Viki",
                 LastName = "Penkova",
                 AvilableMoneyAmount = 100
-            };
-        }
-
-        public static List<BasicStoryViewModel> GetTestListOfBasicStoryViewModel()
-        {
-            return new List<BasicStoryViewModel>()
-            {
-                new BasicStoryViewModel
-                {
-                    Category = GetTestCategoriesListWithCategoryDTOs().FirstOrDefault(),
-                    User = GetTestUserDTO(),
-                    Title = "Good"
-                }
             };
         }
 

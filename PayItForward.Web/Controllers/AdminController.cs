@@ -35,16 +35,17 @@
         public IActionResult UserDetails(string id)
         {
             var userFromDb = this.usersService.GetUserById(id);
-            var storiesFromDb = this.storiesService.Stories()
-                .Where(s => s.User.Id == id)
-                .ToList();
-
-            var donationsFromDb = this.usersService.GetDonations(id);
 
             if (userFromDb == null)
             {
                 return this.Content("User unavailable.");
             }
+
+            var storiesFromDb = this.storiesService.Stories()
+                .Where(s => s.User.Id == id)
+                .ToList();
+
+            var donationsFromDb = this.usersService.GetDonations(id);
 
             var detailedStoryInfo = new List<DetailedStoryViewModel>();
 
@@ -75,6 +76,11 @@
 
         public IActionResult DeleteUser(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return this.RedirectToAction(actionName: "UserDetails", controllerName: "Admin");
+            }
+
             var res = this.usersService.Delete(id);
             return this.View();
         }
