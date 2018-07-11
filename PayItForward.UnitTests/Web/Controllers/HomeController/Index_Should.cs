@@ -19,6 +19,8 @@
         private readonly Mock<IStoriesService> storiesService;
         private readonly Mock<ICategoriesService> categoriesService;
         private readonly Mock<IMapper> mapper;
+        private string categoryname = string.Empty;
+        private string subTitle = string.Empty;
 
         public Index_Should()
         {
@@ -33,18 +35,10 @@
         public void ReturnIndexViewModel_WithAListOfBasicStoryViewModel()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
-            this.storiesService.Setup(
-                services =>
-                        services.CountStories(subTitle, categoryname))
-                        .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
-
-            var stories = this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
+            this.ArrangeStoriestServiceSetup(this.storiesService);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -55,18 +49,10 @@
         public void ReturnIndexViewModel_WithCurrentPageProperty_SetToOne()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
-            this.storiesService.Setup(
-                services =>
-                        services.CountStories(subTitle, categoryname))
-                        .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
-
-            var stories = this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
+            this.ArrangeStoriestServiceSetup(this.storiesService);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -78,21 +64,13 @@
         public void ReturnIndexViewModel_WithListCategoriesViewModel_AsTypeOfCategoriesProperty()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
-            this.storiesService.Setup(
-                services =>
-                        services.CountStories(subTitle, categoryname))
-                        .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
-
-            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
+            this.ArrangeStoriestServiceSetup(this.storiesService);
 
             this.categoriesService.Setup(category => category.GetCategories())
                 .Returns(HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs());
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -104,8 +82,6 @@
         public void ReturnIndexViewModel_WithCorrectCategoryNames()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
             var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var dtoCategories = HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs();
             var expectedCategoriesViewModels = dtoCategories.Select(x => new ListCategoriesViewModel()
@@ -113,13 +89,7 @@
                 Name = x.Name
             }).ToList();
 
-            this.storiesService.Setup(
-                services =>
-                        services.CountStories(subTitle, categoryname))
-                        .Returns(dtoStories.Count());
-
-            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
-                .Returns(dtoStories);
+            this.ArrangeStoriestServiceSetup(this.storiesService);
 
             this.categoriesService.Setup(category => category.GetCategories())
                 .Returns(dtoCategories);
@@ -128,7 +98,7 @@
                 .Returns(expectedCategoriesViewModels);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -147,8 +117,7 @@
         public void ReturnCorrectIndexViewModel_WhenRouteParameterCategoryName_IsSet()
         {
             // Arrange
-            var categoryname = GlobalConstants.CategoryHealth;
-            var subTitle = string.Empty;
+            this.categoryname = GlobalConstants.CategoryHealth;
             var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var dtoCategories = HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs();
 
@@ -156,15 +125,15 @@
                 .Select(x => new BasicStoryViewModel()
             {
                 Category = x.Category
-            }).Where(category => category.Category.Name == categoryname)
+            }).Where(category => category.Category.Name == this.categoryname)
             .ToList();
 
             this.storiesService.Setup(
                 services =>
-                        services.CountStories(subTitle, categoryname))
+                        services.CountStories(this.subTitle, this.categoryname))
                         .Returns(dtoStories.Count());
 
-            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+            this.storiesService.Setup(s => s.Stories(3, 0, this.subTitle, this.categoryname))
                 .Returns(dtoStories);
 
             this.categoriesService.Setup(category => category.GetCategories())
@@ -174,7 +143,7 @@
                .Returns(expectedStoriesViewModels);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -188,8 +157,6 @@
         public void ReturnIndexViewModel_WithCorrectStoriesTitles()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
             var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var expectedStoriesViewModels = dtoStories.Select(x => new BasicStoryViewModel()
             {
@@ -198,10 +165,10 @@
 
             this.storiesService.Setup(
                 services =>
-                        services.CountStories(subTitle, categoryname))
+                        services.CountStories(this.subTitle, this.categoryname))
                         .Returns(dtoStories.Count());
 
-            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+            this.storiesService.Setup(s => s.Stories(3, 0, this.subTitle, this.categoryname))
                 .Returns(dtoStories);
 
             this.categoriesService.Setup(category => category.GetCategories())
@@ -211,7 +178,7 @@
                 .Returns(expectedStoriesViewModels);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -230,21 +197,17 @@
         public void ReturnIndexViewModel_WithCorrectStoriesOwner()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
             var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var expectedStoriesViewModels = dtoStories.Select(x => new BasicStoryViewModel()
             {
                 User = x.User
             }).ToList();
 
-            this.storiesService.Setup(
-                services =>
-                        services.CountStories(subTitle, categoryname))
-                        .Returns(dtoStories.Count());
-
-            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+            this.storiesService.Setup(s => s.Stories(3, 0, this.subTitle, this.categoryname))
                 .Returns(dtoStories);
+
+            this.categoriesService.Setup(category => category.GetCategories())
+                .Returns(HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs());
 
             this.categoriesService.Setup(category => category.GetCategories())
                 .Returns(HomeController_Stubs.GetTestCategoriesListWithCategoryDTOs());
@@ -253,7 +216,7 @@
                 .Returns(expectedStoriesViewModels);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -272,8 +235,6 @@
         public void ReturnIndexViewModel_WithCorrectNumberOfStories()
         {
             // Arrange
-            var categoryname = string.Empty;
-            var subTitle = string.Empty;
             var dtoStories = HomeController_Stubs.GetTestListWithStoryDtos();
             var expectedStoriesViewModels = dtoStories.Select(x => new BasicStoryViewModel()
             {
@@ -283,10 +244,10 @@
 
             this.storiesService.Setup(
                 services =>
-                        services.CountStories(subTitle, categoryname))
+                        services.CountStories(this.subTitle, this.categoryname))
                         .Returns(dtoStories.Count());
 
-            this.storiesService.Setup(s => s.Stories(3, 0, subTitle, categoryname))
+            this.storiesService.Setup(s => s.Stories(3, 0, this.subTitle, this.categoryname))
                 .Returns(dtoStories);
 
             this.categoriesService.Setup(category => category.GetCategories())
@@ -296,7 +257,7 @@
                 .Returns(expectedStoriesViewModels);
 
             // Act
-            var result = this.homeController.Index(1, categoryname, subTitle);
+            var result = this.homeController.Index(1, this.categoryname, this.subTitle);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -304,6 +265,17 @@
             var actualStories = indexViewModel.Stories as List<BasicStoryViewModel>;
 
             Assert.Equal(expectedStoriesViewModels.Count, actualStories.Count);
+        }
+
+        private void ArrangeStoriestServiceSetup(Mock<IStoriesService> storiesService)
+        {
+            this.storiesService.Setup(
+                services =>
+                        services.CountStories(this.subTitle, this.categoryname))
+                        .Returns(HomeController_Stubs.GetTestIndexViewModel().Stories.Count());
+
+            this.storiesService.Setup(s => s.Stories(3, 0, this.subTitle, this.categoryname))
+                .Returns(HomeController_Stubs.GetTestListWithStoryDtos());
         }
     }
 }

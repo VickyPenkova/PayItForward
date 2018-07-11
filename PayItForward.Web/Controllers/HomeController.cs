@@ -31,7 +31,7 @@
         [HttpGet]
         public IActionResult Index(int id, string categoryName, string search = "")
         {
-            var page = id == 0 ? 1 : id;
+            var page = id < 1 ? 1 : id;
             int totalNumberOfStories = this.storiesService.CountStories(search, categoryName);
             var totalPages = (int)Math.Ceiling(totalNumberOfStories / (decimal)ItemsPerPage);
             var skip = (page - 1) * ItemsPerPage;
