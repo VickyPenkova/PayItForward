@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model PayItForward.Web.Models.HomeViewModels.IndexViewModel
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4 col-md-3">
+                @Html.Partial("_DropdownCategoriesPartial", Model)
+        </div>
+
+        <div class="col-xs-9 col-md-9">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+            {
+                @Html.Partial("_SearchPartial");
+            }
+
+            @foreach (var story in Model.Stories)
+            {
+                @Html.DisplayFor(model => story)
+            }
+        </div>
+    </div>
+    @Html.Partial("_PaginationPartial", Model)
+
+</div>

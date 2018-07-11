@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)\StyleCop.ruleset</CodeAnalysisRuleSet>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ensure.That" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="OpenCover" Version="4.6.519" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PayItForward.Common\PayItForward.Common.csproj" />
+    <ProjectReference Include="..\PayItForward.Data\PayItForward.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
