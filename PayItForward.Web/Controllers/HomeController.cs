@@ -6,13 +6,13 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using PayItForward.Common;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models;
     using PayItForward.Web.Models.CategoryViewModels;
     using PayItForward.Web.Models.HomeViewModels;
     using PayItForward.Web.Models.StoryViewModels;
 
-    [AllowAnonymous]
     public class HomeController : Controller
     {
         private const int ItemsPerPage = 3;
@@ -28,6 +28,7 @@
             this.mapper = mapper;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index(int id, string categoryName, string search = "")
         {
@@ -50,7 +51,8 @@
             return this.View(resultModel);
         }
 
-        public IActionResult About()
+        [Authorize]
+        public IActionResult MyStories()
         {
             return this.View();
         }
