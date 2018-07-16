@@ -5,7 +5,7 @@
 
     public class MyStoriesViewModel
     {
-        public IEnumerable<BasicStoryViewModel> MyStories { get; set; }
+        public List<BasicStoryViewModel> MyStories { get; set; }
 
         public string Message { get; set; }
     }
