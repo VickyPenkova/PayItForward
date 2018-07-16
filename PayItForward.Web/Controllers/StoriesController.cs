@@ -1,6 +1,7 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,7 @@
         private readonly IStoriesService storiesService;
         private readonly IDonationsService donationsService;
         private readonly IUsersService usersService;
+        private readonly ICategoriesService categoriesService;
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpaccessor;
 
@@ -24,12 +26,14 @@
             IStoriesService storiesService,
             IDonationsService donationsService,
             IUsersService usersService,
+            ICategoriesService categoriesService,
             IMapper mapper,
             IHttpContextAccessor httpaccessor)
         {
             this.storiesService = storiesService;
             this.donationsService = donationsService;
             this.usersService = usersService;
+            this.categoriesService = categoriesService;
             this.mapper = mapper;
             this.httpaccessor = httpaccessor;
         }
@@ -145,6 +149,30 @@
             }
 
             return this.View("Donate", resultModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(AddStoryViewModel model, string returnUrl = null)
+        {
+            var resultModel = new AddStoryViewModel()
+            {
+                Categories = this.categoriesService.GetCategories().ToList(),
+                Description = model.Description,
+                GoalAmount = model.GoalAmount,
+                Title = model.Title,
+                ErrorMessage = "Story added!"
+            };
+
+            return this.View(resultModel);
+        }
+
+        public IActionResult Add()
+        {
+            return this.View(new AddStoryViewModel()
+            {
+                Categories = this.categoriesService.GetCategories().ToList()
+            });
         }
     }
 }

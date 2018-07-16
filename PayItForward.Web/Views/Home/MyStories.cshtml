@@ -1,5 +1,13 @@
 ﻿@model PayItForward.Web.Models.HomeViewModels.MyStoriesViewModel
-<h2 class="text-center">My stories</h2>
+<h2 class="text-center">
+    My stories
+</h2>
+
+<span>
+    <a href="/Stories/Add" class="btn btn-primary wrapper" role="button">
+        <span class="text-uppercase" style="font-size: large">Add Story</span>
+    </a>
+</span>
 <div class="container-fluid">
     <div class="row">
         @foreach (var story in Model.MyStories)

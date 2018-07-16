@@ -19,6 +19,7 @@
         private readonly Mock<IStoriesService> storiesServices;
         private readonly Mock<IDonationsService> donationsService;
         private readonly Mock<IUsersService> usersService;
+        private readonly Mock<ICategoriesService> categoriesService;
         private readonly Mock<IMapper> mapper;
         private readonly Mock<IHttpContextAccessor> httpaccessor;
         private Guid storyId = new Guid("E6E635AB-6AD9-40BD-9992-08D5D82FC3F0");
@@ -29,11 +30,13 @@
             this.storiesServices = new Mock<IStoriesService>();
             this.donationsService = new Mock<IDonationsService>();
             this.usersService = new Mock<IUsersService>();
+            this.categoriesService = new Mock<ICategoriesService>();
             this.httpaccessor = new Mock<IHttpContextAccessor>();
             this.storiesController = new PayItForward.Web.Controllers.StoriesController(
                 this.storiesServices.Object,
                 this.donationsService.Object,
                 this.usersService.Object,
+                this.categoriesService.Object,
                 this.mapper.Object,
                 this.httpaccessor.Object);
         }

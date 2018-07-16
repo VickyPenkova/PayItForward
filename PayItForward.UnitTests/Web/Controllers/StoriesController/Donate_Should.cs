@@ -19,6 +19,7 @@
         private readonly Mock<IStoriesService> storiesService;
         private readonly Mock<IUsersService> usersService;
         private readonly Mock<IDonationsService> donationService;
+        private readonly Mock<ICategoriesService> categoriesService;
         private readonly Mock<IMapper> mapper;
         private readonly Mock<IHttpContextAccessor> httpaccessor;
         private Guid storyId = new Guid("E6E635AB-6AD9-40BD-9992-08D5D82FC3F0");
@@ -34,6 +35,7 @@
                 this.storiesService.Object,
                 this.donationService.Object,
                 this.usersService.Object,
+                this.categoriesService.Object,
                 this.mapper.Object,
                 this.httpaccessor.Object);
         }
