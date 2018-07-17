@@ -67,17 +67,75 @@
                 .Returns(this.storiesController.ControllerContext.HttpContext.User);
 
             // Act
-            var result = this.storiesController.Add(new AddStoryViewModel()
-            {
-                CategoryName = "Healt",
-                Description = "albaba",
-                GoalAmount = 122,
-                Title = "Good"
-            });
+            var result = this.storiesController.Add(this.GetTestAddStoryViewModel());
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             Assert.IsType<AddStoryViewModel>(viewResult.ViewData.Model);
+        }
+
+        [Fact]
+        public void ReturnAddStoryViewModel_WithErrorMessageStoryAdded_WhenModelStateIsValid()
+        {
+            // Arrange
+            this.categoriesService.Setup(x => x.GetCategories())
+                .Returns(StoriesController_Stubs.GetTestListWithCategoryDTOs());
+
+            this.storiesController.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(
+                    new ClaimsIdentity(
+                        new Claim[]
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, "username")
+                        },
+                        "someAuthTypeName"))
+                }
+            };
+
+            this.storiesService.Setup(x => x.Add(new Models.StoryDTO(), "username"))
+                .Returns(this.storyId);
+            this.httpaccessor.Setup(a => a.HttpContext.User)
+                .Returns(this.storiesController.ControllerContext.HttpContext.User);
+
+            // Act
+            var result = this.storiesController.Add(this.GetTestAddStoryViewModel());
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var addStoryViewModel = (AddStoryViewModel)viewResult.ViewData.Model;
+            Assert.Equal(this.GetTestAddStoryViewModel().ErrorMessage, addStoryViewModel.ErrorMessage);
+        }
+
+        [Fact]
+
+        public void ReturnAddStoryViewModel_WithCategoryNameSetToNull()
+        {
+            // Arrange
+            var expectedViewModel = new AddStoryViewModel();
+
+            // Act
+            var result = this.storiesController.Add();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var actualViewModel = (AddStoryViewModel)viewResult.ViewData.Model;
+
+            Assert.Null(actualViewModel.CategoryName);
+        }
+
+        private AddStoryViewModel GetTestAddStoryViewModel()
+        {
+            return new AddStoryViewModel()
+            {
+                CategoryName = "Healt",
+                Description = "albaba",
+                GoalAmount = 122,
+                Title = "Good",
+                ErrorMessage = "Story added!"
+            };
         }
     }
 }
