@@ -155,24 +155,37 @@
         [ValidateAntiForgeryToken]
         public IActionResult Add(AddStoryViewModel model, string returnUrl = null)
         {
-            var resultModel = new AddStoryViewModel()
+            var resultModel = new AddStoryViewModel();
+            var categoriesFromDb = this.categoriesService.GetCategories().ToList();
+
+            if (this.ModelState.IsValid)
             {
-                Categories = this.categoriesService.GetCategories().ToList(),
-                Description = model.Description,
-                GoalAmount = model.GoalAmount,
-                Title = model.Title,
-                ErrorMessage = "Story added!"
-            };
+                this.storiesService.Add(
+                    new StoryDTO()
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    GoalAmount = model.GoalAmount,
+                    Category = categoriesFromDb.FirstOrDefault(category => category.Name == model.CategoryName),
+                    ImageUrl = model.ImageUrl
+                    }, this.httpaccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                resultModel = new AddStoryViewModel()
+                {
+                    Description = model.Description,
+                    GoalAmount = model.GoalAmount,
+                    Title = model.Title,
+                    ErrorMessage = "Story added!",
+                    CategoryName = model.CategoryName
+                };
+            }
 
             return this.View(resultModel);
         }
 
         public IActionResult Add()
         {
-            return this.View(new AddStoryViewModel()
-            {
-                Categories = this.categoriesService.GetCategories().ToList()
-            });
+            return this.View(new AddStoryViewModel());
         }
     }
 }

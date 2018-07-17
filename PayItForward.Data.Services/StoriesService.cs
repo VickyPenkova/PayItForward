@@ -6,6 +6,7 @@
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
+    using PayItForward.Data.Models;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForwardDbmodels = PayItForward.Data.Models;
@@ -96,6 +97,24 @@
                 .FirstOrDefault();
 
             return this.mapper.Map<StoryDTO>(storiesFromDb);
+        }
+
+        public Guid Add(StoryDTO story, string userId)
+        {
+            var storyEntity = new Story
+            {
+                CategoryId = story.Category.Id,
+                Title = story.Title,
+                Description = story.Description,
+                GoalAmount = story.GoalAmount,
+                UserId = userId,
+                ImageUrl = story.ImageUrl
+            };
+
+            this.storiesRepo.Add(storyEntity);
+            this.storiesRepo.Save();
+
+            return storyEntity.Id;
         }
     }
 }

@@ -1,17 +1,11 @@
 ﻿@model PayItForward.Web.Models.StoryViewModels.AddStoryViewModel
+
 <form asp-route-returnUrl="@ViewData["ReturnUrl"]" class="form-horizontal" method="post">
     <div class="form-group">
-        <label asp-for="@Model.Categories" class="control-label col-xs-2"></label>
+        <label asp-for="SelectCategory" class="control-label col-xs-2"></label>
         <div class="col-xs-10">
             <div class="btn-lg">
-                <select id="mySelect" onchange="myFunction()">
-                    @foreach (var category in Model.Categories)
-                    {
-                        <option value="">
-                            @category.Name
-                        </option>
-                    }
-                </select>
+                <select asp-for="CategoryName" asp-items="Model.SelectCategory"></select>
             </div>
         </div>
     </div>
@@ -36,17 +30,16 @@
             <span asp-validation-for="@Model.GoalAmount" class="text-danger"></span>
         </div>
     </div>
+    <div class="form-group">
+        <label asp-for="@Model.ImageUrl" class="control-label col-xs-2"></label>
+        <div class="col-xs-10">
+            <input asp-for="@Model.ImageUrl" class="form-control" />
+            <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+        </div>
+    </div>
     <button type="submit" class="btn btn-lg btn-success btn-block">Add story</button>
     <h2 class="text-center text-danger">@Model.ErrorMessage</h2>
 </form>
-
-
-
-<script>
-    function myFunction() {
-        var x = document.getElementById("mySelect").value;
-    }
-</script>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")

@@ -13,5 +13,7 @@
         int CountStories(string containsTitle = "", string isFromCategory = "");
 
         StoryDTO GetStoryById(Guid id);
+
+        Guid Add(StoryDTO story, string userId);
     }
 }
