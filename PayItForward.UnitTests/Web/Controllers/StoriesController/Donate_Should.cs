@@ -30,6 +30,7 @@
             this.storiesService = new Mock<IStoriesService>();
             this.donationService = new Mock<IDonationsService>();
             this.usersService = new Mock<IUsersService>();
+            this.categoriesService = new Mock<ICategoriesService>();
             this.httpaccessor = new Mock<IHttpContextAccessor>();
             this.storiesController = new PayItForward.Web.Controllers.StoriesController(
                 this.storiesService.Object,
