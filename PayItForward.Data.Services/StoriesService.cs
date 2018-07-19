@@ -30,11 +30,11 @@
 
             if (!isCategoryNull)
             {
-                storiesFromDb = this.storiesRepo.GetAll()
+                storiesFromDb = this.storiesRepo.GetAllNotDeletedEntities()
                    .Include(user => user.User)
                    .Include(category => category.Category)
                    .Where(x => x.Title.Contains(subTitle))
-                   .Where(st => st.Category.Name == categoryname && st.IsDeleted == false)
+                   .Where(st => st.Category.Name == categoryname)
                    .OrderBy(x => x.CreatedOn)
                    .Skip(skip)
                    .Take(take)
@@ -42,10 +42,10 @@
             }
             else
             {
-                storiesFromDb = this.storiesRepo.GetAll()
+                storiesFromDb = this.storiesRepo.GetAllNotDeletedEntities()
                .Include(user => user.User)
                .Include(category => category.Category)
-               .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+               .Where(x => x.Title.Contains(subTitle))
                .OrderBy(x => x.CreatedOn)
                .Skip(skip)
                .Take(take)
@@ -62,15 +62,15 @@
             int count;
             if (!string.IsNullOrEmpty(categoryname))
             {
-                count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                count = this.storiesRepo.GetAllNotDeletedEntities()
+                .Where(x => x.Title.Contains(subTitle))
                 .Where(st => st.Category.Name == categoryname)
                 .Count();
             }
             else
             {
-                count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                count = this.storiesRepo.GetAllNotDeletedEntities()
+                .Where(x => x.Title.Contains(subTitle))
                 .Count();
             }
 

@@ -1,12 +1,14 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.DonationViewModels;
@@ -155,19 +157,20 @@
         [ValidateAntiForgeryToken]
         public IActionResult Add(AddStoryViewModel model, string returnUrl = null)
         {
+            this.ViewData["ReturnUrl"] = returnUrl;
             var resultModel = new AddStoryViewModel();
             var categoriesFromDb = this.categoriesService.GetCategories().ToList();
-
+            model.Categories = categoriesFromDb;
             if (this.ModelState.IsValid)
             {
                 this.storiesService.Add(
                     new StoryDTO()
-                {
-                    Title = model.Title,
-                    Description = model.Description,
-                    GoalAmount = model.GoalAmount,
-                    Category = categoriesFromDb.FirstOrDefault(category => category.Name == model.CategoryName),
-                    ImageUrl = model.ImageUrl
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        GoalAmount = model.GoalAmount,
+                        ImageUrl = model.ImageUrl,
+                        Category = model.Categories.FirstOrDefault(category => category.Name == model.CategoryName)
                     }, this.httpaccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
                 resultModel = new AddStoryViewModel()
@@ -175,17 +178,22 @@
                     Description = model.Description,
                     GoalAmount = model.GoalAmount,
                     Title = model.Title,
-                    ErrorMessage = "Story added!",
-                    CategoryName = model.CategoryName
+                    Categories = categoriesFromDb
                 };
             }
 
-            return this.View(resultModel);
+            return this.RedirectToAction("CurrentUserStories", "Home");
         }
 
-        public IActionResult Add()
+        [HttpGet]
+        public IActionResult Add(string returnUrl = null)
         {
-            return this.View(new AddStoryViewModel());
+            this.ViewData["ReturnUrl"] = returnUrl;
+            var categoriesFromDb = this.categoriesService.GetCategories().ToList();
+            return this.View(new AddStoryViewModel()
+            {
+                Categories = categoriesFromDb
+            });
         }
     }
 }

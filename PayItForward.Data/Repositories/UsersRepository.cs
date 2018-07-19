@@ -39,6 +39,11 @@
             return this.DbSet;
         }
 
+        public IQueryable<T> GetAllNotDeletedEntities()
+        {
+            return this.DbSet.Where(x => x.IsDeleted == false);
+        }
+
         public void Add(T entity)
         {
             this.ChangeEntityState(entity, EntityState.Added);

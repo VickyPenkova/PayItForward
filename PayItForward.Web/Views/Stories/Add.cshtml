@@ -1,11 +1,11 @@
 ﻿@model PayItForward.Web.Models.StoryViewModels.AddStoryViewModel
-
+@using PayItForward.Models
 <form asp-route-returnUrl="@ViewData["ReturnUrl"]" class="form-horizontal" method="post">
     <div class="form-group">
-        <label asp-for="SelectCategory" class="control-label col-xs-2"></label>
+        <label asp-for="Categories" class="control-label col-xs-2"></label>
         <div class="col-xs-10">
             <div class="btn-lg">
-                <select asp-for="CategoryName" asp-items="Model.SelectCategory"></select>
+                @Html.DropDownListFor(x => x.CategoryName, new SelectList(Model.Categories.Select(g => g.Name)))
             </div>
         </div>
     </div>
@@ -38,7 +38,6 @@
         </div>
     </div>
     <button type="submit" class="btn btn-lg btn-success btn-block">Add story</button>
-    <h2 class="text-center text-danger">@Model.ErrorMessage</h2>
 </form>
 
 @section Scripts {

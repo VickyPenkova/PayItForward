@@ -37,7 +37,6 @@
             this.httpaccessor = httpaccessor;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index(int id, string categoryName, string search = "")
         {
@@ -61,27 +60,14 @@
         }
 
         [Authorize]
-        public IActionResult MyStories()
+        [Route("Home/MyStories")]
+        public IActionResult CurrentUserStories()
         {
             var stories = this.storiesService.Stories()
                 .Where(story => story.User.Id == this.httpaccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value)
                 .ToList();
 
-            var resultModel = new MyStoriesViewModel()
-            {
-                MyStories = this.mapper.Map<List<BasicStoryViewModel>>(stories)
-            };
-
-            if (resultModel.MyStories.Count() < 1)
-            {
-                resultModel = new MyStoriesViewModel()
-                {
-                    MyStories = this.mapper.Map<List<BasicStoryViewModel>>(stories),
-                    Message = "No stories found!"
-                };
-
-                return this.View(resultModel);
-            }
+            var resultModel = this.mapper.Map<List<BasicStoryViewModel>>(stories);
 
             return this.View(resultModel);
         }
