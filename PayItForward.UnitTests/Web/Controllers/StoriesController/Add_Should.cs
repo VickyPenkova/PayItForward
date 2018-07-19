@@ -40,7 +40,7 @@
         }
 
         [Fact]
-        public void ReturnViewResult_WithAddStoryViewModel()
+        public void RedirectToCurrentUserStories()
         {
             // Arrange
             this.categoriesService.Setup(x => x.GetCategories())
@@ -67,44 +67,11 @@
             var result = this.storiesController.Add(this.GetTestAddStoryViewModel());
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.IsType<AddStoryViewModel>(viewResult.ViewData.Model);
+            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Home", redirectToActionResult.ControllerName);
+            Assert.Equal("CurrentUserStories", redirectToActionResult.ActionName);
         }
 
-        // [Fact]
-        // public void ReturnAddStoryViewModel_WithErrorMessageStoryAdded_WhenModelStateIsValid()
-        // {
-        //    // Arrange
-        //    this.categoriesService.Setup(x => x.GetCategories())
-        //        .Returns(StoriesController_Stubs.GetTestListWithCategoryDTOs());
-
-        // this.storiesController.ControllerContext = new ControllerContext
-        //    {
-        //        HttpContext = new DefaultHttpContext
-        //        {
-        //            User = new ClaimsPrincipal(
-        //            new ClaimsIdentity(
-        //                new Claim[]
-        //                {
-        //                    new Claim(ClaimTypes.NameIdentifier, "username")
-        //                },
-        //                "someAuthTypeName"))
-        //        }
-        //    };
-
-        // this.storiesService.Setup(x => x.Add(new Models.StoryDTO(), "username"))
-        //        .Returns(this.storyId);
-        //    this.httpaccessor.Setup(a => a.HttpContext.User)
-        //        .Returns(this.storiesController.ControllerContext.HttpContext.User);
-
-        // // Act
-        //    var result = this.storiesController.Add(this.GetTestAddStoryViewModel());
-
-        // // Assert
-        //    var viewResult = Assert.IsType<ViewResult>(result);
-        //    var addStoryViewModel = (AddStoryViewModel)viewResult.ViewData.Model;
-        //    Assert.Equal(this.GetTestAddStoryViewModel().ErrorMessage, addStoryViewModel.ErrorMessage);
-        // }
         [Fact]
 
         public void ReturnAddStoryViewModel_WithCategoryNameSetToNull()
