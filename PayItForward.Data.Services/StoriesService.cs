@@ -93,8 +93,7 @@
         {
             var storiesFromDb = this.storiesRepo.GetAll()
                 .Include(s => s.User)
-                .Where(s => s.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefault(s => s.Id == id);
 
             return this.mapper.Map<StoryDTO>(storiesFromDb);
         }
