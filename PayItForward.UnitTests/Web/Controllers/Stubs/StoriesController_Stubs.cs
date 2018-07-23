@@ -86,5 +86,22 @@
                 }
             };
         }
+
+        public static List<CategoryDTO> GetTestListWithCategoryDTOs()
+        {
+            return new List<CategoryDTO>()
+            {
+                new CategoryDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Health"
+                },
+                new CategoryDTO()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Animals"
+                }
+            };
+        }
     }
 }

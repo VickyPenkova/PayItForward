@@ -11,6 +11,8 @@
 
         IQueryable<T> GetAll();
 
+        IQueryable<T> GetAllNotDeletedEntities();
+
         Task<T> GetByIdAsync(TKey id);
 
         T GetById(TKey id);

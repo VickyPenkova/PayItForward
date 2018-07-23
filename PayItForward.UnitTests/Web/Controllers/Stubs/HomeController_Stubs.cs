@@ -72,6 +72,54 @@
                     CreatedOn = DateTime.UtcNow,
                     Description = "Some description",
                     Title = "Sport to the people",
+                    User = new UserDTO()
+                    {
+                        FirstName = "Fo",
+                        LastName = "Fi",
+                        Id = "@id1"
+                    }
+                }
+            };
+        }
+
+        public static List<StoryDTO> GetTestListWithStoryDtosWithSameUser()
+        {
+            return new List<StoryDTO>()
+            {
+                new StoryDTO
+                {
+                    Category = new CategoryDTO()
+                    {
+                        Name = "Health"
+                    },
+                    CollectedAmount = 0,
+                    CreatedOn = DateTime.UtcNow,
+                    Description = "Some description",
+                    Title = "Good",
+                    User = GetTestUserDTO()
+                },
+                new StoryDTO
+                {
+                    Category = new CategoryDTO()
+                    {
+                        Name = "Sport"
+                    },
+                    CollectedAmount = 0,
+                    CreatedOn = DateTime.UtcNow,
+                    Description = "Some description",
+                    Title = "Sport to the people",
+                    User = GetTestUserDTO()
+                },
+                new StoryDTO
+                {
+                    Category = new CategoryDTO()
+                    {
+                        Name = "Sport"
+                    },
+                    CollectedAmount = 0,
+                    CreatedOn = DateTime.UtcNow,
+                    Description = "Some description",
+                    Title = "Sport to the people",
                     User = GetTestUserDTO()
                 }
             };

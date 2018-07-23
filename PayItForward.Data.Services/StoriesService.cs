@@ -6,6 +6,7 @@
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using PayItForward.Data;
+    using PayItForward.Data.Models;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForwardDbmodels = PayItForward.Data.Models;
@@ -29,11 +30,11 @@
 
             if (!isCategoryNull)
             {
-                storiesFromDb = this.storiesRepo.GetAll()
+                storiesFromDb = this.storiesRepo.GetAllNotDeletedEntities()
                    .Include(user => user.User)
                    .Include(category => category.Category)
                    .Where(x => x.Title.Contains(subTitle))
-                   .Where(st => st.Category.Name == categoryname && st.IsDeleted == false)
+                   .Where(st => st.Category.Name == categoryname)
                    .OrderBy(x => x.CreatedOn)
                    .Skip(skip)
                    .Take(take)
@@ -41,10 +42,10 @@
             }
             else
             {
-                storiesFromDb = this.storiesRepo.GetAll()
+                storiesFromDb = this.storiesRepo.GetAllNotDeletedEntities()
                .Include(user => user.User)
                .Include(category => category.Category)
-               .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+               .Where(x => x.Title.Contains(subTitle))
                .OrderBy(x => x.CreatedOn)
                .Skip(skip)
                .Take(take)
@@ -61,15 +62,15 @@
             int count;
             if (!string.IsNullOrEmpty(categoryname))
             {
-                count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                count = this.storiesRepo.GetAllNotDeletedEntities()
+                .Where(x => x.Title.Contains(subTitle))
                 .Where(st => st.Category.Name == categoryname)
                 .Count();
             }
             else
             {
-                count = this.storiesRepo.GetAll()
-                .Where(x => x.Title.Contains(subTitle) && x.IsDeleted == false)
+                count = this.storiesRepo.GetAllNotDeletedEntities()
+                .Where(x => x.Title.Contains(subTitle))
                 .Count();
             }
 
@@ -92,10 +93,27 @@
         {
             var storiesFromDb = this.storiesRepo.GetAll()
                 .Include(s => s.User)
-                .Where(s => s.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefault(s => s.Id == id);
 
             return this.mapper.Map<StoryDTO>(storiesFromDb);
+        }
+
+        public Guid Add(StoryDTO story, string userId)
+        {
+            var storyEntity = new Story
+            {
+                CategoryId = story.Category.Id,
+                Title = story.Title,
+                Description = story.Description,
+                GoalAmount = story.GoalAmount,
+                UserId = userId,
+                ImageUrl = story.ImageUrl
+            };
+
+            this.storiesRepo.Add(storyEntity);
+            this.storiesRepo.Save();
+
+            return storyEntity.Id;
         }
     }
 }

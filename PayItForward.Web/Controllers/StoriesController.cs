@@ -1,11 +1,14 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.DonationViewModels;
@@ -17,6 +20,7 @@
         private readonly IStoriesService storiesService;
         private readonly IDonationsService donationsService;
         private readonly IUsersService usersService;
+        private readonly ICategoriesService categoriesService;
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpaccessor;
 
@@ -24,12 +28,14 @@
             IStoriesService storiesService,
             IDonationsService donationsService,
             IUsersService usersService,
+            ICategoriesService categoriesService,
             IMapper mapper,
             IHttpContextAccessor httpaccessor)
         {
             this.storiesService = storiesService;
             this.donationsService = donationsService;
             this.usersService = usersService;
+            this.categoriesService = categoriesService;
             this.mapper = mapper;
             this.httpaccessor = httpaccessor;
         }
@@ -145,6 +151,49 @@
             }
 
             return this.View("Donate", resultModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(AddStoryViewModel model, string returnUrl = null)
+        {
+            this.ViewData["ReturnUrl"] = returnUrl;
+            var resultModel = new AddStoryViewModel();
+            var categoriesFromDb = this.categoriesService.GetCategories().ToList();
+            model.Categories = categoriesFromDb;
+            if (this.ModelState.IsValid)
+            {
+                this.storiesService.Add(
+                    new StoryDTO()
+                    {
+                        Title = model.Title,
+                        Description = model.Description,
+                        GoalAmount = model.GoalAmount,
+                        ImageUrl = model.ImageUrl,
+                        Category = model.Categories.FirstOrDefault(category => category.Name == model.CategoryName)
+                    }, this.httpaccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                resultModel = new AddStoryViewModel()
+                {
+                    Description = model.Description,
+                    GoalAmount = model.GoalAmount,
+                    Title = model.Title,
+                    Categories = categoriesFromDb
+                };
+            }
+
+            return this.RedirectToAction("CurrentUserStories", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Add(string returnUrl = null)
+        {
+            this.ViewData["ReturnUrl"] = returnUrl;
+            var categoriesFromDb = this.categoriesService.GetCategories().ToList();
+            return this.View(new AddStoryViewModel()
+            {
+                Categories = categoriesFromDb
+            });
         }
     }
 }
