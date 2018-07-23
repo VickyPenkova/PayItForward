@@ -13,7 +13,12 @@
         @foreach (var story in Model)
         {
             @Html.DisplayFor(model => story)
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p><a href="/Stories/Delete/@story.Id" class="btn btn-primary wrapper" role="button">Delete</a></p>
+            }
         }
+
         <h3 class="text-danger">
             @if (!Model.Any())
             {
