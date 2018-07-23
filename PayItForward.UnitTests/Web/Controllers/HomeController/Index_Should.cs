@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Moq;
     using PayItForward.Common;
@@ -19,6 +20,7 @@
         private readonly Mock<IStoriesService> storiesService;
         private readonly Mock<ICategoriesService> categoriesService;
         private readonly Mock<IMapper> mapper;
+        private readonly Mock<IHttpContextAccessor> httpaccessor;
         private string categoryname = string.Empty;
         private string subTitle = string.Empty;
 
@@ -27,8 +29,9 @@
             this.mapper = new Mock<IMapper>();
             this.storiesService = new Mock<IStoriesService>();
             this.categoriesService = new Mock<ICategoriesService>();
+            this.httpaccessor = new Mock<IHttpContextAccessor>();
             this.homeController = new PayItForward.Web.Controllers.HomeController(
-                this.storiesService.Object, this.categoriesService.Object, this.mapper.Object);
+                this.storiesService.Object, this.categoriesService.Object, this.mapper.Object, this.httpaccessor.Object);
         }
 
         [Fact]

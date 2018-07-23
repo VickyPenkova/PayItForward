@@ -79,6 +79,7 @@
         public IEnumerable<StoryDTO> Stories()
         {
             var storiesFromDb = this.storiesRepo.GetAll()
+                .Where(x => x.IsDeleted == false)
                 .Include(user => user.User)
                 .Include(category => category.Category);
 

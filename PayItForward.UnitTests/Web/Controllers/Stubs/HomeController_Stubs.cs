@@ -84,7 +84,8 @@
                 Email = "vicky.penkova@gmial.com",
                 FirstName = "Viki",
                 LastName = "Penkova",
-                AvilableMoneyAmount = 100
+                AvilableMoneyAmount = 100,
+                Id = "@idnumber4"
             };
         }
 
