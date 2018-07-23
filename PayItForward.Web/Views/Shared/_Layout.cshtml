@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PayItForward.Web</title>
+    <title>@ViewData["Title"] - PayItForward</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <environment include="Development">
@@ -38,12 +38,12 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="Home" asp-action="MyStories">My stories</a></li>
-                        @if (User.IsInRole("Admin"))
+                        @*@if (User.IsInRole("Admin"))
                         {
                             <li>
                                 <a asp-area="" asp-controller="Admin" asp-action="Index">Admin Page</a>
                             </li>
-                        }
+                        }*@
 
                     }
 

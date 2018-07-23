@@ -23,7 +23,7 @@
     </li>
     <li class="list-group-item">
         <h2>Made Donations: @Model.Donations.Count()</h2>
-        @if (Model.Donations.Count() > 0)
+        @if (Model.Donations.Any())
         {
             <table class="table table-bordered">
                 <thead>

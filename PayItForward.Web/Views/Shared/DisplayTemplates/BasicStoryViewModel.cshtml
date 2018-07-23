@@ -1,7 +1,15 @@
 ﻿@model PayItForward.Web.Models.StoryViewModels.BasicStoryViewModel
 <div class="col-sm-4">
     <div class="thumbnail" style="height: 100%">
-        <img src=@Html.DisplayFor(modelItem => @Model.ImageUrl) alt="Card image cap">
+        @if (string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="~/images/no-image-image.png" alt="Card image cap">
+        }
+        else
+        {
+            <img src=@Html.DisplayFor(modelItem => @Model.ImageUrl ) alt="Card image cap">
+
+        }
         <div class="caption" style="height: 100%;">
             <h3>@Html.DisplayFor(modelItem => @Model.Title)</h3>
             <div class="wrapper equal">
@@ -14,8 +22,8 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <p>
-                                    <a href="/Admin/UserDetails/@Model.User.Id" 
-                                       class="btn btn-primary wrapper" role="button">Details</a>
+                                    <a href="/Admin/UserDetails/@Model.User.Id"
+                                       class="btn btn-primary wrapper" role="button">User Details</a>
                                 </p>
                             }
                         }
