@@ -10,7 +10,15 @@
         <div class="row">
             <div class="col-sm-6 col-md-6">
                 <div class="thumbnail">
-                    <img src="@Model.ImageUrl" alt="Image in here">
+                    @if (string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="~/images/no-image-image.png" alt="Card image cap">
+                    }
+                    else
+                    {
+                        <img src="@Model.ImageUrl" alt="Image in here">
+
+                    }     
                     <div class="caption">
                         <h4><strong>Goal: </strong>@Model.GoalAmount</h4>
                         <h4>
