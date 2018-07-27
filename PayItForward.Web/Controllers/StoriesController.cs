@@ -195,5 +195,46 @@
                 Categories = categoriesFromDb
             });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return this.RedirectToAction(actionName: "CurrentUserStories", controllerName: "Home");
+            }
+
+            var storyFromDb = this.storiesService.GetStoryById(id);
+
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
+            var resultModel = this.mapper.Map<EditStoryViewModel>(storyFromDb);
+
+            return this.RedirectToAction("CurrentUserStories", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id, string returnUrl = null)
+        {
+            if (id == Guid.Empty)
+            {
+                return this.RedirectToAction(actionName: "CurrentUserStories", controllerName: "Home");
+            }
+
+            var storyFromDb = this.storiesService.GetStoryById(id);
+
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
+            var resultModel = this.mapper.Map<EditStoryViewModel>(storyFromDb);
+
+            return this.View(resultModel);
+        }
     }
 }
