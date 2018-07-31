@@ -18,5 +18,7 @@
         [Required]
         [Display(Name = "Expiration Date")]
         public DateTime ExpirationDate { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

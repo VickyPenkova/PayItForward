@@ -196,9 +196,10 @@
             });
         }
 
+        // TODO: Unit tests
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id)
+        public IActionResult Edit(EditStoryViewModel editedModel, Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -212,7 +213,20 @@
                 return this.Content("Story not found.");
             }
 
-            var resultModel = this.mapper.Map<EditStoryViewModel>(storyFromDb);
+            if (this.ModelState.IsValid)
+            {
+                var storyDto = new StoryDTO()
+                {
+                    Category = storyFromDb.Category,
+                    Title = editedModel.Title,
+                    Description = editedModel.Description,
+                    GoalAmount = editedModel.GoalAmount,
+                    Id = id,
+                    User = storyFromDb.User
+                };
+
+                this.storiesService.Edit(id, storyDto);
+            }
 
             return this.RedirectToAction("CurrentUserStories", "Home");
         }

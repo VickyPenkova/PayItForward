@@ -9,6 +9,8 @@
     {
         void Add(T entity);
 
+        void Update(TKey id, T entity);
+
         IQueryable<T> GetAll();
 
         IQueryable<T> GetAllNotDeletedEntities();

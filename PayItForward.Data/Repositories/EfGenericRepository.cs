@@ -50,6 +50,14 @@
             this.ChangeEntityState(entity, EntityState.Added);
         }
 
+        public void Update(TKey id, T entity)
+        {
+            var originalEntity = this.GetById(id);
+            this.Context.Entry(originalEntity).CurrentValues.SetValues(entity);
+
+            this.ChangeEntityState(originalEntity, EntityState.Modified);
+        }
+
         public void SoftDelete(T userTodelete)
         {
             this.ChangeEntityState(userTodelete, EntityState.Deleted);
