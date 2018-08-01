@@ -119,16 +119,6 @@
 
         public Guid Edit(Guid id, StoryDTO story)
         {
-            // new Story
-            // {
-            //    CategoryId = story.Category.Id,
-            //    Title = story.Title,
-            //    Description = story.Description,
-            //    GoalAmount = story.GoalAmount,
-            //    UserId = userId,
-            //    ImageUrl = story.ImageUrl,
-            //    Id = story.Id
-            // };
             this.storiesRepo.Update(id, this.mapper.Map<Story>(story));
             this.storiesRepo.Save();
 

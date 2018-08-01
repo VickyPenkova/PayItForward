@@ -1,14 +1,12 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.DonationViewModels;
