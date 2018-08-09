@@ -10,12 +10,18 @@
             <img src=@Html.DisplayFor(modelItem => @Model.ImageUrl ) alt="Card image cap">
 
         }
-        @if (@Url.Action() == string.Format($"/Home/MyStories"))
+        @if (@Url.Action() == "/Home/MyStories")
         {
-            <a href="/Stories/Edit/@Model.Id" class="btn btn-success wrapper" role="button">Edit</a>
+            <a href="/Stories/Edit/@Model.Id" class="btn btn-primary wrapper equal" role="button"
+               style="margin-right: 50px; margin-left: 50px; background-color: #222222;">
+                <span>
+                    Edit
+                </span>
+               
+            </a>
         }
         <div class="caption" style="height: 100%;">
-            <h3>@Html.DisplayFor(modelItem => @Model.Title)</h3>
+            <h3 class="test">@Html.DisplayFor(modelItem => @Model.Title)</h3>
             <div class="wrapper equal">
                 <ul class="list-group">
                     <li class="list-group-item">

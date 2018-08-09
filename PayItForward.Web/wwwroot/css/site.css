@@ -36,6 +36,7 @@
 
 .thumbnail img {
     height: 150px;
+    padding: 3px;
 }
 
 .equal {
@@ -59,3 +60,9 @@
     float: none;
 }
 
+h3.test{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
+}
