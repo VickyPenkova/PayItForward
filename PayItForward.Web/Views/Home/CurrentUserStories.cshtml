@@ -13,10 +13,7 @@
         <div class="row">
             @foreach (var story in Model)
             {
-                @Html.DisplayFor(model => story)
-                <label asp-for="@story.Title" class="control-label btn col-xs-2">
-                    <a href="/Stories/Edit/@story.Id" class="btn btn-success" role="button">Edit</a>
-                </label>
+                @Html.DisplayFor(model => story)             
             }
 
             <h3 class="text-danger">
