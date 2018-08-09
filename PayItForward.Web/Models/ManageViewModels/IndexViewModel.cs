@@ -21,5 +21,8 @@ namespace PayItForward.Web.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }
+
+        [Display(Name = "Available money amount ")]
+        public decimal AvilableMoneyAmount { get; set; }
     }
 }
