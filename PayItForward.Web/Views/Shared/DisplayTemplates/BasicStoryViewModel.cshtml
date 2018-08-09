@@ -12,7 +12,7 @@
         }
         @if (@Url.Action() == string.Format($"/Home/MyStories"))
         {
-            <a href="/Stories/Edit/@Model.Id" class="wrapper equal btn btn-success" role="button">Edit</a>
+            <a href="/Stories/Edit/@Model.Id" class="btn btn-success wrapper" role="button">Edit</a>
         }
         <div class="caption" style="height: 100%;">
             <h3>@Html.DisplayFor(modelItem => @Model.Title)</h3>
@@ -25,10 +25,10 @@
                         {
                             @if (User.IsInRole("Admin"))
                             {
-                        <p>
-                            <a href="/Admin/UserDetails/@Model.User.Id"
-                               class="btn btn-primary wrapper" role="button">User Details</a>
-                        </p>
+                                <p>
+                                    <a href="/Admin/UserDetails/@Model.User.Id"
+                                       class="btn btn-primary wrapper" role="button">User Details</a>
+                                </p>
                             }
                         }
                     </li>

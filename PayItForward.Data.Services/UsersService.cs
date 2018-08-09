@@ -54,6 +54,7 @@
         {
             var user = this.usersRepo.GetAll()
                 .Include(d => d.Donations)
+                .Include(d => d.Stories)
                 .FirstOrDefault(u => u.Id == userId);
             var donations = user.Donations;
 
