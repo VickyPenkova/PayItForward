@@ -49,6 +49,11 @@
             this.ChangeEntityState(entity, EntityState.Added);
         }
 
+        public void Update(TKey id, T entity)
+        {
+            this.ChangeEntityState(entity, EntityState.Modified);
+        }
+
         // take care of deleting Donations before deleting user entity
         // TODO: Catch exception when trying to delete User who has Donations, because of Foreign key restriction
         public void HardDelete(T userTodelete)

@@ -15,5 +15,7 @@
         StoryDTO GetStoryById(Guid id);
 
         Guid Add(StoryDTO story, string userId);
+
+        Guid Edit(Guid id, StoryDTO story);
     }
 }

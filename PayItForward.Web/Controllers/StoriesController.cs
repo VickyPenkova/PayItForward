@@ -1,14 +1,12 @@
 ﻿namespace PayItForward.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using PayItForward.Models;
     using PayItForward.Services.Abstraction;
     using PayItForward.Web.Models.DonationViewModels;
@@ -194,6 +192,61 @@
             {
                 Categories = categoriesFromDb
             });
+        }
+
+        // TODO: Unit tests
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(EditStoryViewModel editedModel, Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return this.RedirectToAction(actionName: "CurrentUserStories", controllerName: "Home");
+            }
+
+            var storyFromDb = this.storiesService.GetStoryById(id);
+
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
+            if (this.ModelState.IsValid)
+            {
+                var storyDto = new StoryDTO()
+                {
+                    Category = storyFromDb.Category,
+                    Title = editedModel.Title,
+                    Description = editedModel.Description,
+                    GoalAmount = editedModel.GoalAmount,
+                    Id = id,
+                    User = storyFromDb.User
+                };
+
+                this.storiesService.Edit(id, storyDto);
+            }
+
+            return this.RedirectToAction("CurrentUserStories", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id, string returnUrl = null)
+        {
+            if (id == Guid.Empty)
+            {
+                return this.RedirectToAction(actionName: "CurrentUserStories", controllerName: "Home");
+            }
+
+            var storyFromDb = this.storiesService.GetStoryById(id);
+
+            if (storyFromDb == null)
+            {
+                return this.Content("Story not found.");
+            }
+
+            var resultModel = this.mapper.Map<EditStoryViewModel>(storyFromDb);
+
+            return this.View(resultModel);
         }
     }
 }

@@ -92,6 +92,7 @@
         public StoryDTO GetStoryById(Guid id)
         {
             var storiesFromDb = this.storiesRepo.GetAll()
+                .Include(s => s.Category)
                 .Include(s => s.User)
                 .FirstOrDefault(s => s.Id == id);
 
@@ -114,6 +115,14 @@
             this.storiesRepo.Save();
 
             return storyEntity.Id;
+        }
+
+        public Guid Edit(Guid id, StoryDTO story)
+        {
+            this.storiesRepo.Update(id, this.mapper.Map<Story>(story));
+            this.storiesRepo.Save();
+
+            return story.Id;
         }
     }
 }
