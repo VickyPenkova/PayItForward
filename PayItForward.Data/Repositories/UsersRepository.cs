@@ -55,7 +55,6 @@
         }
 
         // take care of deleting Donations before deleting user entity
-        // TODO: Catch exception when trying to delete User who has Donations, because of Foreign key restriction
         public void HardDelete(T userTodelete)
         {
             this.Context.Set<T>().Remove(userTodelete);
