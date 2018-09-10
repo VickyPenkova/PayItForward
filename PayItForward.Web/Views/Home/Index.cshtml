@@ -6,19 +6,19 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-4 col-md-2">
-                @Html.Partial("_DropdownCategoriesPartial", Model)
+            @Html.Partial("_DropdownCategoriesPartial", Model)
         </div>
-
-        <div class="col-xs-9 col-md-10">
-            @using (Html.BeginForm("Index", "Home", FormMethod.Get))
-            {
-                @Html.Partial("_SearchPartial");
-            }
-
-            @foreach (var story in Model.Stories)
-            {
-                @Html.DisplayFor(model => story)
-            }
+        <div class="row" style="display: flex;">
+            <div class="col-xs-9 col-md-12">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                {
+                    @Html.Partial("_SearchPartial");
+                }
+                @foreach (var story in Model.Stories)
+                {
+                    @Html.DisplayFor(model => story)
+                }
+            </div>
         </div>
     </div>
     @Html.Partial("_PaginationPartial", Model)

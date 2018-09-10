@@ -62,7 +62,8 @@
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = this.StatusMessage
+                StatusMessage = this.StatusMessage,
+                AvilableMoneyAmount = user.AvilableMoneyAmount
             };
 
             return this.View(model);

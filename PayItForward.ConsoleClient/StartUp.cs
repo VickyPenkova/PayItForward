@@ -8,26 +8,11 @@
     using Microsoft.Extensions.DependencyInjection;
     using PayItForward.Common;
     using PayItForward.Data;
-    using Dbmodel = PayItForward.Data.Models;
 
     public class StartUp
     {
         public static void Main(string[] args)
         {
-            var factory = new PayItForwardContextFactory();
-
-            var context = factory.CreateDbContext();
-            var userRepo = new UsersRepository<Dbmodel.User, string>(context);
-
-            var user = new Dbmodel.User()
-            {
-                UserName = "Helen",
-                Email = "helen@gmail.com",
-                FirstName = "Aleksandra",
-                LastName = "Stoicheva",
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-
             var services = new ServiceCollection();
 
             var connectionStringResolver = new ConnectionStringResolver();
@@ -72,7 +57,7 @@
                 new DetailedLoggerInfo("DetailedLoggerInfo", consoleWrapper)
              };
 
-            // Logging data from database
+            // Getting data from database
             var usersFromdb = context.Users.ToList();
             List<ILoggable> localUsers = new List<ILoggable>();
 
@@ -88,6 +73,7 @@
                 }
             }
 
+            // Logging data from database
             foreach (var logger in loggers)
             {
                 logger.PrintInfoList(localUsers);

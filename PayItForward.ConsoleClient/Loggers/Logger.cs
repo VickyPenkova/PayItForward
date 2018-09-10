@@ -26,8 +26,6 @@
             }
         }
 
-        protected List<User> Users { get; }
-
         protected string Name { get; private set; }
 
         public string LoggerName()

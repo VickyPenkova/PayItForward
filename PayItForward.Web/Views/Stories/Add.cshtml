@@ -4,9 +4,11 @@
     <div class="form-group">
         <label asp-for="Categories" class="control-label col-xs-2"></label>
         <div class="col-xs-10">
-            <div class="btn-lg">
-                @Html.DropDownListFor(x => x.CategoryName, new SelectList(Model.Categories.Select(g => g.Name)))
+            <div class="form-control">
+                @Html.DropDownListFor(x => x.CategoryName, new SelectList(Model.Categories.Select(g => g.Name)),
+               new { style= "border: none; font-size: 14px;"})
             </div>
+                
         </div>
     </div>
     <div class="form-group">
